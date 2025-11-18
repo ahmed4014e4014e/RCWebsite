@@ -9,6 +9,7 @@ export default function Navbar() {
     { name: "About", to: "/about/" },
     { name: "Services", to: "/services/" },
     { name: "Contact", to: "/contact/" },
+    { name: "Login", to: "/loginForm/" },
   ];
 
   return (

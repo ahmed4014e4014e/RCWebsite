@@ -10,7 +10,8 @@ import Home from "./routes/home";
 import About from "./routes/about";
 import Services from "./routes/services";
 import Contact from "./routes/contact";
-import Index from "./routes"
+import LoginForm from './routes/loginForm';
+
 // Create a Router
 const router = createBrowserRouter([
   {
@@ -20,7 +21,7 @@ const router = createBrowserRouter([
     children: [
       {
         index: true,
-        element: <Index />,
+        element: <Home />,
       },
       {
         path: "home",
@@ -37,6 +38,10 @@ const router = createBrowserRouter([
       {
         path: "contact",
         element: <Contact />,
+      },
+      {
+        path: "loginForm",
+        element: <LoginForm />,
       },
     ],
   },
