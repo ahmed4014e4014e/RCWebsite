@@ -1,7 +1,7 @@
 const contactMethods = [
   {
     title: "Email",
-    value: "ahmed4014e@gmail.com",
+    value: "20258971@mcbs.edu.om",
     description: "Reach out with questions about tutoring, study resources, or joining the Ucan Oman student community.",
   },
   {
