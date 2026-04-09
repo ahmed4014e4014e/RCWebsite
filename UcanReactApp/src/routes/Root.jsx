@@ -9,14 +9,13 @@ export default function Navbar() {
     { name: "About", to: "/about/" },
     { name: "Services", to: "/services/" },
     { name: "Contact", to: "/contact/" },
-    { name: "Login", to: "/loginForm/" },
   ];
 
   return (
     <>
       <nav className="w-full bg-white shadow-md fixed top-0 left-0 z-50">
         <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
-          <h1 className="text-2xl font-bold">Ucan</h1>
+          <h1 className="text-2xl font-bold">Ucan Oman</h1>
 
           {/* Desktop Menu */}
           <ul className="hidden md:flex gap-8 text-lg">
