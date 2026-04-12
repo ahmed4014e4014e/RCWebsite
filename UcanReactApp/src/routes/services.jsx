@@ -63,6 +63,7 @@ const serviceHighlights = [
 export default function Services() {
   const [selectedInstitute, setSelectedInstitute] = useState("All Institutes");
   const [selectedCourse, setSelectedCourse] = useState("All Courses");
+  const [activeTutor, setActiveTutor] = useState(null);
   const location = useLocation();
 
   const availableCourses = useMemo(() => {
@@ -106,6 +107,19 @@ export default function Services() {
       setSelectedCourse("All Courses");
     }
   }, [availableCourses, selectedCourse]);
+
+  useEffect(() => {
+    if (!activeTutor) return;
+
+    const handleEscape = (event) => {
+      if (event.key === "Escape") {
+        setActiveTutor(null);
+      }
+    };
+
+    window.addEventListener("keydown", handleEscape);
+    return () => window.removeEventListener("keydown", handleEscape);
+  }, [activeTutor]);
 
   return (
     <main className="min-h-screen bg-slate-50 text-slate-900">
@@ -242,14 +256,13 @@ export default function Services() {
                     {tutor.availability}
                   </p>
 
-                  <a
-                    href={tutor.bookingUrl}
-                    target="_blank"
-                    rel="noreferrer"
+                  <button
+                    type="button"
+                    onClick={() => setActiveTutor(tutor)}
                     className="mt-6 inline-flex w-full items-center justify-center rounded-2xl bg-cyan-400 px-6 py-3 text-center font-semibold text-slate-950 transition hover:bg-cyan-300 sm:w-auto"
                   >
                     {tutor.bookingLabel}
-                  </a>
+                  </button>
                 </article>
               ))
             ) : (
@@ -333,6 +346,61 @@ export default function Services() {
       <footer className="border-t border-slate-200 bg-white px-4 py-8 text-center text-sm text-slate-500 sm:px-6">
         Copyright {new Date().getFullYear()} Ucan Oman. Free learning support for everyone.
       </footer>
+
+      {activeTutor && (
+        <div className="fixed inset-0 z-[60] flex items-center justify-center bg-slate-950/60 px-4 py-6">
+          <div className="relative max-h-[90vh] w-full max-w-2xl overflow-y-auto rounded-[1.75rem] bg-white p-6 shadow-2xl sm:p-8">
+            <button
+              type="button"
+              onClick={() => setActiveTutor(null)}
+              className="absolute right-4 top-4 rounded-full bg-slate-100 px-3 py-2 text-sm font-semibold text-slate-700 transition hover:bg-slate-200"
+              aria-label="Close popup"
+            >
+              Close
+            </button>
+
+            <p className="text-xs font-semibold uppercase tracking-[0.3em] text-blue-700 sm:text-sm">
+              Booking Instructions
+            </p>
+            <h3 className="mt-4 pr-16 text-2xl font-semibold text-slate-900 sm:text-3xl">
+              Before booking with {activeTutor.name}
+            </h3>
+
+            <div className="mt-6 rounded-3xl bg-slate-50 p-5 ring-1 ring-slate-200 sm:p-6">
+              <p className="text-base leading-7 text-slate-700">
+                please send an email to : <span className="font-semibold">20258971@mcbs.edu.om</span>
+              </p>
+
+              <div className="mt-5 space-y-4 text-base leading-7 text-slate-700">
+                <p>with the following:</p>
+                <p>Insitiute name (MCBS.....):</p>
+                <p>Course Name + Course Code (Example: MAT255 ):</p>
+                <p>Topics need help with:</p>
+                <p>
+                  and attach to the email any relavent files regarding topics and
+                  concepts covered.
+                </p>
+              </div>
+            </div>
+
+            <div className="mt-6 flex flex-col gap-3 sm:flex-row">
+              <a
+                href="mailto:20258971@mcbs.edu.om"
+                className="inline-flex w-full items-center justify-center rounded-2xl bg-cyan-400 px-6 py-3 text-center font-semibold text-slate-950 transition hover:bg-cyan-300 sm:w-auto"
+              >
+                Open Email App
+              </a>
+              <button
+                type="button"
+                onClick={() => setActiveTutor(null)}
+                className="inline-flex w-full items-center justify-center rounded-2xl border border-slate-200 px-6 py-3 text-center font-semibold text-slate-700 transition hover:bg-slate-50 sm:w-auto"
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </main>
   );
 }
