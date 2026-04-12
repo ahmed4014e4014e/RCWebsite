@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 const features = [
   {
     title: "Free For Everyone",
@@ -60,9 +62,12 @@ export default function Home() {
               </p>
 
               <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap lg:justify-start">
-                <button className="w-full rounded-2xl bg-white px-6 py-3 font-semibold text-blue-700 shadow-lg transition hover:bg-blue-50 sm:w-auto">
+                <Link
+                  to="/services#tutor-directory"
+                  className="w-full rounded-2xl bg-white px-6 py-3 text-center font-semibold text-blue-700 shadow-lg transition hover:bg-blue-50 sm:w-auto"
+                >
                   Explore Services
-                </button>
+                </Link>
               </div>
             </div>
 
@@ -152,9 +157,12 @@ export default function Home() {
             Ucan Oman gives students free access to individualized tutoring,
             group sessions, helpful documents, useful videos, and course WhatsApp groups.
           </p>
-          <button className="mt-8 w-full rounded-2xl bg-cyan-400 px-8 py-3 font-semibold text-slate-950 transition hover:bg-cyan-300 sm:w-auto">
+          <Link
+            to="/services#tutor-directory"
+            className="mt-8 w-full rounded-2xl bg-cyan-400 px-8 py-3 text-center font-semibold text-slate-950 transition hover:bg-cyan-300 sm:w-auto"
+          >
             Join Now
-          </button>
+          </Link>
         </div>
       </section>
 
