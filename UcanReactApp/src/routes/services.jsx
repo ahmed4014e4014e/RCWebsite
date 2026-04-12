@@ -77,6 +77,7 @@ export default function Services() {
 
     return ["All Courses", ...uniqueCourses];
   }, [selectedInstitute]);
+  const hasCourseOptions = availableCourses.length > 1;
 
   const filteredTutors = useMemo(() => {
     return tutors.filter((tutor) => {
@@ -191,13 +192,18 @@ export default function Services() {
               <select
                 value={selectedCourse}
                 onChange={(event) => setSelectedCourse(event.target.value)}
+                disabled={!hasCourseOptions}
                 className="min-h-12 rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-slate-700 outline-none transition focus:border-blue-500 focus:bg-white"
               >
-                {availableCourses.map((course) => (
-                  <option key={course} value={course}>
-                    {course}
-                  </option>
-                ))}
+                {hasCourseOptions ? (
+                  availableCourses.map((course) => (
+                    <option key={course} value={course}>
+                      {course}
+                    </option>
+                  ))
+                ) : (
+                  <option value="All Courses">No courses available yet</option>
+                )}
               </select>
             </label>
           </div>
