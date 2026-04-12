@@ -54,15 +54,6 @@ const tutors = [
 
 const institutes = ["All Institutes", "MCBS", "SQU", "UTAS", "Middle East College"];
 
-const courses = [
-  "All Courses",
-  "MCBS ENG 213",
-  "MCBS ICT 128",
-  "MCBS MAT 255",
-  "MCBS COSC 1301",
-  "MCBS CPT 220",
-];
-
 const serviceHighlights = [
   { number: "Free", label: "tutoring and course support" },
   { number: "Filter", label: "tutors by institute and course" },
@@ -73,6 +64,19 @@ export default function Services() {
   const [selectedInstitute, setSelectedInstitute] = useState("All Institutes");
   const [selectedCourse, setSelectedCourse] = useState("All Courses");
   const location = useLocation();
+
+  const availableCourses = useMemo(() => {
+    const relevantTutors =
+      selectedInstitute === "All Institutes"
+        ? tutors
+        : tutors.filter((tutor) => tutor.institute === selectedInstitute);
+
+    const uniqueCourses = Array.from(
+      new Set(relevantTutors.flatMap((tutor) => tutor.courses))
+    ).sort();
+
+    return ["All Courses", ...uniqueCourses];
+  }, [selectedInstitute]);
 
   const filteredTutors = useMemo(() => {
     return tutors.filter((tutor) => {
@@ -95,6 +99,12 @@ export default function Services() {
       element.scrollIntoView({ behavior: "smooth", block: "start" });
     });
   }, [location.hash]);
+
+  useEffect(() => {
+    if (!availableCourses.includes(selectedCourse)) {
+      setSelectedCourse("All Courses");
+    }
+  }, [availableCourses, selectedCourse]);
 
   return (
     <main className="min-h-screen bg-slate-50 text-slate-900">
@@ -183,7 +193,7 @@ export default function Services() {
                 onChange={(event) => setSelectedCourse(event.target.value)}
                 className="min-h-12 rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-slate-700 outline-none transition focus:border-blue-500 focus:bg-white"
               >
-                {courses.map((course) => (
+                {availableCourses.map((course) => (
                   <option key={course} value={course}>
                     {course}
                   </option>
