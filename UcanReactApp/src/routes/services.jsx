@@ -65,7 +65,7 @@ const groupTutors = [
       "MCBS CPT 220",
     ],
     bio: "Runs free group tutoring sessions for selected MCBS courses.",
-    bookingUrl: "https://calendly.com/ahmed4014e/new-meeting",
+    bookingUrl: "https://calendly.com/ahmed4014e/30min",
     bookingLabel: "book group tutoring with Ahmed Al Ruqaishi",
     availability: "Available for group tutoring",
   },
