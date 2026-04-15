@@ -9,6 +9,8 @@ export default function Navbar() {
     { name: "About", to: "/about/" },
     { name: "Services", to: "/services/" },
     { name: "Contact", to: "/contact/" },
+    { name: "Student Access", to: "/student-access/" },
+    { name: "Tutor Access", to: "/tutor-access/" },
   ];
 
   const navLinkClass = ({ isActive }) =>

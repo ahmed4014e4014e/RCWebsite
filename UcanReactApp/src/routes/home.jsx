@@ -145,6 +145,85 @@ export default function Home() {
         </div>
       </section>
 
+      <section className="mx-auto max-w-6xl px-4 py-4 sm:px-6 sm:py-8">
+        <div className="rounded-[1.75rem] bg-white px-6 py-10 shadow-sm ring-1 ring-slate-200 sm:px-8 sm:py-12">
+          <div className="grid items-center gap-8 lg:grid-cols-[1fr_0.9fr]">
+            <div className="text-center lg:text-left">
+              <p className="text-xs font-semibold uppercase tracking-[0.3em] text-blue-700 sm:text-sm">
+                Join Our Tutor Team
+              </p>
+              <h2 className="mt-4 text-2xl font-semibold text-slate-900 sm:text-3xl">
+                Become a Tutor and Join Our Growing Team
+              </h2>
+              <p className="mt-4 text-base leading-7 text-slate-600 sm:text-lg sm:leading-8">
+                We are welcoming more tutors from different institutes to help
+                students through private tutoring, group tutoring, and shared
+                academic support. Create an account to join the platform and
+                start building your tutor profile.
+              </p>
+            </div>
+
+            <div className="rounded-3xl bg-slate-900 p-6 text-white shadow-xl sm:p-8">
+              <p className="text-xs font-semibold uppercase tracking-[0.3em] text-cyan-300 sm:text-sm">
+                Tutor Access
+              </p>
+              <h3 className="mt-4 text-xl font-semibold sm:text-2xl">
+                Log in or sign up to create your tutor account.
+              </h3>
+              <p className="mt-4 leading-7 text-slate-300">
+                Use the tutor account page to sign in, register, and get ready
+                to join the growing Ucan Oman tutor network.
+              </p>
+              <Link
+                to="/tutor-access/"
+                className="mt-8 inline-flex w-full items-center justify-center rounded-2xl bg-cyan-400 px-6 py-3 text-center font-semibold text-slate-950 transition hover:bg-cyan-300 sm:w-auto"
+              >
+                Tutor Login / Sign Up
+              </Link>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="mx-auto max-w-6xl px-4 py-4 sm:px-6 sm:py-8">
+        <div className="rounded-[1.75rem] bg-white px-6 py-10 shadow-sm ring-1 ring-slate-200 sm:px-8 sm:py-12">
+          <div className="grid items-center gap-8 lg:grid-cols-[1fr_0.9fr]">
+            <div className="text-center lg:text-left">
+              <p className="text-xs font-semibold uppercase tracking-[0.3em] text-blue-700 sm:text-sm">
+                Student Access
+              </p>
+              <h2 className="mt-4 text-2xl font-semibold text-slate-900 sm:text-3xl">
+                Join as a student and access tutoring support with your own account.
+              </h2>
+              <p className="mt-4 text-base leading-7 text-slate-600 sm:text-lg sm:leading-8">
+                Students can create an account to log in, access tutoring
+                services, and stay connected with academic support, resources,
+                and course communities across the platform.
+              </p>
+            </div>
+
+            <div className="rounded-3xl bg-slate-900 p-6 text-white shadow-xl sm:p-8">
+              <p className="text-xs font-semibold uppercase tracking-[0.3em] text-cyan-300 sm:text-sm">
+                Student Access
+              </p>
+              <h3 className="mt-4 text-xl font-semibold sm:text-2xl">
+                Log in or sign up to create your student account.
+              </h3>
+              <p className="mt-4 leading-7 text-slate-300">
+                Use the student account page to create your profile and get
+                ready to use the Ucan Oman platform more easily.
+              </p>
+              <Link
+                to="/student-access/"
+                className="mt-8 inline-flex w-full items-center justify-center rounded-2xl bg-cyan-400 px-6 py-3 text-center font-semibold text-slate-950 transition hover:bg-cyan-300 sm:w-auto"
+              >
+                Student Login / Sign Up
+              </Link>
+            </div>
+          </div>
+        </div>
+      </section>
+
       <section className="mx-auto max-w-6xl px-4 pb-16 sm:px-6 sm:pb-20">
         <div className="rounded-[1.75rem] bg-slate-900 px-6 py-10 text-center text-white shadow-xl sm:px-8 sm:py-12">
           <p className="text-xs font-semibold uppercase tracking-[0.3em] text-cyan-300 sm:text-sm">

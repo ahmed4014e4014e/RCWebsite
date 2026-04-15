@@ -10,6 +10,8 @@ import Home from "./routes/home";
 import About from "./routes/about";
 import Services from "./routes/services";
 import Contact from "./routes/contact";
+import TutorAccess from "./routes/tutorAccess";
+import StudentAccess from "./routes/studentAccess";
 
 // Create a Router
 const router = createBrowserRouter([
@@ -37,6 +39,14 @@ const router = createBrowserRouter([
       {
         path: "contact",
         element: <Contact />,
+      },
+      {
+        path: "tutor-access",
+        element: <TutorAccess />,
+      },
+      {
+        path: "student-access",
+        element: <StudentAccess />,
       },
     ],
   },
