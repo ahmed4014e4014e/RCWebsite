@@ -1,10 +1,10 @@
 export const themeImages = {
   heroFort:
-    "https://images.pexels.com/photos/34404321/pexels-photo-34404321.jpeg?cs=srgb&dl=pexels-saad-alawi-123396395-34404321.jpg&fm=jpg",
+    "https://images.pexels.com/photos/31367507/pexels-photo-31367507.jpeg?cs=srgb&dl=pexels-yusufcelik-31367507.jpg&fm=jpg",
   heritageFort:
-    "https://images.pexels.com/photos/30785924/pexels-photo-30785924.jpeg?cs=srgb&dl=pexels-reyyan-505450018-30785924.jpg&fm=jpg",
+    "https://images.pexels.com/photos/7972544/pexels-photo-7972544.jpeg?cs=srgb&dl=pexels-george-pak-7972544.jpg&fm=jpg",
   mountainFort:
-    "https://images.pexels.com/photos/35581420/pexels-photo-35581420.jpeg?cs=srgb&dl=pexels-girlvsglobe86-1319471819-35581420.jpg&fm=jpg",
+    "https://images.pexels.com/photos/7777700/pexels-photo-7777700.jpeg?cs=srgb&dl=pexels-mikhail-nilov-7777700.jpg&fm=jpg",
   studentsLibrary:
     "https://images.pexels.com/photos/6549913/pexels-photo-6549913.jpeg?cs=srgb&dl=pexels-tima-miroshnichenko-6549913.jpg&fm=jpg",
   studentsGroup:
