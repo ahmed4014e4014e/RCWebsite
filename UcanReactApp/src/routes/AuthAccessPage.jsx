@@ -22,6 +22,7 @@ export default function AuthAccessPage({
   const [loginLoading, setLoginLoading] = useState(false);
   const [signupLoading, setSignupLoading] = useState(false);
   const [resendLoading, setResendLoading] = useState(false);
+  const [roleCheckInProgress, setRoleCheckInProgress] = useState(false);
   const [message, setMessage] = useState("");
   const [messageType, setMessageType] = useState("info");
   const [pendingConfirmationEmail, setPendingConfirmationEmail] = useState("");
@@ -32,10 +33,28 @@ export default function AuthAccessPage({
   };
 
   useEffect(() => {
-    if (!loading && user) {
+    if (!loading && user && !roleCheckInProgress) {
       navigate(getDashboardPath(getUserRole(profile, user, role)), { replace: true });
     }
-  }, [loading, navigate, profile, role, user]);
+  }, [loading, navigate, profile, role, roleCheckInProgress, user]);
+
+  const resolveAccountRole = async (authUser) => {
+    if (!authUser) {
+      return null;
+    }
+
+    if (!isSupabaseConfigured || !supabase) {
+      return getUserRole(null, authUser, null);
+    }
+
+    const { data } = await supabase
+      .from("profiles")
+      .select("role")
+      .eq("id", authUser.id)
+      .maybeSingle();
+
+    return getUserRole(data, authUser, null);
+  };
 
   const handleLogin = async (event) => {
     event.preventDefault();
@@ -49,6 +68,7 @@ export default function AuthAccessPage({
     }
 
     setLoginLoading(true);
+    setRoleCheckInProgress(true);
     setMessage("");
 
     const { data, error } = await supabase.auth.signInWithPassword({
@@ -58,11 +78,26 @@ export default function AuthAccessPage({
 
     if (error) {
       showMessage("error", error.message);
+      setRoleCheckInProgress(false);
+      setLoginLoading(false);
+      return;
+    }
+
+    const actualRole = await resolveAccountRole(data.user);
+
+    if (actualRole && actualRole !== role) {
+      await supabase.auth.signOut();
+      showMessage(
+        "error",
+        `This account is registered as a ${actualRole}. Please use the ${actualRole} access page instead.`
+      );
+      setRoleCheckInProgress(false);
       setLoginLoading(false);
       return;
     }
 
     showMessage("success", "Login successful.");
+    setRoleCheckInProgress(false);
     navigate(getDashboardPath(getUserRole(null, data.user, role)), { replace: true });
     setLoginLoading(false);
   };
