@@ -31,9 +31,9 @@ export default function AuthAccessPage({
 
   useEffect(() => {
     if (!loading && user) {
-      navigate(getDashboardPath(getUserRole(profile, user)), { replace: true });
+      navigate(getDashboardPath(getUserRole(profile, user, role)), { replace: true });
     }
-  }, [loading, navigate, profile, user]);
+  }, [loading, navigate, profile, role, user]);
 
   const handleLogin = async (event) => {
     event.preventDefault();
@@ -61,7 +61,7 @@ export default function AuthAccessPage({
     }
 
     showMessage("success", "Login successful.");
-    navigate(getDashboardPath(getUserRole(null, data.user)), { replace: true });
+    navigate(getDashboardPath(getUserRole(null, data.user, role)), { replace: true });
     setLoginLoading(false);
   };
 

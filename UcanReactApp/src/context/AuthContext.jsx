@@ -1,5 +1,6 @@
 import { createContext, useContext, useEffect, useMemo, useState } from "react";
 import { isSupabaseConfigured, supabase } from "../lib/supabase";
+import { getUserRole } from "../lib/authRouting";
 
 const AuthContext = createContext(null);
 
@@ -9,16 +10,24 @@ export function AuthProvider({ children }) {
   const [profile, setProfile] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  const loadProfile = async (userId) => {
-    if (!isSupabaseConfigured || !supabase || !userId) {
+  const loadProfile = async (authUser) => {
+    if (!isSupabaseConfigured || !supabase || !authUser?.id) {
       setProfile(null);
       return null;
     }
 
+    const metadataProfile = {
+      id: authUser.id,
+      full_name: authUser.user_metadata?.full_name ?? null,
+      role: getUserRole(null, authUser, null),
+      institute: authUser.user_metadata?.institute ?? null,
+      email: authUser.email ?? null,
+    };
+
     const { data, error } = await supabase
       .from("profiles")
       .select("*")
-      .eq("id", userId)
+      .eq("id", authUser.id)
       .maybeSingle();
 
     if (error) {
@@ -26,8 +35,39 @@ export function AuthProvider({ children }) {
       return null;
     }
 
-    setProfile(data ?? null);
-    return data ?? null;
+    const shouldSyncProfile =
+      !data ||
+      (metadataProfile.role && data.role !== metadataProfile.role) ||
+      (!data.full_name && metadataProfile.full_name) ||
+      (!data.institute && metadataProfile.institute) ||
+      (!data.email && metadataProfile.email);
+
+    if (!shouldSyncProfile) {
+      setProfile(data ?? null);
+      return data ?? null;
+    }
+
+    const profilePayload = {
+      id: authUser.id,
+      full_name: data?.full_name || metadataProfile.full_name,
+      role: metadataProfile.role || data?.role || "student",
+      institute: data?.institute || metadataProfile.institute,
+      email: data?.email || metadataProfile.email,
+    };
+
+    const { data: syncedProfile, error: syncError } = await supabase
+      .from("profiles")
+      .upsert(profilePayload)
+      .select("*")
+      .single();
+
+    if (syncError) {
+      setProfile(data ?? null);
+      return data ?? null;
+    }
+
+    setProfile(syncedProfile);
+    return syncedProfile;
   };
 
   useEffect(() => {
@@ -51,7 +91,7 @@ export function AuthProvider({ children }) {
       setUser(currentSession?.user ?? null);
 
       if (currentSession?.user) {
-        await loadProfile(currentSession.user.id);
+        await loadProfile(currentSession.user);
       } else {
         setProfile(null);
       }
@@ -78,7 +118,7 @@ export function AuthProvider({ children }) {
       setUser(nextSession?.user ?? null);
 
       if (nextSession?.user) {
-        await loadProfile(nextSession.user.id);
+        await loadProfile(nextSession.user);
       } else {
         setProfile(null);
       }
@@ -110,7 +150,7 @@ export function AuthProvider({ children }) {
       profile,
       loading,
       signOut,
-      refreshProfile: () => loadProfile(user?.id),
+      refreshProfile: () => loadProfile(user),
       isSupabaseConfigured,
     }),
     [session, user, profile, loading]

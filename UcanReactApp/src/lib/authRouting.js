@@ -1,9 +1,9 @@
-export function getUserRole(profile, user) {
+export function getUserRole(profile, user, fallbackRole = "student") {
   return (
     profile?.role ||
     user?.user_metadata?.role ||
     user?.app_metadata?.role ||
-    "student"
+    fallbackRole
   );
 }
 
