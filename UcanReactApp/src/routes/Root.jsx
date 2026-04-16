@@ -1,17 +1,23 @@
 import { useState } from "react";
 import { Outlet, NavLink } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
+  const { user, profile, signOut, loading } = useAuth();
 
-  const links = [
+  const baseLinks = [
     { name: "Home", to: "/home/" },
     { name: "About", to: "/about/" },
     { name: "Services", to: "/services/" },
     { name: "Contact", to: "/contact/" },
+  ];
+  const guestLinks = [
     { name: "Student Access", to: "/student-access/" },
     { name: "Tutor Access", to: "/tutor-access/" },
   ];
+  const memberLinks = [{ name: "Account", to: "/account/" }];
+  const links = [...baseLinks, ...(user ? memberLinks : guestLinks)];
 
   const navLinkClass = ({ isActive }) =>
     [
@@ -25,15 +31,33 @@ export default function Navbar() {
         <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-4 sm:px-6">
           <h1 className="text-lg font-bold sm:text-2xl">Ucan Oman</h1>
 
-          <ul className="hidden items-center gap-8 text-lg md:flex">
-            {links.map((link) => (
-              <li key={link.name}>
-                <NavLink to={link.to} className={navLinkClass}>
-                  {link.name}
-                </NavLink>
-              </li>
-            ))}
-          </ul>
+          <div className="hidden items-center gap-6 md:flex">
+            {user && (
+              <div className="rounded-full bg-slate-100 px-4 py-2 text-sm font-medium text-slate-700">
+                {profile?.role || "member"}
+              </div>
+            )}
+
+            <ul className="flex items-center gap-8 text-lg">
+              {links.map((link) => (
+                <li key={link.name}>
+                  <NavLink to={link.to} className={navLinkClass}>
+                    {link.name}
+                  </NavLink>
+                </li>
+              ))}
+            </ul>
+
+            {!loading && user && (
+              <button
+                type="button"
+                onClick={signOut}
+                className="rounded-2xl bg-slate-900 px-4 py-2 text-sm font-semibold text-white transition hover:bg-slate-800"
+              >
+                Logout
+              </button>
+            )}
+          </div>
 
           <button
             onClick={() => setOpen((value) => !value)}
@@ -65,6 +89,19 @@ export default function Navbar() {
                   {link.name}
                 </NavLink>
               ))}
+
+              {!loading && user && (
+                <button
+                  type="button"
+                  onClick={() => {
+                    setOpen(false);
+                    signOut();
+                  }}
+                  className="rounded-2xl bg-slate-900 px-4 py-3 text-base font-medium text-white transition hover:bg-slate-800"
+                >
+                  Logout
+                </button>
+              )}
             </div>
           </div>
         )}

@@ -1,4 +1,6 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 import { supabase, isSupabaseConfigured } from "../lib/supabase";
 
 export default function AuthAccessPage({
@@ -8,6 +10,8 @@ export default function AuthAccessPage({
   signupHeading,
   role,
 }) {
+  const navigate = useNavigate();
+  const { user, loading } = useAuth();
   const [loginEmail, setLoginEmail] = useState("");
   const [loginPassword, setLoginPassword] = useState("");
   const [signupName, setSignupName] = useState("");
@@ -23,6 +27,12 @@ export default function AuthAccessPage({
     setMessageType(type);
     setMessage(text);
   };
+
+  useEffect(() => {
+    if (!loading && user) {
+      navigate("/account/", { replace: true });
+    }
+  }, [loading, user, navigate]);
 
   const handleLogin = async (event) => {
     event.preventDefault();
@@ -50,6 +60,7 @@ export default function AuthAccessPage({
     }
 
     showMessage("success", "Login successful.");
+    navigate("/account/", { replace: true });
     setLoginLoading(false);
   };
 
@@ -109,6 +120,7 @@ export default function AuthAccessPage({
 
     if (data.session) {
       showMessage("success", "Account created successfully.");
+      navigate("/account/", { replace: true });
     } else {
       showMessage(
         "success",
