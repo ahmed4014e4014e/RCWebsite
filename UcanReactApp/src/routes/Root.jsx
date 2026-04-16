@@ -35,7 +35,7 @@ export default function Navbar() {
         <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-4 sm:px-6">
           <div>
             <p className="text-[0.65rem] font-semibold uppercase tracking-[0.35em] text-[var(--oman-terracotta)] sm:text-xs">
-              Heritage Learning
+              Free Learning
             </p>
             <h1 className="text-lg font-bold text-[var(--oman-ink)] sm:text-2xl">Ucan Oman</h1>
           </div>
