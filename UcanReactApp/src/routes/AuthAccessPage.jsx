@@ -21,8 +21,10 @@ export default function AuthAccessPage({
   const [signupInstitute, setSignupInstitute] = useState("");
   const [loginLoading, setLoginLoading] = useState(false);
   const [signupLoading, setSignupLoading] = useState(false);
+  const [resendLoading, setResendLoading] = useState(false);
   const [message, setMessage] = useState("");
   const [messageType, setMessageType] = useState("info");
+  const [pendingConfirmationEmail, setPendingConfirmationEmail] = useState("");
 
   const showMessage = (type, text) => {
     setMessageType(type);
@@ -65,6 +67,46 @@ export default function AuthAccessPage({
     setLoginLoading(false);
   };
 
+  const handleResendConfirmation = async () => {
+    const emailToConfirm = pendingConfirmationEmail || signupEmail || loginEmail;
+
+    if (!emailToConfirm) {
+      showMessage("error", "Enter your email first so we can resend the confirmation link.");
+      return;
+    }
+
+    if (!isSupabaseConfigured || !supabase) {
+      showMessage(
+        "error",
+        "Supabase is not configured yet. Add VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY in .env.local."
+      );
+      return;
+    }
+
+    setResendLoading(true);
+
+    const { error } = await supabase.auth.resend({
+      type: "signup",
+      email: emailToConfirm,
+      options: {
+        emailRedirectTo: `${window.location.origin}/`,
+      },
+    });
+
+    if (error) {
+      showMessage("error", error.message);
+      setResendLoading(false);
+      return;
+    }
+
+    setPendingConfirmationEmail(emailToConfirm);
+    showMessage(
+      "success",
+      `A new confirmation email was sent to ${emailToConfirm}. Please also check your spam folder.`
+    );
+    setResendLoading(false);
+  };
+
   const handleSignup = async (event) => {
     event.preventDefault();
 
@@ -97,6 +139,8 @@ export default function AuthAccessPage({
       return;
     }
 
+    setPendingConfirmationEmail(signupEmail);
+
     const userId = data.user?.id;
     const hasSession = Boolean(data.session);
 
@@ -125,7 +169,7 @@ export default function AuthAccessPage({
     } else {
       showMessage(
         "success",
-        "Account created. Check your email for confirmation before logging in."
+        `Account created. Check ${signupEmail} for your confirmation email before logging in.`
       );
     }
 
@@ -166,6 +210,23 @@ export default function AuthAccessPage({
             ].join(" ")}
           >
             {message}
+          </div>
+        )}
+
+        {!loading && !user && pendingConfirmationEmail && (
+          <div className="mt-4 rounded-3xl bg-white px-5 py-4 shadow-sm ring-1 ring-slate-200">
+            <p className="text-sm leading-6 text-slate-600">
+              Did not receive the confirmation email for{" "}
+              <span className="font-semibold text-slate-900">{pendingConfirmationEmail}</span>?
+            </p>
+            <button
+              type="button"
+              onClick={handleResendConfirmation}
+              disabled={resendLoading}
+              className="mt-4 inline-flex items-center justify-center rounded-2xl bg-slate-900 px-5 py-3 text-sm font-semibold text-white transition hover:bg-slate-800 disabled:cursor-not-allowed disabled:opacity-70"
+            >
+              {resendLoading ? "Resending..." : "Resend Confirmation Email"}
+            </button>
           </div>
         )}
       </section>
