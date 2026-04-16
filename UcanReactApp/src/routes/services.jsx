@@ -1,6 +1,7 @@
 /* eslint-disable react-hooks/set-state-in-effect */
 import { useEffect, useMemo, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 import { themeImages } from "../lib/themeImages";
 
 const services = [
@@ -91,6 +92,7 @@ function TutorSection({
   selectedCourse,
   setSelectedCourse,
   onTutorClick,
+  canBook,
 }) {
   const availableCourses = useMemo(() => {
     const relevantTutors =
@@ -212,11 +214,22 @@ function TutorSection({
 
                 <button
                   type="button"
+                  disabled={!canBook}
                   onClick={() => onTutorClick(tutor)}
-                  className="oman-button-primary mt-6 inline-flex w-full items-center justify-center rounded-2xl px-6 py-3 text-center font-semibold transition sm:w-auto"
+                  className={[
+                    "mt-6 inline-flex w-full items-center justify-center rounded-2xl px-6 py-3 text-center font-semibold transition sm:w-auto",
+                    canBook
+                      ? "oman-button-primary"
+                      : "cursor-not-allowed border border-[rgba(111,49,29,0.14)] bg-[rgba(255,250,244,0.92)] text-[var(--oman-terracotta-dark)] opacity-70",
+                  ].join(" ")}
                 >
-                  {tutor.bookingLabel}
+                  {canBook ? tutor.bookingLabel : "Log in to book tutoring"}
                 </button>
+                {!canBook && (
+                  <p className="mt-3 text-sm leading-6 text-[var(--oman-ink)]/70">
+                    Please log in to your student or tutor account before booking a tutoring session.
+                  </p>
+                )}
               </article>
             ))
           ) : (
@@ -237,12 +250,14 @@ function TutorSection({
 }
 
 export default function Services() {
+  const { user } = useAuth();
   const [privateInstitute, setPrivateInstitute] = useState("All Institutes");
   const [privateCourse, setPrivateCourse] = useState("All Courses");
   const [groupInstitute, setGroupInstitute] = useState("All Institutes");
   const [groupCourse, setGroupCourse] = useState("All Courses");
   const [activeTutor, setActiveTutor] = useState(null);
   const location = useLocation();
+  const canBook = Boolean(user);
 
   useEffect(() => {
     if (!location.hash) return;
@@ -315,6 +330,33 @@ export default function Services() {
         </div>
       </section>
 
+      {!canBook && (
+        <section className="mx-auto max-w-6xl px-4 py-2 sm:px-6 sm:py-4">
+          <div className="rounded-[1.75rem] border border-[rgba(197,154,68,0.28)] bg-[rgba(255,244,222,0.82)] px-6 py-5 text-[var(--oman-terracotta-dark)] shadow-sm">
+            <p className="text-sm font-semibold uppercase tracking-[0.24em]">
+              Booking Access
+            </p>
+            <p className="mt-3 max-w-3xl text-base leading-7">
+              You can explore the tutor directory freely, but you need to log in before booking a tutoring session with Ahmed Al Ruqaishi.
+            </p>
+            <div className="mt-5 flex flex-col gap-3 sm:flex-row">
+              <Link
+                to="/student-access/"
+                className="oman-button-secondary inline-flex items-center justify-center rounded-2xl px-5 py-3 font-semibold transition"
+              >
+                Student Login
+              </Link>
+              <Link
+                to="/tutor-access/"
+                className="oman-button-primary inline-flex items-center justify-center rounded-2xl px-5 py-3 font-semibold transition"
+              >
+                Tutor Login
+              </Link>
+            </div>
+          </div>
+        </section>
+      )}
+
       <TutorSection
         id="tutor-directory"
         label="Private Tutoring"
@@ -326,6 +368,7 @@ export default function Services() {
         selectedCourse={privateCourse}
         setSelectedCourse={setPrivateCourse}
         onTutorClick={setActiveTutor}
+        canBook={canBook}
       />
 
       <TutorSection
@@ -339,6 +382,7 @@ export default function Services() {
         selectedCourse={groupCourse}
         setSelectedCourse={setGroupCourse}
         onTutorClick={setActiveTutor}
+        canBook={canBook}
       />
 
       <section className="mx-auto max-w-6xl px-4 py-4 sm:px-6 sm:py-8">
