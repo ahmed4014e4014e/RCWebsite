@@ -238,6 +238,7 @@ export default function Services() {
   const [groupCourse, setGroupCourse] = useState("All Courses");
   const [privateTutors, setPrivateTutors] = useState([]);
   const [groupTutors, setGroupTutors] = useState([]);
+  const [rawOfferingCount, setRawOfferingCount] = useState(0);
   const [directoryLoading, setDirectoryLoading] = useState(true);
   const [directoryError, setDirectoryError] = useState("");
   const [activeTutor, setActiveTutor] = useState(null);
@@ -291,10 +292,12 @@ export default function Services() {
 
         if (ignore) return;
 
+        setRawOfferingCount(offerings.length);
         setPrivateTutors(buildTutorCards(offerings, "private"));
         setGroupTutors(buildTutorCards(offerings, "group"));
       } catch (error) {
         if (!ignore) {
+          setRawOfferingCount(0);
           setDirectoryError(error.message || "Unable to load the tutor directory right now.");
         }
       } finally {
@@ -430,6 +433,41 @@ export default function Services() {
               <p className="mt-2 text-sm leading-6 text-[var(--oman-ink)]/75">{item.label}</p>
             </div>
           ))}
+        </div>
+      </section>
+
+      <section className="mx-auto max-w-6xl px-4 py-2 sm:px-6 sm:py-4">
+        <div className="rounded-[1.75rem] border border-[rgba(111,49,29,0.12)] bg-[rgba(255,248,238,0.76)] px-6 py-5 text-[var(--oman-ink)] shadow-sm">
+          <p className="text-sm font-semibold uppercase tracking-[0.24em] text-[var(--oman-terracotta)]">
+            Directory Debug Status
+          </p>
+          <div className="mt-4 grid gap-3 text-sm leading-6 sm:grid-cols-2 lg:grid-cols-4">
+            <p>
+              <span className="font-semibold">Supabase configured:</span>{" "}
+              {isSupabaseConfigured ? "Yes" : "No"}
+            </p>
+            <p>
+              <span className="font-semibold">Loading:</span>{" "}
+              {directoryLoading ? "Yes" : "No"}
+            </p>
+            <p>
+              <span className="font-semibold">Raw offerings:</span> {rawOfferingCount}
+            </p>
+            <p>
+              <span className="font-semibold">Private tutor cards:</span> {privateTutors.length}
+            </p>
+            <p>
+              <span className="font-semibold">Group tutor cards:</span> {groupTutors.length}
+            </p>
+            <p>
+              <span className="font-semibold">Visible institutes:</span>{" "}
+              {Math.max(instituteOptions.length - 1, 0)}
+            </p>
+            <p className="sm:col-span-2 lg:col-span-4">
+              <span className="font-semibold">Directory error:</span>{" "}
+              {directoryError || "None"}
+            </p>
+          </div>
         </div>
       </section>
 
