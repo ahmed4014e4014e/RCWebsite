@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { supabase, isSupabaseConfigured } from "../lib/supabase";
@@ -13,6 +13,7 @@ export default function AuthAccessPage({
 }) {
   const navigate = useNavigate();
   const { user, profile, loading } = useAuth();
+  const loginSectionRef = useRef(null);
   const [loginEmail, setLoginEmail] = useState("");
   const [loginPassword, setLoginPassword] = useState("");
   const [signupName, setSignupName] = useState("");
@@ -30,6 +31,20 @@ export default function AuthAccessPage({
   const showMessage = (type, text) => {
     setMessageType(type);
     setMessage(text);
+  };
+
+  const sendUserToLogin = (email, text) => {
+    setLoginEmail(email);
+    setLoginPassword("");
+    setPendingConfirmationEmail(email);
+    showMessage("success", text);
+
+    window.requestAnimationFrame(() => {
+      loginSectionRef.current?.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
+    });
   };
 
   useEffect(() => {
@@ -169,7 +184,31 @@ export default function AuthAccessPage({
     });
 
     if (error) {
+      if (error.message?.toLowerCase().includes("already registered")) {
+        sendUserToLogin(
+          signupEmail,
+          `An account with ${signupEmail} already exists. Please log in with your existing account instead.`
+        );
+        setSignupLoading(false);
+        return;
+      }
+
       showMessage("error", error.message);
+      setSignupLoading(false);
+      return;
+    }
+
+    const isExistingConfirmedAccount =
+      !data.session &&
+      data.user &&
+      Array.isArray(data.user.identities) &&
+      data.user.identities.length === 0;
+
+    if (isExistingConfirmedAccount) {
+      sendUserToLogin(
+        signupEmail,
+        `An account with ${signupEmail} already exists. Please log in with your existing account instead.`
+      );
       setSignupLoading(false);
       return;
     }
@@ -267,7 +306,10 @@ export default function AuthAccessPage({
       </section>
 
       <section className="mx-auto mt-10 grid max-w-5xl gap-8 lg:grid-cols-2">
-        <div className="rounded-[1.75rem] bg-white p-6 shadow-sm ring-1 ring-slate-200 sm:p-8">
+        <div
+          ref={loginSectionRef}
+          className="rounded-[1.75rem] bg-white p-6 shadow-sm ring-1 ring-slate-200 sm:p-8"
+        >
           <p className="text-xs font-semibold uppercase tracking-[0.3em] text-blue-700 sm:text-sm">
             Log In
           </p>
