@@ -570,12 +570,11 @@ export default function Services() {
 
         <div className="space-y-5 rounded-[1.75rem] oman-card p-6 text-base leading-7 text-[var(--oman-ink)]/75 sm:p-8 sm:text-lg sm:leading-8">
           <p>
-            This full-stack upgrade means the tutor directory can grow from the database as new
+            Our tutor directory can grow from the database as new
             tutors, institutes, and courses are added.
           </p>
           <p>
-            It also means student tutoring requests can now be saved and tracked instead of living
-            only in the frontend flow.
+            Student tutoring requests are submited, tracked, and returned.
           </p>
         </div>
       </section>
