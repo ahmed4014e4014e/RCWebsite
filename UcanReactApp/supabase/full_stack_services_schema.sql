@@ -85,6 +85,14 @@ alter table public.tutor_profiles enable row level security;
 alter table public.tutor_course_offerings enable row level security;
 alter table public.tutoring_requests enable row level security;
 
+alter table public.profiles enable row level security;
+
+drop policy if exists "Public can read basic tutor profiles" on public.profiles;
+create policy "Public can read basic tutor profiles"
+on public.profiles
+for select
+using (role = 'tutor');
+
 drop policy if exists "Public can read institutes" on public.institutes;
 create policy "Public can read institutes"
 on public.institutes
