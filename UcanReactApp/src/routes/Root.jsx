@@ -1,10 +1,12 @@
 import { useState } from "react";
 import { Outlet, NavLink } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
+import { getDashboardPath, getUserRole } from "../lib/authRouting";
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
   const { user, profile, signOut, loading } = useAuth();
+  const role = getUserRole(profile, user);
 
   const baseLinks = [
     { name: "Home", to: "/home/" },
@@ -16,7 +18,7 @@ export default function Navbar() {
     { name: "Student Access", to: "/student-access/" },
     { name: "Tutor Access", to: "/tutor-access/" },
   ];
-  const memberLinks = [{ name: "Account", to: "/account/" }];
+  const memberLinks = [{ name: "Dashboard", to: getDashboardPath(role) }];
   const links = [...baseLinks, ...(user ? memberLinks : guestLinks)];
 
   const navLinkClass = ({ isActive }) =>

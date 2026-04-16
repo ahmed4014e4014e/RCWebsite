@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { supabase, isSupabaseConfigured } from "../lib/supabase";
+import { getDashboardPath, getUserRole } from "../lib/authRouting";
 
 export default function AuthAccessPage({
   audienceLabel,
@@ -11,7 +12,7 @@ export default function AuthAccessPage({
   role,
 }) {
   const navigate = useNavigate();
-  const { user, loading } = useAuth();
+  const { user, profile, loading } = useAuth();
   const [loginEmail, setLoginEmail] = useState("");
   const [loginPassword, setLoginPassword] = useState("");
   const [signupName, setSignupName] = useState("");
@@ -30,9 +31,9 @@ export default function AuthAccessPage({
 
   useEffect(() => {
     if (!loading && user) {
-      navigate("/account/", { replace: true });
+      navigate(getDashboardPath(getUserRole(profile, user)), { replace: true });
     }
-  }, [loading, user, navigate]);
+  }, [loading, navigate, profile, user]);
 
   const handleLogin = async (event) => {
     event.preventDefault();
@@ -48,7 +49,7 @@ export default function AuthAccessPage({
     setLoginLoading(true);
     setMessage("");
 
-    const { error } = await supabase.auth.signInWithPassword({
+    const { data, error } = await supabase.auth.signInWithPassword({
       email: loginEmail,
       password: loginPassword,
     });
@@ -60,7 +61,7 @@ export default function AuthAccessPage({
     }
 
     showMessage("success", "Login successful.");
-    navigate("/account/", { replace: true });
+    navigate(getDashboardPath(getUserRole(null, data.user)), { replace: true });
     setLoginLoading(false);
   };
 
@@ -120,7 +121,7 @@ export default function AuthAccessPage({
 
     if (data.session) {
       showMessage("success", "Account created successfully.");
-      navigate("/account/", { replace: true });
+      navigate(getDashboardPath(role), { replace: true });
     } else {
       showMessage(
         "success",

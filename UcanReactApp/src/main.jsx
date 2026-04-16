@@ -6,6 +6,7 @@ import './index.css'
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { AuthProvider } from "./context/AuthContext";
 import ProtectedRoute from "./components/ProtectedRoute";
+import RoleProtectedRoute from "./components/RoleProtectedRoute";
 //Routes
 import Root from "./routes/Root";
 import Home from "./routes/home";
@@ -15,6 +16,8 @@ import Contact from "./routes/contact";
 import TutorAccess from "./routes/tutorAccess";
 import StudentAccess from "./routes/studentAccess";
 import Account from "./routes/account";
+import StudentDashboard from "./routes/studentDashboard";
+import TutorDashboard from "./routes/tutorDashboard";
 
 // Create a Router
 const router = createBrowserRouter([
@@ -57,6 +60,22 @@ const router = createBrowserRouter([
           <ProtectedRoute>
             <Account />
           </ProtectedRoute>
+        ),
+      },
+      {
+        path: "student-dashboard",
+        element: (
+          <RoleProtectedRoute allowedRole="student">
+            <StudentDashboard />
+          </RoleProtectedRoute>
+        ),
+      },
+      {
+        path: "tutor-dashboard",
+        element: (
+          <RoleProtectedRoute allowedRole="tutor">
+            <TutorDashboard />
+          </RoleProtectedRoute>
         ),
       },
     ],
