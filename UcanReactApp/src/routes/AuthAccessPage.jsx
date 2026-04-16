@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { supabase, isSupabaseConfigured } from "../lib/supabase";
 import { getDashboardPath, getUserRole } from "../lib/authRouting";
+import { themeImages } from "../lib/themeImages";
 
 export default function AuthAccessPage({
   audienceLabel,
@@ -251,24 +252,41 @@ export default function AuthAccessPage({
   };
 
   return (
-    <main className="min-h-screen bg-slate-50 px-4 pb-16 pt-24 text-slate-900 sm:px-6 sm:pb-20 sm:pt-28">
+    <main className="oman-page min-h-screen px-4 pb-16 pt-24 text-slate-900 sm:px-6 sm:pb-20 sm:pt-28">
       <section className="mx-auto max-w-5xl">
-        <div className="rounded-[1.75rem] bg-gradient-to-br from-blue-700 via-blue-600 to-cyan-500 px-6 py-10 text-white shadow-xl sm:px-8 sm:py-12">
-          <p className="text-xs font-semibold uppercase tracking-[0.3em] text-blue-100 sm:text-sm">
-            {audienceLabel}
-          </p>
-          <h1 className="mt-4 text-3xl font-bold leading-tight sm:text-4xl lg:text-5xl">
-            {title}
-          </h1>
-          <p className="mt-5 max-w-3xl text-base leading-7 text-blue-50 sm:text-lg sm:leading-8">
-            {description}
-          </p>
+        <div
+          className="oman-hero overflow-hidden rounded-[1.75rem] px-6 py-10 text-white shadow-xl sm:px-8 sm:py-12"
+          style={{
+            backgroundImage: `url(${role === "tutor" ? themeImages.heroFort : themeImages.studentsGroup})`,
+          }}
+        >
+          <div className="grid items-center gap-6 lg:grid-cols-[1.05fr_0.95fr]">
+            <div>
+              <p className="oman-kicker text-xs font-semibold uppercase sm:text-sm">
+                {audienceLabel}
+              </p>
+              <h1 className="mt-4 text-3xl font-bold leading-tight sm:text-4xl lg:text-5xl">
+                {title}
+              </h1>
+              <p className="mt-5 max-w-3xl text-base leading-7 text-[#f4e8d6] sm:text-lg sm:leading-8">
+                {description}
+              </p>
+            </div>
+            <div className="oman-card rounded-3xl p-4 text-[var(--oman-ink)]">
+              <div className="oman-photo-frame aspect-[4/3]">
+                <img
+                  src={role === "tutor" ? themeImages.mountainFort : themeImages.studentsStudyHall}
+                  alt={role === "tutor" ? "Traditional Omani fort scenery" : "Students in a quiet study space"}
+                />
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 
       <section className="mx-auto mt-10 max-w-5xl">
         {!isSupabaseConfigured && (
-          <div className="rounded-3xl border border-amber-200 bg-amber-50 px-5 py-4 text-sm leading-6 text-amber-900">
+          <div className="rounded-3xl border border-[rgba(197,154,68,0.28)] bg-[rgba(255,244,222,0.9)] px-5 py-4 text-sm leading-6 text-[var(--oman-terracotta-dark)]">
             Supabase is not configured yet. Add `VITE_SUPABASE_URL` and
             `VITE_SUPABASE_ANON_KEY` to `.env.local` before testing auth.
           </div>
@@ -279,8 +297,8 @@ export default function AuthAccessPage({
             className={[
               "mt-6 rounded-3xl px-5 py-4 text-sm leading-6",
               messageType === "error"
-                ? "border border-rose-200 bg-rose-50 text-rose-800"
-                : "border border-emerald-200 bg-emerald-50 text-emerald-800",
+                ? "border border-[rgba(155,77,49,0.22)] bg-[rgba(255,239,232,0.95)] text-[var(--oman-terracotta-dark)]"
+                : "border border-[rgba(82,101,74,0.22)] bg-[rgba(239,246,236,0.95)] text-[var(--oman-olive)]",
             ].join(" ")}
           >
             {message}
@@ -288,16 +306,16 @@ export default function AuthAccessPage({
         )}
 
         {!loading && !user && pendingConfirmationEmail && (
-          <div className="mt-4 rounded-3xl bg-white px-5 py-4 shadow-sm ring-1 ring-slate-200">
-            <p className="text-sm leading-6 text-slate-600">
+          <div className="mt-4 rounded-3xl oman-card px-5 py-4">
+            <p className="text-sm leading-6 text-[var(--oman-ink)]/75">
               Did not receive the confirmation email for{" "}
-              <span className="font-semibold text-slate-900">{pendingConfirmationEmail}</span>?
+              <span className="font-semibold text-[var(--oman-ink)]">{pendingConfirmationEmail}</span>?
             </p>
             <button
               type="button"
               onClick={handleResendConfirmation}
               disabled={resendLoading}
-              className="mt-4 inline-flex items-center justify-center rounded-2xl bg-slate-900 px-5 py-3 text-sm font-semibold text-white transition hover:bg-slate-800 disabled:cursor-not-allowed disabled:opacity-70"
+              className="oman-button-secondary mt-4 inline-flex items-center justify-center rounded-2xl px-5 py-3 text-sm font-semibold transition disabled:cursor-not-allowed disabled:opacity-70"
             >
               {resendLoading ? "Resending..." : "Resend Confirmation Email"}
             </button>
@@ -308,99 +326,99 @@ export default function AuthAccessPage({
       <section className="mx-auto mt-10 grid max-w-5xl gap-8 lg:grid-cols-2">
         <div
           ref={loginSectionRef}
-          className="rounded-[1.75rem] bg-white p-6 shadow-sm ring-1 ring-slate-200 sm:p-8"
+          className="rounded-[1.75rem] oman-card p-6 sm:p-8"
         >
-          <p className="text-xs font-semibold uppercase tracking-[0.3em] text-blue-700 sm:text-sm">
+          <p className="oman-section-kicker text-xs font-semibold uppercase sm:text-sm">
             Log In
           </p>
-          <h2 className="mt-4 text-2xl font-semibold text-slate-900">Welcome back</h2>
+          <h2 className="oman-title-accent mt-4 text-2xl font-semibold">Welcome back</h2>
           <form className="mt-6 space-y-4" onSubmit={handleLogin}>
             <label className="flex flex-col gap-2">
-              <span className="text-sm font-semibold text-slate-700">Email</span>
+              <span className="text-sm font-semibold text-[var(--oman-terracotta-dark)]">Email</span>
               <input
                 type="email"
                 placeholder="Enter your email"
                 value={loginEmail}
                 onChange={(event) => setLoginEmail(event.target.value)}
-                className="min-h-12 rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-slate-700 outline-none transition focus:border-blue-500 focus:bg-white"
+                className="min-h-12 rounded-2xl border border-[rgba(111,49,29,0.14)] bg-[rgba(255,250,244,0.92)] px-4 py-3 text-[var(--oman-ink)] outline-none transition focus:border-[var(--oman-brass)] focus:bg-white"
                 required
               />
             </label>
             <label className="flex flex-col gap-2">
-              <span className="text-sm font-semibold text-slate-700">Password</span>
+              <span className="text-sm font-semibold text-[var(--oman-terracotta-dark)]">Password</span>
               <input
                 type="password"
                 placeholder="Enter your password"
                 value={loginPassword}
                 onChange={(event) => setLoginPassword(event.target.value)}
-                className="min-h-12 rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-slate-700 outline-none transition focus:border-blue-500 focus:bg-white"
+                className="min-h-12 rounded-2xl border border-[rgba(111,49,29,0.14)] bg-[rgba(255,250,244,0.92)] px-4 py-3 text-[var(--oman-ink)] outline-none transition focus:border-[var(--oman-brass)] focus:bg-white"
                 required
               />
             </label>
             <button
               type="submit"
               disabled={loginLoading}
-              className="mt-2 inline-flex w-full items-center justify-center rounded-2xl bg-blue-700 px-6 py-3 text-center font-semibold text-white transition hover:bg-blue-800 disabled:cursor-not-allowed disabled:opacity-70"
+              className="oman-button-secondary mt-2 inline-flex w-full items-center justify-center rounded-2xl px-6 py-3 text-center font-semibold transition disabled:cursor-not-allowed disabled:opacity-70"
             >
               {loginLoading ? "Logging In..." : "Log In"}
             </button>
           </form>
         </div>
 
-        <div className="rounded-[1.75rem] bg-white p-6 shadow-sm ring-1 ring-slate-200 sm:p-8">
-          <p className="text-xs font-semibold uppercase tracking-[0.3em] text-blue-700 sm:text-sm">
+        <div className="rounded-[1.75rem] oman-card p-6 sm:p-8">
+          <p className="oman-section-kicker text-xs font-semibold uppercase sm:text-sm">
             Sign Up
           </p>
-          <h2 className="mt-4 text-2xl font-semibold text-slate-900">{signupHeading}</h2>
+          <h2 className="oman-title-accent mt-4 text-2xl font-semibold">{signupHeading}</h2>
           <form className="mt-6 space-y-4" onSubmit={handleSignup}>
             <label className="flex flex-col gap-2">
-              <span className="text-sm font-semibold text-slate-700">Full Name</span>
+              <span className="text-sm font-semibold text-[var(--oman-terracotta-dark)]">Full Name</span>
               <input
                 type="text"
                 placeholder="Enter your full name"
                 value={signupName}
                 onChange={(event) => setSignupName(event.target.value)}
-                className="min-h-12 rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-slate-700 outline-none transition focus:border-blue-500 focus:bg-white"
+                className="min-h-12 rounded-2xl border border-[rgba(111,49,29,0.14)] bg-[rgba(255,250,244,0.92)] px-4 py-3 text-[var(--oman-ink)] outline-none transition focus:border-[var(--oman-brass)] focus:bg-white"
                 required
               />
             </label>
             <label className="flex flex-col gap-2">
-              <span className="text-sm font-semibold text-slate-700">Institute</span>
+              <span className="text-sm font-semibold text-[var(--oman-terracotta-dark)]">Institute</span>
               <input
                 type="text"
                 placeholder="Enter your institute name"
                 value={signupInstitute}
                 onChange={(event) => setSignupInstitute(event.target.value)}
-                className="min-h-12 rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-slate-700 outline-none transition focus:border-blue-500 focus:bg-white"
+                className="min-h-12 rounded-2xl border border-[rgba(111,49,29,0.14)] bg-[rgba(255,250,244,0.92)] px-4 py-3 text-[var(--oman-ink)] outline-none transition focus:border-[var(--oman-brass)] focus:bg-white"
                 required
               />
             </label>
             <label className="flex flex-col gap-2">
-              <span className="text-sm font-semibold text-slate-700">Email</span>
+              <span className="text-sm font-semibold text-[var(--oman-terracotta-dark)]">Email</span>
               <input
                 type="email"
                 placeholder="Enter your email"
                 value={signupEmail}
                 onChange={(event) => setSignupEmail(event.target.value)}
-                className="min-h-12 rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-slate-700 outline-none transition focus:border-blue-500 focus:bg-white"
+                className="min-h-12 rounded-2xl border border-[rgba(111,49,29,0.14)] bg-[rgba(255,250,244,0.92)] px-4 py-3 text-[var(--oman-ink)] outline-none transition focus:border-[var(--oman-brass)] focus:bg-white"
                 required
               />
             </label>
             <label className="flex flex-col gap-2">
-              <span className="text-sm font-semibold text-slate-700">Password</span>
+              <span className="text-sm font-semibold text-[var(--oman-terracotta-dark)]">Password</span>
               <input
                 type="password"
                 placeholder="Create a password"
                 value={signupPassword}
                 onChange={(event) => setSignupPassword(event.target.value)}
-                className="min-h-12 rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-slate-700 outline-none transition focus:border-blue-500 focus:bg-white"
+                className="min-h-12 rounded-2xl border border-[rgba(111,49,29,0.14)] bg-[rgba(255,250,244,0.92)] px-4 py-3 text-[var(--oman-ink)] outline-none transition focus:border-[var(--oman-brass)] focus:bg-white"
                 required
               />
             </label>
             <button
               type="submit"
               disabled={signupLoading}
-              className="mt-2 inline-flex w-full items-center justify-center rounded-2xl bg-cyan-400 px-6 py-3 text-center font-semibold text-slate-950 transition hover:bg-cyan-300 disabled:cursor-not-allowed disabled:opacity-70"
+              className="oman-button-primary mt-2 inline-flex w-full items-center justify-center rounded-2xl px-6 py-3 text-center font-semibold transition disabled:cursor-not-allowed disabled:opacity-70"
             >
               {signupLoading ? "Creating Account..." : "Create Account"}
             </button>

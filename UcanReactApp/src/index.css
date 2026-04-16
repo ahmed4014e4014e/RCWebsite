@@ -1,1 +1,160 @@
 @import "tailwindcss";
+
+:root {
+  --oman-sand: #efe1c9;
+  --oman-sand-deep: #d8be98;
+  --oman-terracotta: #9b4d31;
+  --oman-terracotta-dark: #6f311d;
+  --oman-brass: #c59a44;
+  --oman-olive: #52654a;
+  --oman-ink: #2a211c;
+  --oman-paper: rgba(255, 248, 238, 0.88);
+  --oman-border: rgba(111, 49, 29, 0.15);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  color: var(--oman-ink);
+  background:
+    radial-gradient(circle at top, rgba(197, 154, 68, 0.16), transparent 30%),
+    linear-gradient(180deg, #f7efdf 0%, #f2e3cc 100%);
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+#root {
+  min-height: 100vh;
+}
+
+.oman-page {
+  position: relative;
+  background:
+    radial-gradient(circle at top right, rgba(155, 77, 49, 0.12), transparent 28%),
+    linear-gradient(180deg, rgba(255, 250, 244, 0.95), rgba(241, 227, 202, 0.92));
+}
+
+.oman-page::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(90deg, rgba(111, 49, 29, 0.035) 1px, transparent 1px),
+    linear-gradient(rgba(111, 49, 29, 0.035) 1px, transparent 1px);
+  background-size: 36px 36px;
+  mask-image: linear-gradient(180deg, rgba(0, 0, 0, 0.22), transparent 32%);
+  pointer-events: none;
+}
+
+.oman-page > * {
+  position: relative;
+  z-index: 1;
+}
+
+.oman-hero {
+  position: relative;
+  overflow: hidden;
+  background-position: center;
+  background-size: cover;
+}
+
+.oman-hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(135deg, rgba(42, 33, 28, 0.85), rgba(111, 49, 29, 0.72)),
+    linear-gradient(180deg, rgba(197, 154, 68, 0.08), rgba(197, 154, 68, 0));
+}
+
+.oman-hero > * {
+  position: relative;
+  z-index: 1;
+}
+
+.oman-card {
+  background: var(--oman-paper);
+  border: 1px solid var(--oman-border);
+  box-shadow: 0 18px 45px rgba(73, 39, 27, 0.08);
+  backdrop-filter: blur(10px);
+}
+
+.oman-card-soft {
+  background: rgba(255, 252, 247, 0.72);
+  border: 1px solid rgba(111, 49, 29, 0.12);
+}
+
+.oman-dark-panel {
+  background:
+    linear-gradient(135deg, rgba(58, 34, 25, 0.98), rgba(92, 50, 33, 0.96));
+  border: 1px solid rgba(197, 154, 68, 0.18);
+  box-shadow: 0 20px 55px rgba(45, 24, 17, 0.24);
+}
+
+.oman-outline-panel {
+  background: rgba(255, 250, 244, 0.8);
+  border: 1px solid rgba(155, 77, 49, 0.2);
+  box-shadow: inset 0 0 0 1px rgba(197, 154, 68, 0.18);
+}
+
+.oman-kicker {
+  color: var(--oman-brass);
+  letter-spacing: 0.3em;
+}
+
+.oman-section-kicker {
+  color: var(--oman-terracotta);
+  letter-spacing: 0.28em;
+}
+
+.oman-title-accent {
+  color: var(--oman-terracotta-dark);
+}
+
+.oman-stat-number {
+  color: var(--oman-terracotta);
+}
+
+.oman-chip {
+  background: rgba(197, 154, 68, 0.12);
+  color: var(--oman-terracotta-dark);
+  border: 1px solid rgba(197, 154, 68, 0.22);
+}
+
+.oman-button-primary {
+  background: linear-gradient(135deg, var(--oman-brass), #dfbb73);
+  color: #2b1e18;
+  border: 1px solid rgba(155, 77, 49, 0.18);
+  box-shadow: 0 12px 24px rgba(123, 79, 32, 0.16);
+}
+
+.oman-button-primary:hover {
+  background: linear-gradient(135deg, #d3aa5b, #ebc981);
+}
+
+.oman-button-secondary {
+  background: linear-gradient(135deg, var(--oman-terracotta), var(--oman-terracotta-dark));
+  color: #fff8ef;
+  border: 1px solid rgba(255, 248, 239, 0.12);
+  box-shadow: 0 12px 24px rgba(90, 34, 14, 0.18);
+}
+
+.oman-button-secondary:hover {
+  background: linear-gradient(135deg, #ac5638, #7d3721);
+}
+
+.oman-photo-frame {
+  overflow: hidden;
+  border-radius: 1.75rem;
+  border: 1px solid rgba(111, 49, 29, 0.16);
+  box-shadow: 0 20px 55px rgba(73, 39, 27, 0.16);
+}
+
+.oman-photo-frame img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}

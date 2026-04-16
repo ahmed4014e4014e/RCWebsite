@@ -1,6 +1,7 @@
 /* eslint-disable react-hooks/set-state-in-effect */
 import { useEffect, useMemo, useState } from "react";
 import { useLocation } from "react-router-dom";
+import { themeImages } from "../lib/themeImages";
 
 const services = [
   {
@@ -126,25 +127,25 @@ function TutorSection({
   return (
     <section id={id} className="mx-auto max-w-6xl scroll-mt-24 px-4 py-4 sm:scroll-mt-28 sm:px-6 sm:py-8">
       <div className="max-w-2xl text-center lg:text-left">
-        <p className="text-xs font-semibold uppercase tracking-[0.3em] text-blue-700 sm:text-sm">
+        <p className="oman-section-kicker text-xs font-semibold uppercase sm:text-sm">
           {label}
         </p>
-        <h2 className="mt-4 text-2xl font-semibold text-slate-900 sm:text-3xl">
+        <h2 className="oman-title-accent mt-4 text-2xl font-semibold sm:text-3xl">
           {title}
         </h2>
-        <p className="mt-4 text-base leading-7 text-slate-600 sm:text-lg sm:leading-8">
+        <p className="mt-4 text-base leading-7 text-[var(--oman-ink)]/75 sm:text-lg sm:leading-8">
           {description}
         </p>
       </div>
 
-      <div className="mt-10 rounded-[1.75rem] bg-white p-6 shadow-sm ring-1 ring-slate-200 sm:mt-12 sm:p-8">
+      <div className="mt-10 rounded-[1.75rem] oman-card p-6 sm:mt-12 sm:p-8">
         <div className="grid gap-4 md:grid-cols-2">
           <label className="flex flex-col gap-2">
-            <span className="text-sm font-semibold text-slate-700">Institute</span>
+            <span className="text-sm font-semibold text-[var(--oman-terracotta-dark)]">Institute</span>
             <select
               value={selectedInstitute}
               onChange={(event) => setSelectedInstitute(event.target.value)}
-              className="min-h-12 rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-slate-700 outline-none transition focus:border-blue-500 focus:bg-white"
+              className="min-h-12 rounded-2xl border border-[rgba(111,49,29,0.14)] bg-[rgba(255,250,244,0.92)] px-4 py-3 text-[var(--oman-ink)] outline-none transition focus:border-[var(--oman-brass)] focus:bg-white"
             >
               {institutes.map((institute) => (
                 <option key={institute} value={institute}>
@@ -155,12 +156,12 @@ function TutorSection({
           </label>
 
           <label className="flex flex-col gap-2">
-            <span className="text-sm font-semibold text-slate-700">Course</span>
+            <span className="text-sm font-semibold text-[var(--oman-terracotta-dark)]">Course</span>
             <select
               value={selectedCourse}
               onChange={(event) => setSelectedCourse(event.target.value)}
               disabled={!hasCourseOptions}
-              className="min-h-12 rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-slate-700 outline-none transition focus:border-blue-500 focus:bg-white disabled:cursor-not-allowed disabled:opacity-60"
+              className="min-h-12 rounded-2xl border border-[rgba(111,49,29,0.14)] bg-[rgba(255,250,244,0.92)] px-4 py-3 text-[var(--oman-ink)] outline-none transition focus:border-[var(--oman-brass)] focus:bg-white disabled:cursor-not-allowed disabled:opacity-60"
             >
               {hasCourseOptions ? (
                 availableCourses.map((course) => (
@@ -180,50 +181,50 @@ function TutorSection({
             filteredTutors.map((tutor) => (
               <article
                 key={`${id}-${tutor.name}`}
-                className="rounded-3xl bg-slate-50 p-6 ring-1 ring-slate-200 sm:p-8"
+                className="rounded-3xl oman-outline-panel p-6 sm:p-8"
               >
                 <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center">
-                  <h3 className="text-xl font-semibold text-slate-900">{tutor.name}</h3>
-                  <span className="rounded-full bg-blue-100 px-3 py-1 text-xs font-semibold uppercase tracking-[0.18em] text-blue-700">
+                  <h3 className="text-xl font-semibold text-[var(--oman-ink)]">{tutor.name}</h3>
+                  <span className="oman-chip rounded-full px-3 py-1 text-xs font-semibold uppercase tracking-[0.18em]">
                     {tutor.institute}
                   </span>
                 </div>
 
-                <p className="mt-4 leading-7 text-slate-600">{tutor.bio}</p>
+                <p className="mt-4 leading-7 text-[var(--oman-ink)]/75">{tutor.bio}</p>
 
-                <p className="mt-5 text-sm font-semibold uppercase tracking-[0.18em] text-slate-500">
+                <p className="mt-5 text-sm font-semibold uppercase tracking-[0.18em] text-[var(--oman-terracotta)]/80">
                   Courses
                 </p>
                 <div className="mt-3 flex flex-wrap gap-2">
                   {tutor.courses.map((course) => (
                     <span
                       key={`${id}-${tutor.name}-${course}`}
-                      className="rounded-full bg-white px-3 py-2 text-sm font-medium text-slate-700 ring-1 ring-slate-200"
+                      className="rounded-full bg-[rgba(255,252,247,0.96)] px-3 py-2 text-sm font-medium text-[var(--oman-ink)] ring-1 ring-[rgba(111,49,29,0.12)]"
                     >
                       {course}
                     </span>
                   ))}
                 </div>
 
-                <p className="mt-5 text-sm font-medium text-emerald-700">
+                <p className="mt-5 text-sm font-medium text-[var(--oman-olive)]">
                   {tutor.availability}
                 </p>
 
                 <button
                   type="button"
                   onClick={() => onTutorClick(tutor)}
-                  className="mt-6 inline-flex w-full items-center justify-center rounded-2xl bg-cyan-400 px-6 py-3 text-center font-semibold text-slate-950 transition hover:bg-cyan-300 sm:w-auto"
+                  className="oman-button-primary mt-6 inline-flex w-full items-center justify-center rounded-2xl px-6 py-3 text-center font-semibold transition sm:w-auto"
                 >
                   {tutor.bookingLabel}
                 </button>
               </article>
             ))
           ) : (
-            <div className="rounded-3xl bg-slate-50 p-6 text-center ring-1 ring-slate-200 sm:p-8 lg:col-span-2">
-              <h3 className="text-xl font-semibold text-slate-900">
+            <div className="rounded-3xl oman-outline-panel p-6 text-center sm:p-8 lg:col-span-2">
+              <h3 className="text-xl font-semibold text-[var(--oman-ink)]">
                 No tutor listed yet for this selection
               </h3>
-              <p className="mt-4 leading-7 text-slate-600">
+              <p className="mt-4 leading-7 text-[var(--oman-ink)]/75">
                 Try a different institute or course, or add more tutor entries
                 to the frontend data later to expand this directory.
               </p>
@@ -268,46 +269,47 @@ export default function Services() {
   }, [activeTutor]);
 
   return (
-    <main className="min-h-screen bg-slate-50 text-slate-900">
-      <section className="bg-gradient-to-br from-blue-700 via-blue-600 to-cyan-500 text-white">
+    <main className="oman-page min-h-screen text-slate-900">
+      <section
+        className="oman-hero text-white"
+        style={{ backgroundImage: `url(${themeImages.mountainFort})` }}
+      >
         <div className="mx-auto max-w-6xl px-4 pb-16 pt-24 sm:px-6 sm:pb-20 sm:pt-28">
           <div className="grid items-center gap-8 lg:grid-cols-[1.15fr_0.85fr] lg:gap-12">
             <div className="text-center lg:text-left">
-              <p className="mb-4 text-xs font-semibold uppercase tracking-[0.3em] text-blue-100 sm:text-sm">
+              <p className="oman-kicker mb-4 text-xs font-semibold uppercase sm:text-sm">
                 Our Services
               </p>
               <h1 className="mx-auto max-w-3xl text-3xl font-bold leading-tight sm:text-4xl lg:mx-0 lg:text-5xl">
-                Free tutoring and student support across institutes and courses.
+                Free tutoring and student support presented through an Omani-inspired learning hub.
               </h1>
-              <p className="mx-auto mt-5 max-w-2xl text-base leading-7 text-blue-50 sm:mt-6 sm:text-lg sm:leading-8 lg:mx-0">
+              <p className="mx-auto mt-5 max-w-2xl text-base leading-7 text-[#f4e8d6] sm:mt-6 sm:text-lg sm:leading-8 lg:mx-0">
                 Ucan Oman helps students find tutors, course support, and study
                 communities through a simple frontend directory that can keep growing.
               </p>
             </div>
 
-            <div className="rounded-[1.75rem] bg-white/12 p-6 shadow-2xl ring-1 ring-white/20 backdrop-blur-sm sm:p-8">
-              <p className="text-xs font-semibold uppercase tracking-[0.25em] text-blue-100 sm:text-sm">
-                What you get
-              </p>
-              <h2 className="mt-4 text-xl font-semibold leading-8 sm:text-2xl sm:leading-9">
-                Separate sections for private and group tutoring.
-              </h2>
-              <div className="mt-6 space-y-4 text-sm leading-7 text-blue-50 sm:text-base">
-                <p>Browse private tutoring with its own institute and course filters.</p>
-                <p>Browse group tutoring with the same directory structure.</p>
-                <p>Open booking instructions and Calendly from the same popup.</p>
+            <div className="oman-card rounded-[1.75rem] p-4 text-[var(--oman-ink)] sm:p-5">
+              <div className="oman-photo-frame aspect-[4/5]">
+                <img
+                  src={themeImages.studentsGroup}
+                  alt="Students gathering around laptops and books"
+                />
               </div>
+              <p className="mt-4 text-sm leading-7 text-[var(--oman-ink)]/80">
+                Browse private tutoring, group sessions, and expanding study support in a directory designed to feel both clear and culturally distinctive.
+              </p>
             </div>
           </div>
         </div>
       </section>
 
       <section className="mx-auto max-w-6xl px-4 py-12 sm:px-6 sm:py-16">
-        <div className="grid gap-4 rounded-[1.75rem] bg-white p-5 shadow-sm ring-1 ring-slate-200 sm:gap-6 sm:p-8 md:grid-cols-3">
+        <div className="grid gap-4 rounded-[1.75rem] oman-card p-5 sm:gap-6 sm:p-8 md:grid-cols-3">
           {serviceHighlights.map((item) => (
-            <div key={item.label} className="rounded-2xl bg-slate-50 p-5 text-center sm:p-6">
-              <p className="text-2xl font-bold text-blue-700 sm:text-3xl">{item.number}</p>
-              <p className="mt-2 text-sm leading-6 text-slate-600">{item.label}</p>
+            <div key={item.label} className="rounded-2xl oman-outline-panel p-5 text-center sm:p-6">
+              <p className="oman-stat-number text-2xl font-bold sm:text-3xl">{item.number}</p>
+              <p className="mt-2 text-sm leading-6 text-[var(--oman-ink)]/75">{item.label}</p>
             </div>
           ))}
         </div>
@@ -341,10 +343,10 @@ export default function Services() {
 
       <section className="mx-auto max-w-6xl px-4 py-4 sm:px-6 sm:py-8">
         <div className="max-w-2xl text-center lg:text-left">
-          <p className="text-xs font-semibold uppercase tracking-[0.3em] text-blue-700 sm:text-sm">
+          <p className="oman-section-kicker text-xs font-semibold uppercase sm:text-sm">
             What Else We Offer
           </p>
-          <h2 className="mt-4 text-2xl font-semibold text-slate-900 sm:text-3xl">
+          <h2 className="oman-title-accent mt-4 text-2xl font-semibold sm:text-3xl">
             More free ways for students to study better and support each other.
           </h2>
         </div>
@@ -353,10 +355,10 @@ export default function Services() {
           {services.map((service) => (
             <article
               key={service.title}
-              className="rounded-3xl bg-white p-6 shadow-sm ring-1 ring-slate-200 sm:p-8"
+              className="rounded-3xl oman-card p-6 sm:p-8"
             >
-              <h3 className="text-xl font-semibold text-slate-900">{service.title}</h3>
-              <p className="mt-4 leading-7 text-slate-600">{service.description}</p>
+              <h3 className="text-xl font-semibold text-[var(--oman-ink)]">{service.title}</h3>
+              <p className="mt-4 leading-7 text-[var(--oman-ink)]/75">{service.description}</p>
             </article>
           ))}
         </div>
@@ -364,15 +366,15 @@ export default function Services() {
 
       <section className="mx-auto grid max-w-6xl gap-8 px-4 py-16 sm:px-6 sm:py-20 lg:grid-cols-[0.9fr_1.1fr] lg:gap-10">
         <div className="text-center lg:text-left">
-          <p className="text-xs font-semibold uppercase tracking-[0.3em] text-blue-700 sm:text-sm">
+          <p className="oman-section-kicker text-xs font-semibold uppercase sm:text-sm">
             Why It Matters
           </p>
-          <h2 className="mt-4 text-2xl font-semibold text-slate-900 sm:text-3xl">
+          <h2 className="oman-title-accent mt-4 text-2xl font-semibold sm:text-3xl">
             Students need support that is free, practical, and connected to real coursework.
           </h2>
         </div>
 
-        <div className="space-y-5 text-base leading-7 text-slate-600 sm:text-lg sm:leading-8">
+        <div className="space-y-5 rounded-[1.75rem] oman-card p-6 text-base leading-7 text-[var(--oman-ink)]/75 sm:p-8 sm:text-lg sm:leading-8">
           <p>
             Ucan Oman helps students find the support they need most:
             explanation, tutoring, study materials, and communities where asking for help feels easier.
@@ -385,53 +387,53 @@ export default function Services() {
       </section>
 
       <section className="mx-auto max-w-6xl px-4 pb-16 sm:px-6 sm:pb-20">
-        <div className="rounded-[1.75rem] bg-slate-900 px-6 py-10 text-center text-white shadow-xl sm:px-8 sm:py-12">
-          <p className="text-xs font-semibold uppercase tracking-[0.3em] text-cyan-300 sm:text-sm">
+        <div className="rounded-[1.75rem] oman-dark-panel px-6 py-10 text-center text-white sm:px-8 sm:py-12">
+          <p className="oman-kicker text-xs font-semibold uppercase sm:text-sm">
             Start Your Journey
           </p>
           <h2 className="mt-4 text-2xl font-semibold sm:text-3xl">
             Explore free tutoring, resources, and course communities today.
           </h2>
-          <p className="mx-auto mt-6 max-w-3xl text-base leading-7 text-slate-300 sm:text-lg sm:leading-8">
+          <p className="mx-auto mt-6 max-w-3xl text-base leading-7 text-[#eadfcf] sm:text-lg sm:leading-8">
             Ucan Oman is built to help students find support faster and improve
             their understanding across the courses they are taking.
           </p>
-          <button className="mt-8 w-full rounded-2xl bg-cyan-400 px-8 py-3 font-semibold text-slate-950 transition hover:bg-cyan-300 sm:w-auto">
+          <button className="oman-button-primary mt-8 w-full rounded-2xl px-8 py-3 font-semibold transition sm:w-auto">
             Explore Courses
           </button>
         </div>
       </section>
 
-      <footer className="border-t border-slate-200 bg-white px-4 py-8 text-center text-sm text-slate-500 sm:px-6">
+      <footer className="border-t border-[rgba(111,49,29,0.12)] bg-[rgba(255,248,238,0.9)] px-4 py-8 text-center text-sm text-[var(--oman-ink)]/70 sm:px-6">
         Copyright {new Date().getFullYear()} Ucan Oman. Free learning support for everyone.
       </footer>
 
       {activeTutor && (
         <div className="fixed inset-0 z-[70] flex items-center justify-center bg-slate-950/65 px-4 py-6">
-          <div className="relative max-h-[90vh] w-full max-w-2xl overflow-y-auto rounded-[1.75rem] bg-white p-6 shadow-2xl sm:p-8">
+          <div className="relative max-h-[90vh] w-full max-w-2xl overflow-y-auto rounded-[1.75rem] oman-card p-6 sm:p-8">
             <button
               type="button"
               onClick={() => setActiveTutor(null)}
-              className="absolute right-4 top-4 rounded-full bg-slate-100 px-3 py-2 text-sm font-semibold text-slate-700 transition hover:bg-slate-200"
+              className="absolute right-4 top-4 rounded-full bg-[rgba(197,154,68,0.12)] px-3 py-2 text-sm font-semibold text-[var(--oman-terracotta-dark)] transition hover:bg-[rgba(197,154,68,0.2)]"
               aria-label="Close popup"
             >
               Close
             </button>
 
-            <p className="text-xs font-semibold uppercase tracking-[0.3em] text-blue-700 sm:text-sm">
+            <p className="oman-section-kicker text-xs font-semibold uppercase sm:text-sm">
               Booking Instructions
             </p>
-            <h3 className="mt-4 pr-16 text-2xl font-semibold text-slate-900 sm:text-3xl">
+            <h3 className="oman-title-accent mt-4 pr-16 text-2xl font-semibold sm:text-3xl">
               Before booking with {activeTutor.name}
             </h3>
 
-            <div className="mt-6 rounded-3xl bg-slate-50 p-5 ring-1 ring-slate-200 sm:p-6">
-              <p className="text-base leading-7 text-slate-700">
+            <div className="mt-6 rounded-3xl oman-outline-panel p-5 sm:p-6">
+              <p className="text-base leading-7 text-[var(--oman-ink)]">
                 please send an email to :{" "}
                 <span className="font-semibold">20258971@mcbs.edu.om</span>
               </p>
 
-              <div className="mt-5 space-y-4 text-base leading-7 text-slate-700">
+              <div className="mt-5 space-y-4 text-base leading-7 text-[var(--oman-ink)]">
                 <p>with the following:</p>
                 <p>Insitiute name (MCBS.....):</p>
                 <p>Course Name + Course Code (Example: MAT255 ):</p>
@@ -446,7 +448,7 @@ export default function Services() {
             <div className="mt-6 flex flex-col gap-3 sm:flex-row">
               <a
                 href="mailto:20258971@mcbs.edu.om"
-                className="inline-flex w-full items-center justify-center rounded-2xl bg-cyan-400 px-6 py-3 text-center font-semibold text-slate-950 transition hover:bg-cyan-300 sm:w-auto"
+                className="oman-button-primary inline-flex w-full items-center justify-center rounded-2xl px-6 py-3 text-center font-semibold transition sm:w-auto"
               >
                 Open Email App
               </a>
@@ -454,7 +456,7 @@ export default function Services() {
                 href={activeTutor.bookingUrl}
                 target="_blank"
                 rel="noreferrer"
-                className="inline-flex w-full items-center justify-center rounded-2xl border border-slate-200 px-6 py-3 text-center font-semibold text-slate-700 transition hover:bg-slate-50 sm:w-auto"
+                className="inline-flex w-full items-center justify-center rounded-2xl border border-[rgba(111,49,29,0.14)] bg-[rgba(255,252,247,0.92)] px-6 py-3 text-center font-semibold text-[var(--oman-terracotta-dark)] transition hover:bg-[rgba(197,154,68,0.08)] sm:w-auto"
               >
                 Open Calendly Booking
               </a>
