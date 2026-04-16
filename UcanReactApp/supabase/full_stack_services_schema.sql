@@ -18,12 +18,17 @@ create table if not exists public.courses (
 
 create table if not exists public.tutor_profiles (
   id uuid primary key references public.profiles(id) on delete cascade,
+  display_name text,
+  institute_code text,
   bio text,
   booking_url text,
   is_active boolean not null default true,
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now()
 );
+
+alter table public.tutor_profiles add column if not exists display_name text;
+alter table public.tutor_profiles add column if not exists institute_code text;
 
 create table if not exists public.tutor_course_offerings (
   id uuid primary key default gen_random_uuid(),
@@ -174,9 +179,11 @@ join (
 on conflict (institute_id, code) do update
 set title = excluded.title;
 
-insert into public.tutor_profiles (id, bio, booking_url, is_active)
+insert into public.tutor_profiles (id, display_name, institute_code, bio, booking_url, is_active)
 select
   profiles.id,
+  profiles.full_name,
+  profiles.institute,
   'Offers free tutoring support for selected MCBS courses through Ucan Oman.',
   'https://calendly.com/ahmed4014e/30min',
   true
@@ -184,9 +191,22 @@ from public.profiles
 where profiles.email = 'ahmed4014e@gmail.com'
   and profiles.role = 'tutor'
 on conflict (id) do update
-set bio = excluded.bio,
+set display_name = excluded.display_name,
+    institute_code = excluded.institute_code,
+    bio = excluded.bio,
     booking_url = excluded.booking_url,
     is_active = excluded.is_active;
+
+update public.tutor_profiles
+set
+  display_name = profiles.full_name,
+  institute_code = profiles.institute
+from public.profiles
+where profiles.id = tutor_profiles.id
+  and (
+    tutor_profiles.display_name is distinct from profiles.full_name
+    or tutor_profiles.institute_code is distinct from profiles.institute
+  );
 
 insert into public.tutor_course_offerings (tutor_id, course_id, session_type, is_active)
 select

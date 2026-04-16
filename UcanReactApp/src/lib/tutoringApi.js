@@ -18,14 +18,11 @@ export async function fetchTutorDirectory() {
         is_active,
         tutor:tutor_profiles (
           id,
+          display_name,
+          institute_code,
           bio,
           booking_url,
-          is_active,
-          profile:profiles!tutor_profiles_id_fkey (
-            full_name,
-            institute,
-            email
-          )
+          is_active
         ),
         course:courses (
           id,
@@ -48,7 +45,7 @@ export async function fetchTutorDirectory() {
 
   return (data ?? [])
     .filter((entry) => entry.tutor?.is_active)
-    .filter((entry) => entry.tutor?.profile?.full_name)
+    .filter((entry) => entry.tutor?.display_name)
     .filter((entry) => entry.course?.institute?.code);
 }
 
@@ -60,7 +57,7 @@ export function buildTutorCards(offerings, sessionType) {
     .forEach((entry) => {
       const tutorId = entry.tutor.id;
       const key = `${tutorId}:${sessionType}`;
-      const tutorName = entry.tutor.profile.full_name;
+      const tutorName = entry.tutor.display_name;
       const instituteCode = entry.course.institute.code;
       const courseLabel = `${instituteCode} ${entry.course.code}`;
 
@@ -69,7 +66,7 @@ export function buildTutorCards(offerings, sessionType) {
           id: key,
           tutorId,
           name: tutorName,
-          institute: instituteCode,
+          institute: entry.tutor.institute_code || instituteCode,
           institutes: new Set(),
           courses: [],
           courseIds: [],
