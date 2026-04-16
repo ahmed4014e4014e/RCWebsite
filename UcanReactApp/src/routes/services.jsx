@@ -409,7 +409,7 @@ export default function Services() {
       </footer>
 
       {activeTutor && (
-        <div className="fixed inset-0 z-[70] flex items-center justify-center bg-slate-950/65 px-4 py-6">
+        <div className="oman-overlay fixed inset-0 z-[70] flex items-center justify-center bg-slate-950/65 px-4 py-6">
           <div className="relative max-h-[90vh] w-full max-w-2xl overflow-y-auto rounded-[1.75rem] oman-card p-6 sm:p-8">
             <button
               type="button"

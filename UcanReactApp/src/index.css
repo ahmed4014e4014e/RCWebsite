@@ -48,7 +48,7 @@ body {
   pointer-events: none;
 }
 
-.oman-page > * {
+.oman-page > :not(.oman-overlay) {
   position: relative;
   z-index: 1;
 }
