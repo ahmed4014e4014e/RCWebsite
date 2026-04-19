@@ -45,6 +45,15 @@ const serviceHighlights = [
   { number: "Saved", label: "tutoring requests stored in the database" },
 ];
 
+function getTutorInitials(name) {
+  return name
+    .split(" ")
+    .filter(Boolean)
+    .slice(0, 2)
+    .map((part) => part[0]?.toUpperCase() || "")
+    .join("");
+}
+
 function filterTutorCards(tutors, selectedInstitute, selectedCourse) {
   return tutors.filter((tutor) => {
     const instituteMatches =
@@ -98,6 +107,10 @@ function TutorSection({
       return instituteMatches && courseMatches;
     });
   }, [selectedCourse, selectedInstitute, tutors]);
+
+  const totalCoursesAvailable = useMemo(() => {
+    return filteredTutors.reduce((count, tutor) => count + tutor.courses.length, 0);
+  }, [filteredTutors]);
 
   useEffect(() => {
     if (!availableCourses.includes(selectedCourse)) {
@@ -164,6 +177,35 @@ function TutorSection({
           </label>
         </div>
 
+        {!loading && filteredTutors.length > 0 && (
+          <div className="mt-6 rounded-3xl border border-[rgba(197,154,68,0.24)] bg-[rgba(255,244,222,0.74)] p-5 text-[var(--oman-ink)] shadow-sm">
+            <p className="text-xs font-semibold uppercase tracking-[0.22em] text-[var(--oman-terracotta)]">
+              Available Now
+            </p>
+            <p className="mt-3 text-lg font-semibold sm:text-xl">
+              {filteredTutors.length} tutor{filteredTutors.length === 1 ? "" : "s"} available for{" "}
+              {title.toLowerCase()}
+            </p>
+            <p className="mt-2 text-sm leading-6 text-[var(--oman-ink)]/75 sm:text-base">
+              {totalCoursesAvailable} course offering
+              {totalCoursesAvailable === 1 ? "" : "s"} currently match your selected filters.
+            </p>
+            <div className="mt-4 flex flex-wrap gap-2">
+              {filteredTutors.map((tutor) => (
+                <span
+                  key={`${id}-summary-${tutor.id}`}
+                  className="inline-flex items-center gap-2 rounded-full bg-[rgba(255,252,247,0.96)] px-4 py-2 text-sm font-semibold text-[var(--oman-terracotta-dark)] ring-1 ring-[rgba(111,49,29,0.12)]"
+                >
+                  <span className="flex h-7 w-7 items-center justify-center rounded-full bg-[rgba(197,154,68,0.18)] text-xs font-bold text-[var(--oman-terracotta-dark)]">
+                    {getTutorInitials(tutor.name)}
+                  </span>
+                  {tutor.name}
+                </span>
+              ))}
+            </div>
+          </div>
+        )}
+
         <div className="mt-8 grid gap-6 lg:grid-cols-2">
           {loading ? (
             <div className="rounded-3xl oman-outline-panel p-6 text-center sm:p-8 lg:col-span-2">
@@ -176,33 +218,71 @@ function TutorSection({
             </div>
           ) : filteredTutors.length > 0 ? (
             filteredTutors.map((tutor) => (
-              <article key={`${id}-${tutor.id}`} className="rounded-3xl oman-outline-panel p-6 sm:p-8">
-                <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center">
-                  <h3 className="text-xl font-semibold text-[var(--oman-ink)]">{tutor.name}</h3>
-                  <span className="oman-chip rounded-full px-3 py-1 text-xs font-semibold uppercase tracking-[0.18em]">
+              <article
+                key={`${id}-${tutor.id}`}
+                className="rounded-3xl border-2 border-[rgba(197,154,68,0.22)] bg-[rgba(255,252,247,0.96)] p-6 shadow-[0_16px_38px_rgba(73,39,27,0.1)] transition hover:-translate-y-1 hover:shadow-[0_22px_46px_rgba(73,39,27,0.12)] sm:p-8"
+              >
+                <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+                  <div className="flex items-start gap-4">
+                    <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-[linear-gradient(135deg,rgba(197,154,68,0.24),rgba(155,77,49,0.22))] text-lg font-bold text-[var(--oman-terracotta-dark)] ring-1 ring-[rgba(111,49,29,0.1)]">
+                      {getTutorInitials(tutor.name)}
+                    </div>
+                    <div>
+                      <h3 className="text-xl font-semibold text-[var(--oman-ink)]">
+                        {tutor.name}
+                      </h3>
+                      <p className="mt-2 text-sm font-medium uppercase tracking-[0.18em] text-[var(--oman-brass)]">
+                        Free tutoring tutor profile
+                      </p>
+                    </div>
+                  </div>
+
+                  <span className="oman-chip self-start rounded-full px-3 py-1 text-xs font-semibold uppercase tracking-[0.18em]">
                     {tutor.institutes.length === 1 ? tutor.institutes[0] : "Multi Institute"}
                   </span>
                 </div>
 
                 <p className="mt-4 leading-7 text-[var(--oman-ink)]/75">{tutor.bio}</p>
 
-                <p className="mt-5 text-sm font-semibold uppercase tracking-[0.18em] text-[var(--oman-terracotta)]/80">
-                  Courses
-                </p>
+                <div className="mt-5 grid gap-3 sm:grid-cols-2">
+                  <div className="rounded-2xl bg-[rgba(244,232,214,0.42)] px-4 py-3">
+                    <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[var(--oman-terracotta)]/80">
+                      Session Type
+                    </p>
+                    <p className="mt-2 text-sm font-semibold text-[var(--oman-ink)]">
+                      {tutor.sessionType === "private"
+                        ? "Private one-on-one tutoring"
+                        : "Group tutoring session"}
+                    </p>
+                  </div>
+                  <div className="rounded-2xl bg-[rgba(244,232,214,0.42)] px-4 py-3">
+                    <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[var(--oman-terracotta)]/80">
+                      Availability
+                    </p>
+                    <p className="mt-2 text-sm font-semibold text-[var(--oman-olive)]">
+                      {tutor.availability}
+                    </p>
+                  </div>
+                </div>
+
+                <div className="mt-5 flex items-center justify-between gap-3">
+                  <p className="text-sm font-semibold uppercase tracking-[0.18em] text-[var(--oman-terracotta)]/80">
+                    Courses
+                  </p>
+                  <span className="rounded-full bg-[rgba(197,154,68,0.12)] px-3 py-1 text-xs font-semibold uppercase tracking-[0.14em] text-[var(--oman-terracotta-dark)]">
+                    {tutor.courses.length} offered
+                  </span>
+                </div>
                 <div className="mt-3 flex flex-wrap gap-2">
                   {tutor.courses.map((course) => (
                     <span
                       key={`${id}-${tutor.id}-${course.id}`}
-                      className="rounded-full bg-[rgba(255,252,247,0.96)] px-3 py-2 text-sm font-medium text-[var(--oman-ink)] ring-1 ring-[rgba(111,49,29,0.12)]"
+                      className="rounded-full bg-[rgba(255,252,247,0.98)] px-3 py-2 text-sm font-medium text-[var(--oman-ink)] ring-1 ring-[rgba(111,49,29,0.12)]"
                     >
                       {course.label}
                     </span>
                   ))}
                 </div>
-
-                <p className="mt-5 text-sm font-medium text-[var(--oman-olive)]">
-                  {tutor.availability}
-                </p>
 
                 <button
                   type="button"
@@ -455,6 +535,44 @@ export default function Services() {
               <p className="mt-2 text-sm leading-6 text-[var(--oman-ink)]/75">{item.label}</p>
             </div>
           ))}
+        </div>
+      </section>
+
+      <section className="mx-auto max-w-6xl px-4 py-2 sm:px-6 sm:py-4">
+        <div className="grid gap-4 md:grid-cols-3">
+          <div className="rounded-[1.6rem] oman-card p-5 sm:p-6">
+            <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[var(--oman-terracotta)]">
+              Tutor Directory
+            </p>
+            <p className="mt-3 text-lg font-semibold text-[var(--oman-ink)]">
+              Browse live tutors by institute and course.
+            </p>
+            <p className="mt-2 text-sm leading-6 text-[var(--oman-ink)]/75">
+              Every tutor card below is now powered by your Supabase course offering data.
+            </p>
+          </div>
+          <div className="rounded-[1.6rem] oman-card p-5 sm:p-6">
+            <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[var(--oman-terracotta)]">
+              Student Booking
+            </p>
+            <p className="mt-3 text-lg font-semibold text-[var(--oman-ink)]">
+              Save a tutoring request before scheduling.
+            </p>
+            <p className="mt-2 text-sm leading-6 text-[var(--oman-ink)]/75">
+              Logged-in students can submit their request details, then continue to email and Calendly.
+            </p>
+          </div>
+          <div className="rounded-[1.6rem] oman-card p-5 sm:p-6">
+            <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[var(--oman-terracotta)]">
+              Scalable Setup
+            </p>
+            <p className="mt-3 text-lg font-semibold text-[var(--oman-ink)]">
+              Add more tutors without changing the page layout.
+            </p>
+            <p className="mt-2 text-sm leading-6 text-[var(--oman-ink)]/75">
+              New tutors, institutes, and courses will slot directly into this directory structure.
+            </p>
+          </div>
         </div>
       </section>
 
