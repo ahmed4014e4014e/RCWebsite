@@ -80,6 +80,7 @@ function TutorSection({
   canBook,
   institutes,
   loading,
+  authLoading,
 }) {
   const availableCourses = useMemo(() => {
     const relevantTutors =
@@ -96,6 +97,8 @@ function TutorSection({
 
   const hasCourseOptions = availableCourses.length > 1;
   const shouldHideDirectory = !canBook;
+  const showLoginPrompt = !canBook;
+  const showDirectoryLoading = canBook && (authLoading || loading);
 
   const filteredTutors = useMemo(() => {
     return tutors.filter((tutor) => {
@@ -208,7 +211,7 @@ function TutorSection({
         )}
 
         <div className="mt-8 grid gap-6 lg:grid-cols-2">
-          {shouldHideDirectory ? (
+          {showLoginPrompt ? (
             <div className="rounded-3xl oman-outline-panel p-6 text-center sm:p-8 lg:col-span-2">
               <h3 className="text-xl font-semibold text-[var(--oman-ink)]">
                 Please login / sign up to view available tutors
@@ -218,7 +221,7 @@ function TutorSection({
                 directory and continue with booking.
               </p>
             </div>
-          ) : loading ? (
+          ) : showDirectoryLoading ? (
             <div className="rounded-3xl oman-outline-panel p-6 text-center sm:p-8 lg:col-span-2">
               <h3 className="text-xl font-semibold text-[var(--oman-ink)]">
                 Loading tutor directory...
@@ -334,7 +337,7 @@ function TutorSection({
 }
 
 export default function Services() {
-  const { user, profile } = useAuth();
+  const { user, profile, loading: authLoading } = useAuth();
   const [privateInstitute, setPrivateInstitute] = useState("All Institutes");
   const [privateCourse, setPrivateCourse] = useState("All Courses");
   const [groupInstitute, setGroupInstitute] = useState("All Institutes");
@@ -684,6 +687,7 @@ export default function Services() {
         canBook={canBook}
         institutes={instituteOptions}
         loading={directoryLoading}
+        authLoading={authLoading}
       />
 
       <TutorSection
@@ -700,6 +704,7 @@ export default function Services() {
         canBook={canBook}
         institutes={instituteOptions}
         loading={directoryLoading}
+        authLoading={authLoading}
       />
 
       <section className="mx-auto max-w-6xl px-4 py-4 sm:px-6 sm:py-8">
