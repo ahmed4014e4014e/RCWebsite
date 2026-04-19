@@ -355,7 +355,7 @@ export default function Services() {
   const [requestMessage, setRequestMessage] = useState("");
   const [requestMessageType, setRequestMessageType] = useState("info");
   const location = useLocation();
-  const canBook = Boolean(user);
+  const canBook = Boolean(user?.id && profile?.role);
 
   const instituteOptions = useMemo(() => {
     const instituteCodes = new Set();
