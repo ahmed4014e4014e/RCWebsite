@@ -45,6 +45,18 @@ const serviceHighlights = [
   { number: "Saved", label: "tutoring requests stored in the database" },
 ];
 
+function filterTutorCards(tutors, selectedInstitute, selectedCourse) {
+  return tutors.filter((tutor) => {
+    const instituteMatches =
+      selectedInstitute === "All Institutes" || tutor.institutes.includes(selectedInstitute);
+    const courseMatches =
+      selectedCourse === "All Courses" ||
+      tutor.courses.some((course) => course.label === selectedCourse);
+
+    return instituteMatches && courseMatches;
+  });
+}
+
 function TutorSection({
   id,
   label,
@@ -261,6 +273,16 @@ export default function Services() {
     return ["All Institutes", ...Array.from(instituteCodes).sort()];
   }, [groupTutors, privateTutors]);
 
+  const visiblePrivateTutors = useMemo(
+    () => filterTutorCards(privateTutors, privateInstitute, privateCourse),
+    [privateCourse, privateInstitute, privateTutors]
+  );
+
+  const visibleGroupTutors = useMemo(
+    () => filterTutorCards(groupTutors, groupInstitute, groupCourse),
+    [groupCourse, groupInstitute, groupTutors]
+  );
+
   useEffect(() => {
     if (!location.hash) return;
 
@@ -460,8 +482,23 @@ export default function Services() {
               <span className="font-semibold">Group tutor cards:</span> {groupTutors.length}
             </p>
             <p>
+              <span className="font-semibold">Visible private cards:</span>{" "}
+              {visiblePrivateTutors.length}
+            </p>
+            <p>
+              <span className="font-semibold">Visible group cards:</span>{" "}
+              {visibleGroupTutors.length}
+            </p>
+            <p>
               <span className="font-semibold">Visible institutes:</span>{" "}
               {Math.max(instituteOptions.length - 1, 0)}
+            </p>
+            <p>
+              <span className="font-semibold">Private filter:</span> {privateInstitute} /{" "}
+              {privateCourse}
+            </p>
+            <p>
+              <span className="font-semibold">Group filter:</span> {groupInstitute} / {groupCourse}
             </p>
             <p className="sm:col-span-2 lg:col-span-4">
               <span className="font-semibold">Directory error:</span>{" "}
