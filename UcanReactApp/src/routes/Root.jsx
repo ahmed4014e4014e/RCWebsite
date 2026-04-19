@@ -1,7 +1,17 @@
-import { useState } from "react";
-import { Outlet, NavLink } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Outlet, NavLink, useLocation } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { getDashboardPath, getUserRole } from "../lib/authRouting";
+
+function ScrollToTopOnRouteChange() {
+  const location = useLocation();
+
+  useEffect(() => {
+    window.scrollTo({ top: 0, left: 0, behavior: "auto" });
+  }, [location.pathname]);
+
+  return null;
+}
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
@@ -31,6 +41,7 @@ export default function Navbar() {
 
   return (
     <>
+      <ScrollToTopOnRouteChange />
       <nav className="fixed left-0 top-0 z-50 w-full border-b border-[rgba(111,49,29,0.12)] bg-[rgba(255,248,238,0.88)] shadow-sm backdrop-blur">
         <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-4 sm:px-6">
           <div>
