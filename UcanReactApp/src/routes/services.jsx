@@ -95,6 +95,7 @@ function TutorSection({
   }, [selectedInstitute, tutors]);
 
   const hasCourseOptions = availableCourses.length > 1;
+  const shouldHideDirectory = !canBook;
 
   const filteredTutors = useMemo(() => {
     return tutors.filter((tutor) => {
@@ -207,7 +208,17 @@ function TutorSection({
         )}
 
         <div className="mt-8 grid gap-6 lg:grid-cols-2">
-          {loading ? (
+          {shouldHideDirectory ? (
+            <div className="rounded-3xl oman-outline-panel p-6 text-center sm:p-8 lg:col-span-2">
+              <h3 className="text-xl font-semibold text-[var(--oman-ink)]">
+                Please login / sign up to view available tutors
+              </h3>
+              <p className="mt-4 leading-7 text-[var(--oman-ink)]/75">
+                Create an account or log in first to access the private and group tutoring
+                directory and continue with booking.
+              </p>
+            </div>
+          ) : loading ? (
             <div className="rounded-3xl oman-outline-panel p-6 text-center sm:p-8 lg:col-span-2">
               <h3 className="text-xl font-semibold text-[var(--oman-ink)]">
                 Loading tutor directory...
