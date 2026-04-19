@@ -506,8 +506,7 @@ export default function Services() {
                 Free tutoring and student support presented through a full-stack learning hub.
               </h1>
               <p className="mx-auto mt-5 max-w-2xl text-base leading-7 text-[#f4e8d6] sm:mt-6 sm:text-lg sm:leading-8 lg:mx-0">
-                Ucan Oman now loads tutor offerings from Supabase and can save student tutoring
-                requests directly into the database.
+                Ucan Oman now loads tutor offerings from the community - based platform updated regularely with our rapid increasing fan base!
               </p>
             </div>
 
@@ -519,8 +518,7 @@ export default function Services() {
                 />
               </div>
               <p className="mt-4 text-sm leading-7 text-[var(--oman-ink)]/80">
-                Explore private tutoring, group sessions, and live course offerings that can now
-                grow from your database instead of fixed frontend arrays.
+                Explore private tutoring, group sessions, and live course offerings to enhance your understanding and get better grades confidentely.
               </p>
             </div>
           </div>
@@ -548,7 +546,7 @@ export default function Services() {
               Browse live tutors by institute and course.
             </p>
             <p className="mt-2 text-sm leading-6 text-[var(--oman-ink)]/75">
-              Every tutor card below is now powered by your Supabase course offering data.
+              Every tutor card below is regularely updated depending the new tutors on every institute.
             </p>
           </div>
           <div className="rounded-[1.6rem] oman-card p-5 sm:p-6">
@@ -564,10 +562,10 @@ export default function Services() {
           </div>
           <div className="rounded-[1.6rem] oman-card p-5 sm:p-6">
             <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[var(--oman-terracotta)]">
-              Scalable Setup
+              Dynamic Environment
             </p>
             <p className="mt-3 text-lg font-semibold text-[var(--oman-ink)]">
-              Add more tutors without changing the page layout.
+              Adding more tutors from different institutes covering a wide range of diversified courses collection.
             </p>
             <p className="mt-2 text-sm leading-6 text-[var(--oman-ink)]/75">
               New tutors, institutes, and courses will slot directly into this directory structure.
