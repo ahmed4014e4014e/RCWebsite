@@ -27,9 +27,11 @@ export default function Navbar() {
   const guestLinks = [
     { name: "Student Access", to: "/student-access/" },
     { name: "Tutor Access", to: "/tutor-access/" },
+    { name: "Admin Access", to: "/admin-access/" },
   ];
   const memberLinks = [{ name: "Dashboard", to: getDashboardPath(role) }];
-  const links = [...baseLinks, ...guestLinks, ...(user ? memberLinks : [])];
+  const adminLinks = role === "admin" ? [{ name: "Admin Dashboard", to: "/admin-dashboard/" }] : [];
+  const links = [...baseLinks, ...guestLinks, ...(user ? memberLinks : []), ...adminLinks];
 
   const navLinkClass = ({ isActive }) =>
     [
