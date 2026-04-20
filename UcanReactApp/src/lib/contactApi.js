@@ -9,15 +9,24 @@ function ensureSupabase() {
 export async function createContactMessage(payload) {
   ensureSupabase();
 
+  const { error } = await supabase.from("contact_messages").insert(payload);
+
+  if (error) {
+    throw error;
+  }
+}
+
+export async function fetchContactMessages() {
+  ensureSupabase();
+
   const { data, error } = await supabase
     .from("contact_messages")
-    .insert(payload)
     .select("*")
-    .single();
+    .order("created_at", { ascending: false });
 
   if (error) {
     throw error;
   }
 
-  return data;
+  return data ?? [];
 }

@@ -8,6 +8,10 @@ export function getUserRole(profile, user, fallbackRole = "student") {
 }
 
 export function getDashboardPath(role) {
+  if (role === "admin") {
+    return "/admin-dashboard/";
+  }
+
   if (role === "tutor") {
     return "/tutor-dashboard/";
   }

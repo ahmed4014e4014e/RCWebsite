@@ -33,7 +33,7 @@ export default function RoleProtectedRoute({ allowedRole, children }) {
   const role = getUserRole(profile, user);
 
   if (role !== allowedRole) {
-    return <Navigate to={role === "tutor" ? "/tutor-dashboard/" : "/student-dashboard/"} replace />;
+    return <Navigate to={getDashboardPath(role)} replace />;
   }
 
   return children;

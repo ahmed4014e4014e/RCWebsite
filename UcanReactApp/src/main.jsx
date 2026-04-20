@@ -15,9 +15,11 @@ import Services from "./routes/services";
 import Contact from "./routes/contact";
 import TutorAccess from "./routes/tutorAccess";
 import StudentAccess from "./routes/studentAccess";
+import AdminAccess from "./routes/adminAccess";
 import Account from "./routes/account";
 import StudentDashboard from "./routes/studentDashboard";
 import TutorDashboard from "./routes/tutorDashboard";
+import AdminDashboard from "./routes/adminDashboard";
 
 // Create a Router
 const router = createBrowserRouter([
@@ -51,6 +53,10 @@ const router = createBrowserRouter([
         element: <TutorAccess />,
       },
       {
+        path: "admin-access",
+        element: <AdminAccess />,
+      },
+      {
         path: "student-access",
         element: <StudentAccess />,
       },
@@ -75,6 +81,14 @@ const router = createBrowserRouter([
         element: (
           <RoleProtectedRoute allowedRole="tutor">
             <TutorDashboard />
+          </RoleProtectedRoute>
+        ),
+      },
+      {
+        path: "admin-dashboard",
+        element: (
+          <RoleProtectedRoute allowedRole="admin">
+            <AdminDashboard />
           </RoleProtectedRoute>
         ),
       },
