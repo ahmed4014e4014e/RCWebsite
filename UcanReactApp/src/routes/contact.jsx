@@ -1,3 +1,7 @@
+import { useState } from "react";
+import { useAuth } from "../context/AuthContext";
+import { createContactMessage } from "../lib/contactApi";
+import { isSupabaseConfigured } from "../lib/supabase";
 import { themeImages } from "../lib/themeImages";
 
 const contactMethods = [
@@ -19,6 +23,74 @@ const contactMethods = [
 ];
 
 export default function Contact() {
+  const { user, profile } = useAuth();
+  const [formValues, setFormValues] = useState({
+    fullName: profile?.full_name || user?.user_metadata?.full_name || "",
+    email: profile?.email || user?.email || "",
+    institute: profile?.institute || user?.user_metadata?.institute || "",
+    subject: "",
+    message: "",
+  });
+  const [submitState, setSubmitState] = useState({
+    loading: false,
+    type: "idle",
+    message: "",
+  });
+
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+    setFormValues((current) => ({
+      ...current,
+      [name]: value,
+    }));
+  };
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+
+    if (!isSupabaseConfigured) {
+      setSubmitState({
+        loading: false,
+        type: "error",
+        message: "Supabase is not configured yet, so the contact form cannot submit right now.",
+      });
+      return;
+    }
+
+    setSubmitState({
+      loading: true,
+      type: "idle",
+      message: "",
+    });
+
+    try {
+      await createContactMessage({
+        full_name: formValues.fullName.trim(),
+        email: formValues.email.trim(),
+        institute: formValues.institute.trim() || null,
+        subject: formValues.subject.trim(),
+        message: formValues.message.trim(),
+      });
+
+      setSubmitState({
+        loading: false,
+        type: "success",
+        message: "Your message was submitted successfully. We will review it through Supabase.",
+      });
+      setFormValues((current) => ({
+        ...current,
+        subject: "",
+        message: "",
+      }));
+    } catch (error) {
+      setSubmitState({
+        loading: false,
+        type: "error",
+        message: error.message || "We could not submit your message right now.",
+      });
+    }
+  };
+
   return (
     <main className="oman-page min-h-screen text-slate-900">
       <section
@@ -56,25 +128,143 @@ export default function Contact() {
       </section>
 
       <section className="mx-auto max-w-6xl px-4 py-12 sm:px-6 sm:py-16">
-        <div className="max-w-2xl text-center lg:text-left">
-          <p className="oman-section-kicker text-xs font-semibold uppercase sm:text-sm">
-            Other Ways to Reach Us
-          </p>
-          <h2 className="oman-title-accent mt-4 text-2xl font-semibold sm:text-3xl">
-            Clear ways to connect with the Ucan Oman team.
-          </h2>
-        </div>
-
-        <div className="mt-10 grid gap-6 sm:mt-12 sm:gap-8 md:grid-cols-3">
-          {contactMethods.map((method) => (
-            <article key={method.title} className="rounded-3xl oman-card p-6 sm:p-8">
-              <h3 className="text-xl font-semibold text-[var(--oman-ink)]">{method.title}</h3>
-              <p className="mt-4 break-words text-lg font-medium text-[var(--oman-terracotta)]">
-                {method.value}
+        <div className="grid gap-8 lg:grid-cols-[1.05fr_0.95fr] lg:items-start lg:gap-10">
+          <div>
+            <div className="max-w-2xl text-center lg:text-left">
+              <p className="oman-section-kicker text-xs font-semibold uppercase sm:text-sm">
+                Contact Form
               </p>
-              <p className="mt-4 leading-7 text-[var(--oman-ink)]/75">{method.description}</p>
-            </article>
-          ))}
+              <h2 className="oman-title-accent mt-4 text-2xl font-semibold sm:text-3xl">
+                Send your message directly to Ucan Oman.
+              </h2>
+              <p className="mt-4 text-base leading-7 text-[var(--oman-ink)]/75 sm:text-lg sm:leading-8">
+                Fill in the form below and your message will be saved in Supabase so the team can
+                review it properly.
+              </p>
+            </div>
+
+            <form onSubmit={handleSubmit} className="mt-10 rounded-[1.75rem] oman-card p-6 sm:mt-12 sm:p-8">
+              <div className="grid gap-4 md:grid-cols-2">
+                <label className="flex flex-col gap-2">
+                  <span className="text-sm font-semibold text-[var(--oman-terracotta-dark)]">
+                    Full name
+                  </span>
+                  <input
+                    type="text"
+                    name="fullName"
+                    value={formValues.fullName}
+                    onChange={handleChange}
+                    required
+                    className="min-h-12 rounded-2xl border border-[rgba(111,49,29,0.14)] bg-[rgba(255,250,244,0.92)] px-4 py-3 text-[var(--oman-ink)] outline-none transition focus:border-[var(--oman-brass)] focus:bg-white"
+                  />
+                </label>
+
+                <label className="flex flex-col gap-2">
+                  <span className="text-sm font-semibold text-[var(--oman-terracotta-dark)]">
+                    Email
+                  </span>
+                  <input
+                    type="email"
+                    name="email"
+                    value={formValues.email}
+                    onChange={handleChange}
+                    required
+                    className="min-h-12 rounded-2xl border border-[rgba(111,49,29,0.14)] bg-[rgba(255,250,244,0.92)] px-4 py-3 text-[var(--oman-ink)] outline-none transition focus:border-[var(--oman-brass)] focus:bg-white"
+                  />
+                </label>
+              </div>
+
+              <div className="mt-4 grid gap-4">
+                <label className="flex flex-col gap-2">
+                  <span className="text-sm font-semibold text-[var(--oman-terracotta-dark)]">
+                    Institute
+                  </span>
+                  <input
+                    type="text"
+                    name="institute"
+                    value={formValues.institute}
+                    onChange={handleChange}
+                    placeholder="Example: MCBS"
+                    className="min-h-12 rounded-2xl border border-[rgba(111,49,29,0.14)] bg-[rgba(255,250,244,0.92)] px-4 py-3 text-[var(--oman-ink)] outline-none transition focus:border-[var(--oman-brass)] focus:bg-white"
+                  />
+                </label>
+
+                <label className="flex flex-col gap-2">
+                  <span className="text-sm font-semibold text-[var(--oman-terracotta-dark)]">
+                    Subject
+                  </span>
+                  <input
+                    type="text"
+                    name="subject"
+                    value={formValues.subject}
+                    onChange={handleChange}
+                    required
+                    placeholder="How can we help you?"
+                    className="min-h-12 rounded-2xl border border-[rgba(111,49,29,0.14)] bg-[rgba(255,250,244,0.92)] px-4 py-3 text-[var(--oman-ink)] outline-none transition focus:border-[var(--oman-brass)] focus:bg-white"
+                  />
+                </label>
+
+                <label className="flex flex-col gap-2">
+                  <span className="text-sm font-semibold text-[var(--oman-terracotta-dark)]">
+                    Message
+                  </span>
+                  <textarea
+                    name="message"
+                    value={formValues.message}
+                    onChange={handleChange}
+                    rows={6}
+                    required
+                    placeholder="Write your message here..."
+                    className="rounded-2xl border border-[rgba(111,49,29,0.14)] bg-[rgba(255,250,244,0.92)] px-4 py-3 text-[var(--oman-ink)] outline-none transition focus:border-[var(--oman-brass)] focus:bg-white"
+                  />
+                </label>
+              </div>
+
+              {submitState.message && (
+                <div
+                  className={[
+                    "mt-5 rounded-2xl px-4 py-3 text-sm leading-6",
+                    submitState.type === "error"
+                      ? "border border-[rgba(155,77,49,0.22)] bg-[rgba(255,239,232,0.95)] text-[var(--oman-terracotta-dark)]"
+                      : "border border-[rgba(82,101,74,0.22)] bg-[rgba(239,246,236,0.95)] text-[var(--oman-olive)]",
+                  ].join(" ")}
+                >
+                  {submitState.message}
+                </div>
+              )}
+
+              <button
+                type="submit"
+                disabled={submitState.loading}
+                className="oman-button-primary mt-6 inline-flex w-full items-center justify-center rounded-2xl px-6 py-3 text-center font-semibold transition disabled:cursor-not-allowed disabled:opacity-70 sm:w-auto"
+              >
+                {submitState.loading ? "Submitting..." : "Submit Contact Form"}
+              </button>
+            </form>
+          </div>
+
+          <div>
+            <div className="max-w-2xl text-center lg:text-left">
+              <p className="oman-section-kicker text-xs font-semibold uppercase sm:text-sm">
+                Other Ways to Reach Us
+              </p>
+              <h2 className="oman-title-accent mt-4 text-2xl font-semibold sm:text-3xl">
+                Clear ways to connect with the Ucan Oman team.
+              </h2>
+            </div>
+
+            <div className="mt-10 grid gap-6 sm:mt-12 sm:gap-8">
+              {contactMethods.map((method) => (
+                <article key={method.title} className="rounded-3xl oman-card p-6 sm:p-8">
+                  <h3 className="text-xl font-semibold text-[var(--oman-ink)]">{method.title}</h3>
+                  <p className="mt-4 break-words text-lg font-medium text-[var(--oman-terracotta)]">
+                    {method.value}
+                  </p>
+                  <p className="mt-4 leading-7 text-[var(--oman-ink)]/75">{method.description}</p>
+                </article>
+              ))}
+            </div>
+          </div>
         </div>
       </section>
 
