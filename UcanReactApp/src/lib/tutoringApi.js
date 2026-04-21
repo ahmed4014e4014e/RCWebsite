@@ -153,3 +153,45 @@ export async function uploadTutoringAttachments({ files, userId, tutorId, sessio
 
   return uploads;
 }
+
+export async function fetchAdminTutoringRequests() {
+  ensureSupabase();
+
+  const { data, error } = await supabase
+    .from("tutoring_requests")
+    .select(
+      `
+        id,
+        session_type,
+        institute_name_snapshot,
+        topics_needed_help_with,
+        attachment_notes,
+        attachment_files,
+        status,
+        created_at,
+        student:profiles!tutoring_requests_student_id_fkey (
+          id,
+          full_name,
+          email,
+          institute
+        ),
+        tutor:tutor_profiles!tutoring_requests_tutor_id_fkey (
+          id,
+          display_name,
+          institute_code
+        ),
+        course:courses!tutoring_requests_course_id_fkey (
+          id,
+          code,
+          title
+        )
+      `
+    )
+    .order("created_at", { ascending: false });
+
+  if (error) {
+    throw error;
+  }
+
+  return data ?? [];
+}
