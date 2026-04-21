@@ -96,10 +96,22 @@ export function AuthProvider({ children }) {
         setUser(currentSession?.user ?? null);
 
         if (currentSession?.user) {
-          setProfile(createMetadataProfile(currentSession.user));
-          await loadProfile(currentSession.user);
+          const fallbackProfile = createMetadataProfile(currentSession.user);
+          setProfile(fallbackProfile);
+          if (mounted) {
+            setLoading(false);
+          }
+
+          loadProfile(currentSession.user).catch(() => {
+            if (mounted) {
+              setProfile(fallbackProfile);
+            }
+          });
         } else {
           setProfile(null);
+          if (mounted) {
+            setLoading(false);
+          }
         }
       } finally {
         if (mounted) {
@@ -126,10 +138,22 @@ export function AuthProvider({ children }) {
         setUser(nextSession?.user ?? null);
 
         if (nextSession?.user) {
-          setProfile(createMetadataProfile(nextSession.user));
-          await loadProfile(nextSession.user);
+          const fallbackProfile = createMetadataProfile(nextSession.user);
+          setProfile(fallbackProfile);
+          if (mounted) {
+            setLoading(false);
+          }
+
+          loadProfile(nextSession.user).catch(() => {
+            if (mounted) {
+              setProfile(fallbackProfile);
+            }
+          });
         } else {
           setProfile(null);
+          if (mounted) {
+            setLoading(false);
+          }
         }
       } finally {
         if (mounted) {
