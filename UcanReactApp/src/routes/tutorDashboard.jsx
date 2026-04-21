@@ -12,7 +12,7 @@ const tutorActions = [
     action: "Open Services",
   },
   {
-    title: "Support Students",
+    title: "Contact Website Admin",
     description: "Use the contact page if you want to coordinate new tutoring support or updates.",
     to: "/contact/",
     action: "Open Contact",
@@ -257,29 +257,29 @@ export default function TutorDashboard() {
 
                   {(request.attachment_notes ||
                     (Array.isArray(request.attachment_files) && request.attachment_files.length > 0)) && (
-                    <div className="mt-4 rounded-2xl bg-[rgba(244,232,214,0.34)] px-4 py-4 text-[var(--oman-ink)]">
-                      <p className="text-sm font-semibold uppercase tracking-[0.16em] text-[var(--oman-terracotta)]">
-                        Attachment Details
-                      </p>
-                      {request.attachment_notes && (
-                        <p className="mt-3 whitespace-pre-wrap leading-7 text-[var(--oman-ink)]/80">
-                          {request.attachment_notes}
+                      <div className="mt-4 rounded-2xl bg-[rgba(244,232,214,0.34)] px-4 py-4 text-[var(--oman-ink)]">
+                        <p className="text-sm font-semibold uppercase tracking-[0.16em] text-[var(--oman-terracotta)]">
+                          Attachment Details
                         </p>
-                      )}
-                      {Array.isArray(request.attachment_files) && request.attachment_files.length > 0 && (
-                        <div className="mt-3 flex flex-wrap gap-2">
-                          {request.attachment_files.map((file) => (
-                            <span
-                              key={file.path || file.name}
-                              className="rounded-full bg-[rgba(255,252,247,0.98)] px-3 py-2 text-sm font-medium text-[var(--oman-ink)] ring-1 ring-[rgba(111,49,29,0.12)]"
-                            >
-                              {file.name || "Attachment"}
-                            </span>
-                          ))}
-                        </div>
-                      )}
-                    </div>
-                  )}
+                        {request.attachment_notes && (
+                          <p className="mt-3 whitespace-pre-wrap leading-7 text-[var(--oman-ink)]/80">
+                            {request.attachment_notes}
+                          </p>
+                        )}
+                        {Array.isArray(request.attachment_files) && request.attachment_files.length > 0 && (
+                          <div className="mt-3 flex flex-wrap gap-2">
+                            {request.attachment_files.map((file) => (
+                              <span
+                                key={file.path || file.name}
+                                className="rounded-full bg-[rgba(255,252,247,0.98)] px-3 py-2 text-sm font-medium text-[var(--oman-ink)] ring-1 ring-[rgba(111,49,29,0.12)]"
+                              >
+                                {file.name || "Attachment"}
+                              </span>
+                            ))}
+                          </div>
+                        )}
+                      </div>
+                    )}
                 </article>
               ))}
             </div>
