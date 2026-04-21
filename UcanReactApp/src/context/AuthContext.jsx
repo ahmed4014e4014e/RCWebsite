@@ -134,9 +134,10 @@ export function AuthProvider({ children }) {
   }, []);
 
   const signOut = async () => {
-    if (!isSupabaseConfigured || !supabase) return;
+    if (isSupabaseConfigured && supabase) {
+      await supabase.auth.signOut();
+    }
 
-    await supabase.auth.signOut();
     setSession(null);
     setUser(null);
     setProfile(null);

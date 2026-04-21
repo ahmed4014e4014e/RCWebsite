@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Outlet, NavLink, useLocation } from "react-router-dom";
+import { Outlet, NavLink, useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { getDashboardPath, getUserRole } from "../lib/authRouting";
 
@@ -15,6 +15,8 @@ function ScrollToTopOnRouteChange() {
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
+  const [logoutMessage, setLogoutMessage] = useState("");
+  const navigate = useNavigate();
   const { user, profile, signOut, loading } = useAuth();
   const role = getUserRole(profile, user);
 
@@ -41,9 +43,33 @@ export default function Navbar() {
         : "text-[var(--oman-ink)] hover:text-[var(--oman-terracotta)]",
     ].join(" ");
 
+  const handleLogout = async () => {
+    setOpen(false);
+    await signOut();
+    setLogoutMessage("You have logged out successfully.");
+    navigate("/home/", { replace: true });
+  };
+
+  useEffect(() => {
+    if (!logoutMessage) {
+      return undefined;
+    }
+
+    const timeoutId = window.setTimeout(() => {
+      setLogoutMessage("");
+    }, 3500);
+
+    return () => window.clearTimeout(timeoutId);
+  }, [logoutMessage]);
+
   return (
     <>
       <ScrollToTopOnRouteChange />
+      {logoutMessage && (
+        <div className="fixed left-1/2 top-20 z-[80] w-[min(92vw,32rem)] -translate-x-1/2 rounded-2xl border border-[rgba(82,101,74,0.22)] bg-[rgba(239,246,236,0.98)] px-5 py-4 text-sm font-medium text-[var(--oman-olive)] shadow-lg backdrop-blur">
+          {logoutMessage}
+        </div>
+      )}
       <nav className="fixed left-0 top-0 z-50 w-full border-b border-[rgba(111,49,29,0.12)] bg-[rgba(255,248,238,0.88)] shadow-sm backdrop-blur">
         <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-4 sm:px-6">
           <div>
@@ -73,7 +99,7 @@ export default function Navbar() {
             {!loading && user && (
               <button
                 type="button"
-                onClick={signOut}
+                onClick={handleLogout}
                 className="oman-button-secondary rounded-2xl px-4 py-2 text-sm font-semibold transition"
               >
                 Logout
@@ -115,10 +141,7 @@ export default function Navbar() {
               {!loading && user && (
                 <button
                   type="button"
-                  onClick={() => {
-                    setOpen(false);
-                    signOut();
-                  }}
+                  onClick={handleLogout}
                   className="oman-button-secondary rounded-2xl px-4 py-3 text-base font-medium transition"
                 >
                   Logout
