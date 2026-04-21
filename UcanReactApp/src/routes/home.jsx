@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { themeImages } from "../lib/themeImages";
+import ucanLogo from "../assets/campus-images/ucan-logo.png";
 
 const features = [
   {
@@ -78,8 +79,8 @@ export default function Home() {
             <div className="oman-card rounded-[1.75rem] p-4 text-[var(--oman-ink)] sm:p-5">
               <div className="oman-photo-frame aspect-[4/5]">
                 <img
-                  src={themeImages.studentsLibrary}
-                  alt="College students studying together in a modern library"
+                  src={ucanLogo}
+                  alt="Ucan logo"
                 />
               </div>
               <p className="mt-4 text-xs font-semibold uppercase tracking-[0.25em] text-[var(--oman-terracotta)] sm:text-sm">
