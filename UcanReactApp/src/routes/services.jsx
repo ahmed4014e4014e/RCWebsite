@@ -4,7 +4,12 @@ import { useEffect, useMemo, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { isSupabaseConfigured } from "../lib/supabase";
-import { buildTutorCards, createTutoringRequest, fetchTutorDirectory } from "../lib/tutoringApi";
+import {
+  buildTutorCards,
+  createTutoringRequest,
+  fetchTutorDirectory,
+  uploadTutoringAttachments,
+} from "../lib/tutoringApi";
 import { themeImages } from "../lib/themeImages";
 
 const services = [
@@ -352,6 +357,7 @@ export default function Services() {
   const [selectedCourseId, setSelectedCourseId] = useState("");
   const [topicsNeededHelpWith, setTopicsNeededHelpWith] = useState("");
   const [attachmentNotes, setAttachmentNotes] = useState("");
+  const [selectedAttachments, setSelectedAttachments] = useState([]);
   const [requestLoading, setRequestLoading] = useState(false);
   const [requestMessage, setRequestMessage] = useState("");
   const [requestMessageType, setRequestMessageType] = useState("info");
@@ -451,6 +457,7 @@ export default function Services() {
     setSelectedCourseId(firstCourse?.id || "");
     setTopicsNeededHelpWith("");
     setAttachmentNotes("");
+    setSelectedAttachments([]);
     setRequestLoading(false);
     setRequestMessage("");
     setRequestMessageType("info");
@@ -458,6 +465,10 @@ export default function Services() {
 
   const handleTutorClick = (tutor) => {
     setActiveTutor(tutor);
+  };
+
+  const handleAttachmentChange = (event) => {
+    setSelectedAttachments(Array.from(event.target.files || []));
   };
 
   const handleRequestSubmit = async (event) => {
@@ -481,6 +492,13 @@ export default function Services() {
     setRequestMessage("");
 
     try {
+      const attachmentFiles = await uploadTutoringAttachments({
+        files: selectedAttachments,
+        userId: user.id,
+        tutorId: activeTutor.tutorId,
+        sessionType: activeTutor.sessionType,
+      });
+
       await createTutoringRequest({
         student_id: user.id,
         tutor_id: activeTutor.tutorId,
@@ -489,14 +507,16 @@ export default function Services() {
         institute_name_snapshot: selectedCourse.label.split(" ")[0],
         topics_needed_help_with: topicsNeededHelpWith,
         attachment_notes: attachmentNotes || null,
+        attachment_files: attachmentFiles,
       });
 
       setRequestMessageType("success");
       setRequestMessage(
-        "Your tutoring request was saved successfully. You can now continue with email and Calendly booking."
+        "Your tutoring request was saved successfully. You can now continue to Calendly booking."
       );
       setTopicsNeededHelpWith("");
       setAttachmentNotes("");
+      setSelectedAttachments([]);
     } catch (error) {
       setRequestMessageType("error");
       setRequestMessage(error.message || "We could not save your tutoring request.");
@@ -792,8 +812,7 @@ export default function Services() {
 
             <div className="mt-6 rounded-3xl oman-outline-panel p-5 sm:p-6">
               <p className="text-base leading-7 text-[var(--oman-ink)]">
-                Please save your tutoring request below, then email{" "}
-                <span className="font-semibold">20258971@mcbs.edu.om</span>, and continue to
+                Please save your tutoring request below, attach any helpful files, and continue to
                 Calendly when you are ready.
               </p>
 
@@ -844,6 +863,30 @@ export default function Services() {
 
                 <label className="flex flex-col gap-2">
                   <span className="text-sm font-semibold text-[var(--oman-terracotta-dark)]">
+                    Attach files
+                  </span>
+                  <input
+                    type="file"
+                    multiple
+                    onChange={handleAttachmentChange}
+                    className="min-h-12 rounded-2xl border border-[rgba(111,49,29,0.14)] bg-[rgba(255,250,244,0.92)] px-4 py-3 text-sm text-[var(--oman-ink)] outline-none transition file:mr-4 file:rounded-xl file:border-0 file:bg-[rgba(197,154,68,0.16)] file:px-4 file:py-2 file:font-semibold file:text-[var(--oman-terracotta-dark)] focus:border-[var(--oman-brass)] focus:bg-white"
+                  />
+                  {selectedAttachments.length > 0 && (
+                    <div className="mt-2 flex flex-wrap gap-2">
+                      {selectedAttachments.map((file) => (
+                        <span
+                          key={`${file.name}-${file.size}`}
+                          className="rounded-full bg-[rgba(255,252,247,0.98)] px-3 py-2 text-sm font-medium text-[var(--oman-ink)] ring-1 ring-[rgba(111,49,29,0.12)]"
+                        >
+                          {file.name}
+                        </span>
+                      ))}
+                    </div>
+                  )}
+                </label>
+
+                <label className="flex flex-col gap-2">
+                  <span className="text-sm font-semibold text-[var(--oman-terracotta-dark)]">
                     Attachment notes
                   </span>
                   <textarea
@@ -876,28 +919,14 @@ export default function Services() {
                   {requestLoading ? "Saving Request..." : "Save Tutoring Request"}
                 </button>
               </form>
-
-              <div className="mt-6 space-y-4 text-base leading-7 text-[var(--oman-ink)]">
-                <p>Then send an email with the following:</p>
-                <p>Institute name (MCBS.....):</p>
-                <p>Course Name + Course Code (Example: MAT255 ):</p>
-                <p>Topics need help with:</p>
-                <p>Attach any relevant files regarding covered topics and concepts.</p>
-              </div>
             </div>
 
             <div className="mt-6 flex flex-col gap-3 sm:flex-row">
               <a
-                href="mailto:20258971@mcbs.edu.om"
-                className="oman-button-primary inline-flex w-full items-center justify-center rounded-2xl px-6 py-3 text-center font-semibold transition sm:w-auto"
-              >
-                Open Email App
-              </a>
-              <a
                 href={activeTutor.bookingUrl}
                 target="_blank"
                 rel="noreferrer"
-                className="inline-flex w-full items-center justify-center rounded-2xl border border-[rgba(111,49,29,0.14)] bg-[rgba(255,252,247,0.92)] px-6 py-3 text-center font-semibold text-[var(--oman-terracotta-dark)] transition hover:bg-[rgba(197,154,68,0.08)] sm:w-auto"
+                className="oman-button-primary inline-flex w-full items-center justify-center rounded-2xl px-6 py-3 text-center font-semibold transition sm:w-auto"
               >
                 Open Calendly Booking
               </a>
