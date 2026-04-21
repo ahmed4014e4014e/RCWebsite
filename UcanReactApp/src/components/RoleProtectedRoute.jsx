@@ -1,6 +1,6 @@
 import { Navigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
-import { getUserRole } from "../lib/authRouting";
+import { getDashboardPath, getUserRole } from "../lib/authRouting";
 
 export default function RoleProtectedRoute({ allowedRole, children }) {
   const { user, profile, loading, isSupabaseConfigured } = useAuth();

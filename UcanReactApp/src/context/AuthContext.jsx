@@ -4,6 +4,20 @@ import { getUserRole } from "../lib/authRouting";
 
 const AuthContext = createContext(null);
 
+function createMetadataProfile(authUser) {
+  if (!authUser?.id) {
+    return null;
+  }
+
+  return {
+    id: authUser.id,
+    full_name: authUser.user_metadata?.full_name ?? null,
+    role: getUserRole(null, authUser, null),
+    institute: authUser.user_metadata?.institute ?? null,
+    email: authUser.email ?? null,
+  };
+}
+
 export function AuthProvider({ children }) {
   const [session, setSession] = useState(null);
   const [user, setUser] = useState(null);
@@ -16,13 +30,7 @@ export function AuthProvider({ children }) {
       return null;
     }
 
-    const metadataProfile = {
-      id: authUser.id,
-      full_name: authUser.user_metadata?.full_name ?? null,
-      role: getUserRole(null, authUser, null),
-      institute: authUser.user_metadata?.institute ?? null,
-      email: authUser.email ?? null,
-    };
+    const metadataProfile = createMetadataProfile(authUser);
 
     const { data, error } = await supabase
       .from("profiles")
@@ -31,8 +39,8 @@ export function AuthProvider({ children }) {
       .maybeSingle();
 
     if (error) {
-      setProfile(null);
-      return null;
+      setProfile(metadataProfile);
+      return metadataProfile;
     }
 
     const shouldSyncProfile =
@@ -61,8 +69,8 @@ export function AuthProvider({ children }) {
       .single();
 
     if (syncError) {
-      setProfile(data ?? null);
-      return data ?? null;
+      setProfile(data ?? metadataProfile);
+      return data ?? metadataProfile;
     }
 
     setProfile(syncedProfile);
@@ -73,30 +81,30 @@ export function AuthProvider({ children }) {
     let mounted = true;
 
     const bootstrapAuth = async () => {
-      if (!isSupabaseConfigured || !supabase) {
+      try {
+        if (!isSupabaseConfigured || !supabase) {
+          return;
+        }
+
+        const {
+          data: { session: currentSession },
+        } = await supabase.auth.getSession();
+
+        if (!mounted) return;
+
+        setSession(currentSession ?? null);
+        setUser(currentSession?.user ?? null);
+
+        if (currentSession?.user) {
+          setProfile(createMetadataProfile(currentSession.user));
+          await loadProfile(currentSession.user);
+        } else {
+          setProfile(null);
+        }
+      } finally {
         if (mounted) {
           setLoading(false);
         }
-        return;
-      }
-
-      const {
-        data: { session: currentSession },
-      } = await supabase.auth.getSession();
-
-      if (!mounted) return;
-
-      setSession(currentSession ?? null);
-      setUser(currentSession?.user ?? null);
-
-      if (currentSession?.user) {
-        await loadProfile(currentSession.user);
-      } else {
-        setProfile(null);
-      }
-
-      if (mounted) {
-        setLoading(false);
       }
     };
 
@@ -111,19 +119,22 @@ export function AuthProvider({ children }) {
     const {
       data: { subscription },
     } = supabase.auth.onAuthStateChange(async (_event, nextSession) => {
-      if (!mounted) return;
+      try {
+        if (!mounted) return;
 
-      setSession(nextSession ?? null);
-      setUser(nextSession?.user ?? null);
+        setSession(nextSession ?? null);
+        setUser(nextSession?.user ?? null);
 
-      if (nextSession?.user) {
-        await loadProfile(nextSession.user);
-      } else {
-        setProfile(null);
-      }
-
-      if (mounted) {
-        setLoading(false);
+        if (nextSession?.user) {
+          setProfile(createMetadataProfile(nextSession.user));
+          await loadProfile(nextSession.user);
+        } else {
+          setProfile(null);
+        }
+      } finally {
+        if (mounted) {
+          setLoading(false);
+        }
       }
     });
 
