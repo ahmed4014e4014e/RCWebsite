@@ -195,3 +195,39 @@ export async function fetchAdminTutoringRequests() {
 
   return data ?? [];
 }
+
+export async function fetchTutorTutoringRequests(tutorId) {
+  ensureSupabase();
+
+  if (!tutorId) {
+    return [];
+  }
+
+  const { data, error } = await supabase
+    .from("tutoring_requests")
+    .select(
+      `
+        id,
+        session_type,
+        institute_name_snapshot,
+        topics_needed_help_with,
+        attachment_notes,
+        attachment_files,
+        status,
+        created_at,
+        course:courses!tutoring_requests_course_id_fkey (
+          id,
+          code,
+          title
+        )
+      `
+    )
+    .eq("tutor_id", tutorId)
+    .order("created_at", { ascending: false });
+
+  if (error) {
+    throw error;
+  }
+
+  return data ?? [];
+}
