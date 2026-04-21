@@ -37,7 +37,6 @@ export function AuthProvider({ children }) {
 
     const shouldSyncProfile =
       !data ||
-      (metadataProfile.role && data.role !== metadataProfile.role) ||
       (!data.full_name && metadataProfile.full_name) ||
       (!data.institute && metadataProfile.institute) ||
       (!data.email && metadataProfile.email);
@@ -50,7 +49,7 @@ export function AuthProvider({ children }) {
     const profilePayload = {
       id: authUser.id,
       full_name: data?.full_name || metadataProfile.full_name,
-      role: metadataProfile.role || data?.role || "student",
+      role: data?.role || metadataProfile.role || "student",
       institute: data?.institute || metadataProfile.institute,
       email: data?.email || metadataProfile.email,
     };
