@@ -51,8 +51,8 @@ export default function About() {
             <div className="oman-card rounded-3xl p-4 text-[var(--oman-ink)] sm:p-5">
               <div className="oman-photo-frame aspect-[4/5]">
                 <img
-                  src={themeImages.dhofarUniversity}
-                  alt="Dhofar University campus building in Oman"
+                  src={themeImages.aboutUsCard}
+                  alt="About us text revealed through torn paper"
                 />
               </div>
               <p className="mt-4 text-sm leading-7 text-[var(--oman-ink)]/80">
