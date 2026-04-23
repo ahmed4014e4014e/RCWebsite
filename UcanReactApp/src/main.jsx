@@ -16,6 +16,7 @@ import Contact from "./routes/contact";
 import TutorAccess from "./routes/tutorAccess";
 import StudentAccess from "./routes/studentAccess";
 import AdminAccess from "./routes/adminAccess";
+import ResetPassword from "./routes/resetPassword";
 import Account from "./routes/account";
 import StudentDashboard from "./routes/studentDashboard";
 import TutorDashboard from "./routes/tutorDashboard";
@@ -59,6 +60,10 @@ const router = createBrowserRouter([
       {
         path: "student-access",
         element: <StudentAccess />,
+      },
+      {
+        path: "reset-password",
+        element: <ResetPassword />,
       },
       {
         path: "account",
