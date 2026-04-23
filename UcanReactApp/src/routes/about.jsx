@@ -51,10 +51,13 @@ export default function About() {
             <div className="oman-card rounded-3xl p-4 text-[var(--oman-ink)] sm:p-5">
               <div className="oman-photo-frame aspect-[4/5]">
                 <img
-                  src={themeImages.aboutUsCard}
-                  alt="About us text revealed through torn paper"
+                  src={themeImages.ucfLogo}
+                  alt="University of Central Florida logo"
                 />
               </div>
+              <p className="mt-4 text-center text-sm font-semibold uppercase tracking-[0.16em] text-[var(--oman-terracotta-dark)]">
+                University of Central Florida
+              </p>
               <p className="mt-4 text-sm leading-7 text-[var(--oman-ink)]/80">
                 We imagine academic support as something warm, dignified, and shared across a real community.
               </p>

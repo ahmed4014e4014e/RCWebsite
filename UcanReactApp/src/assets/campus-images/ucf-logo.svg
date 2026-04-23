@@ -1,0 +1,17 @@
+<svg width="900" height="700" viewBox="0 0 900 700" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title id="title">University of Central Florida logo inspired graphic</title>
+  <desc id="desc">Gold and black UCF letters centered on a clean light background.</desc>
+  <rect width="900" height="700" fill="#F8F8F8"/>
+  <g transform="translate(126 178)">
+    <path d="M76 0H276L250 104H330L414 154L398 232H524L492 336H400L374 444H236L260 336H142L104 304L60 304L8 252L76 0Z" fill="#A7A9AC"/>
+    <path d="M54 24H236L210 128H326L382 162L356 256H484L462 312H374L348 420H268L292 312H134L96 280H54L30 256L54 24Z" fill="#1F1F1F"/>
+    <path d="M84 54H140L104 234L152 262H204L244 54H300L272 180H362L322 210H262L238 292H134L70 254L84 54Z" fill="#B7A249"/>
+    <path d="M320 202H478L466 236H372L344 374H292L320 202Z" fill="#B7A249"/>
+    <path d="M226 202H330L314 236H272L246 374H194L226 202Z" fill="#B7A249"/>
+    <path d="M84 54H140L104 234" stroke="#FFF8D8" stroke-width="10"/>
+    <path d="M244 54H300L272 180H362" stroke="#FFF8D8" stroke-width="10"/>
+    <path d="M320 202H478" stroke="#FFF8D8" stroke-width="10"/>
+    <path d="M344 374L372 236" stroke="#FFF8D8" stroke-width="10"/>
+    <text x="410" y="386" fill="#1F1F1F" font-family="Arial, Helvetica, sans-serif" font-size="26" font-weight="700">TM</text>
+  </g>
+</svg>
