@@ -1,4 +1,5 @@
 import { themeImages } from "../lib/themeImages";
+import founderPhoto from "../assets/founder/ahmed-founder-optimized.jpg";
 
 const values = [
   {
@@ -58,6 +59,38 @@ export default function About() {
                 We imagine academic support as something warm, dignified, and shared across a real community.
               </p>
             </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="mx-auto max-w-6xl px-4 py-12 sm:px-6 sm:py-16">
+        <div className="grid items-center gap-8 rounded-[1.75rem] oman-card p-6 sm:p-8 lg:grid-cols-[0.86fr_1.14fr] lg:gap-10">
+          <div className="oman-photo-frame aspect-square">
+            <img
+              src={founderPhoto}
+              alt="Ahmed Mohammed Al Ruqaishi, founder of Ucan Oman"
+            />
+          </div>
+
+          <div className="text-center lg:text-left">
+            <p className="oman-section-kicker text-xs font-semibold uppercase sm:text-sm">
+              Meet Our Founder
+            </p>
+            <h2 className="oman-title-accent mt-4 text-2xl font-semibold sm:text-3xl">
+              Ahmed Mohammed Al Ruqaishi
+            </h2>
+            <p className="mt-5 text-base leading-7 text-[var(--oman-ink)]/80 sm:text-lg sm:leading-8">
+              Grew up UK... Migrated to USA... and now in Oman. You know the rest of the
+              story ... LETS GO EVERYONE!!
+            </p>
+            <p className="mt-5 text-base leading-7 text-[var(--oman-ink)]/80 sm:text-lg sm:leading-8">
+              Ahmed (He/Him/His) is a 25 year old beginner software developer who was inspired
+              by the movie "The Social Network" to create this platform to better enhance the
+              college experience academically, socially, and most importantly psychologically.
+            </p>
+            <p className="mt-5 rounded-2xl bg-[rgba(197,154,68,0.12)] px-4 py-3 text-sm font-semibold uppercase tracking-[0.18em] text-[var(--oman-terracotta-dark)]">
+              Qurum Beach, Muscat, Oman.
+            </p>
           </div>
         </div>
       </section>
