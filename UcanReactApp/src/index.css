@@ -158,3 +158,12 @@ body {
   height: 100%;
   object-fit: cover;
 }
+
+.ucf-logo-frame {
+  background: #f8f8f8;
+  padding: 1.25rem;
+}
+
+.ucf-logo-frame img {
+  object-fit: contain;
+}
