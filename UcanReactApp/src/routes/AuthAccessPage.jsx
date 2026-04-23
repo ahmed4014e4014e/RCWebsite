@@ -18,6 +18,9 @@ export default function AuthAccessPage({
   const loginSectionRef = useRef(null);
   const [loginEmail, setLoginEmail] = useState("");
   const [loginPassword, setLoginPassword] = useState("");
+  const [resetPassword, setResetPassword] = useState("");
+  const [resetLoading, setResetLoading] = useState(false);
+  const [recoveryMode, setRecoveryMode] = useState(false);
   const [signupName, setSignupName] = useState("");
   const [signupEmail, setSignupEmail] = useState("");
   const [signupPassword, setSignupPassword] = useState("");
@@ -34,6 +37,32 @@ export default function AuthAccessPage({
     setMessageType(type);
     setMessage(text);
   };
+
+  useEffect(() => {
+    const urlHasRecoveryToken =
+      window.location.hash.includes("type=recovery") ||
+      window.location.search.includes("type=recovery");
+
+    if (urlHasRecoveryToken) {
+      setRecoveryMode(true);
+      showMessage("success", "Enter a new password below to finish resetting your account.");
+    }
+
+    if (!isSupabaseConfigured || !supabase) {
+      return undefined;
+    }
+
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange((event) => {
+      if (event === "PASSWORD_RECOVERY") {
+        setRecoveryMode(true);
+        showMessage("success", "Enter a new password below to finish resetting your account.");
+      }
+    });
+
+    return () => subscription.unsubscribe();
+  }, []);
 
   const sendUserToLogin = (email, text) => {
     setLoginEmail(email);
@@ -117,6 +146,76 @@ export default function AuthAccessPage({
     setRoleCheckInProgress(false);
     navigate(getDashboardPath(getUserRole(null, data.user, role)), { replace: true });
     setLoginLoading(false);
+  };
+
+  const handleForgotPassword = async () => {
+    if (!loginEmail) {
+      showMessage("error", "Enter your email first, then click forgot password again.");
+      return;
+    }
+
+    if (!isSupabaseConfigured || !supabase) {
+      showMessage(
+        "error",
+        "Supabase is not configured yet. Add VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY in .env.local."
+      );
+      return;
+    }
+
+    setResetLoading(true);
+    setMessage("");
+
+    const { error } = await supabase.auth.resetPasswordForEmail(loginEmail, {
+      redirectTo: window.location.href.split("#")[0],
+    });
+
+    if (error) {
+      showMessage("error", error.message);
+      setResetLoading(false);
+      return;
+    }
+
+    showMessage(
+      "success",
+      `A password reset link was sent to ${loginEmail}. Please check your email and spam folder.`
+    );
+    setResetLoading(false);
+  };
+
+  const handleUpdatePassword = async (event) => {
+    event.preventDefault();
+
+    if (!resetPassword || resetPassword.length < 6) {
+      showMessage("error", "Your new password must be at least 6 characters.");
+      return;
+    }
+
+    if (!isSupabaseConfigured || !supabase) {
+      showMessage(
+        "error",
+        "Supabase is not configured yet. Add VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY in .env.local."
+      );
+      return;
+    }
+
+    setResetLoading(true);
+    setMessage("");
+
+    const { error } = await supabase.auth.updateUser({
+      password: resetPassword,
+    });
+
+    if (error) {
+      showMessage("error", error.message);
+      setResetLoading(false);
+      return;
+    }
+
+    setResetPassword("");
+    setRecoveryMode(false);
+    showMessage("success", "Your password was updated successfully. You can now log in.");
+    navigate(getDashboardPath(role), { replace: true });
+    setResetLoading(false);
   };
 
   const handleResendConfirmation = async () => {
@@ -335,40 +434,76 @@ export default function AuthAccessPage({
           className="rounded-[1.75rem] oman-card p-6 sm:p-8"
         >
           <p className="oman-section-kicker text-xs font-semibold uppercase sm:text-sm">
-            Log In
+            {recoveryMode ? "Reset Password" : "Log In"}
           </p>
-          <h2 className="oman-title-accent mt-4 text-2xl font-semibold">Welcome back</h2>
-          <form className="mt-6 space-y-4" onSubmit={handleLogin}>
-            <label className="flex flex-col gap-2">
-              <span className="text-sm font-semibold text-[var(--oman-terracotta-dark)]">Email</span>
-              <input
-                type="email"
-                placeholder="Enter your email"
-                value={loginEmail}
-                onChange={(event) => setLoginEmail(event.target.value)}
-                className="min-h-12 rounded-2xl border border-[rgba(111,49,29,0.14)] bg-[rgba(255,250,244,0.92)] px-4 py-3 text-[var(--oman-ink)] outline-none transition focus:border-[var(--oman-brass)] focus:bg-white"
-                required
-              />
-            </label>
-            <label className="flex flex-col gap-2">
-              <span className="text-sm font-semibold text-[var(--oman-terracotta-dark)]">Password</span>
-              <input
-                type="password"
-                placeholder="Enter your password"
-                value={loginPassword}
-                onChange={(event) => setLoginPassword(event.target.value)}
-                className="min-h-12 rounded-2xl border border-[rgba(111,49,29,0.14)] bg-[rgba(255,250,244,0.92)] px-4 py-3 text-[var(--oman-ink)] outline-none transition focus:border-[var(--oman-brass)] focus:bg-white"
-                required
-              />
-            </label>
-            <button
-              type="submit"
-              disabled={loginLoading}
-              className="oman-button-secondary mt-2 inline-flex w-full items-center justify-center rounded-2xl px-6 py-3 text-center font-semibold transition disabled:cursor-not-allowed disabled:opacity-70"
-            >
-              {loginLoading ? "Logging In..." : "Log In"}
-            </button>
-          </form>
+          <h2 className="oman-title-accent mt-4 text-2xl font-semibold">
+            {recoveryMode ? "Create a new password" : "Welcome back"}
+          </h2>
+
+          {recoveryMode ? (
+            <form className="mt-6 space-y-4" onSubmit={handleUpdatePassword}>
+              <label className="flex flex-col gap-2">
+                <span className="text-sm font-semibold text-[var(--oman-terracotta-dark)]">
+                  New Password
+                </span>
+                <input
+                  type="password"
+                  placeholder="Enter a new password"
+                  value={resetPassword}
+                  onChange={(event) => setResetPassword(event.target.value)}
+                  className="min-h-12 rounded-2xl border border-[rgba(111,49,29,0.14)] bg-[rgba(255,250,244,0.92)] px-4 py-3 text-[var(--oman-ink)] outline-none transition focus:border-[var(--oman-brass)] focus:bg-white"
+                  required
+                />
+              </label>
+              <button
+                type="submit"
+                disabled={resetLoading}
+                className="oman-button-primary mt-2 inline-flex w-full items-center justify-center rounded-2xl px-6 py-3 text-center font-semibold transition disabled:cursor-not-allowed disabled:opacity-70"
+              >
+                {resetLoading ? "Updating Password..." : "Update Password"}
+              </button>
+            </form>
+          ) : (
+            <form className="mt-6 space-y-4" onSubmit={handleLogin}>
+              <label className="flex flex-col gap-2">
+                <span className="text-sm font-semibold text-[var(--oman-terracotta-dark)]">Email</span>
+                <input
+                  type="email"
+                  placeholder="Enter your email"
+                  value={loginEmail}
+                  onChange={(event) => setLoginEmail(event.target.value)}
+                  className="min-h-12 rounded-2xl border border-[rgba(111,49,29,0.14)] bg-[rgba(255,250,244,0.92)] px-4 py-3 text-[var(--oman-ink)] outline-none transition focus:border-[var(--oman-brass)] focus:bg-white"
+                  required
+                />
+              </label>
+              <label className="flex flex-col gap-2">
+                <span className="text-sm font-semibold text-[var(--oman-terracotta-dark)]">Password</span>
+                <input
+                  type="password"
+                  placeholder="Enter your password"
+                  value={loginPassword}
+                  onChange={(event) => setLoginPassword(event.target.value)}
+                  className="min-h-12 rounded-2xl border border-[rgba(111,49,29,0.14)] bg-[rgba(255,250,244,0.92)] px-4 py-3 text-[var(--oman-ink)] outline-none transition focus:border-[var(--oman-brass)] focus:bg-white"
+                  required
+                />
+              </label>
+              <button
+                type="submit"
+                disabled={loginLoading}
+                className="oman-button-secondary mt-2 inline-flex w-full items-center justify-center rounded-2xl px-6 py-3 text-center font-semibold transition disabled:cursor-not-allowed disabled:opacity-70"
+              >
+                {loginLoading ? "Logging In..." : "Log In"}
+              </button>
+              <button
+                type="button"
+                onClick={handleForgotPassword}
+                disabled={resetLoading}
+                className="w-full rounded-2xl px-4 py-2 text-sm font-semibold text-[var(--oman-terracotta-dark)] transition hover:bg-[rgba(197,154,68,0.08)] disabled:cursor-not-allowed disabled:opacity-70"
+              >
+                {resetLoading ? "Sending Reset Link..." : "Forgot password?"}
+              </button>
+            </form>
+          )}
         </div>
 
         {allowSignup && (
