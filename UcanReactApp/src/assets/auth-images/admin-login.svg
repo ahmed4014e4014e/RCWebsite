@@ -1,0 +1,29 @@
+<svg width="960" height="720" viewBox="0 0 960 720" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="960" height="720" rx="56" fill="#F7EFE3"/>
+  <path d="M0 0H960V720H0V0Z" fill="url(#bg)"/>
+  <circle cx="774" cy="126" r="130" fill="#C59A44" fill-opacity="0.18"/>
+  <circle cx="145" cy="592" r="170" fill="#7B3F28" fill-opacity="0.12"/>
+  <path d="M96 146C198 106 300 106 402 146C504 186 606 186 864 116V235C633 292 492 287 365 242C242 199 172 205 96 239V146Z" fill="#0F5132" fill-opacity="0.12"/>
+  <rect x="174" y="122" width="612" height="476" rx="42" fill="#FFF9F0" stroke="#E4D1B3" stroke-width="4"/>
+  <rect x="220" y="170" width="520" height="76" rx="26" fill="#6F311D"/>
+  <circle cx="265" cy="208" r="13" fill="#F7EFE3"/>
+  <circle cx="309" cy="208" r="13" fill="#C59A44"/>
+  <circle cx="353" cy="208" r="13" fill="#0F5132"/>
+  <rect x="220" y="286" width="216" height="232" rx="30" fill="#F0E0C8"/>
+  <rect x="484" y="286" width="256" height="50" rx="18" fill="#EFE3D3"/>
+  <rect x="484" y="366" width="256" height="50" rx="18" fill="#EFE3D3"/>
+  <rect x="484" y="446" width="172" height="50" rx="18" fill="#C59A44"/>
+  <path d="M328 330C363.346 330 392 358.654 392 394C392 429.346 363.346 458 328 458C292.654 458 264 429.346 264 394C264 358.654 292.654 330 328 330Z" fill="#FFF9F0"/>
+  <path d="M328 350C344.569 350 358 363.431 358 380C358 396.569 344.569 410 328 410C311.431 410 298 396.569 298 380C298 363.431 311.431 350 328 350Z" fill="#6F311D"/>
+  <path d="M279 455C288.801 431.969 305.774 420 328 420C350.226 420 367.199 431.969 377 455C365.281 468.961 348.319 477 328 477C307.681 477 290.719 468.961 279 455Z" fill="#0F5132"/>
+  <path d="M648 166L712 198V268C712 314 686 357 648 376C610 357 584 314 584 268V198L648 166Z" fill="#F7EFE3" stroke="#C59A44" stroke-width="8" stroke-linejoin="round"/>
+  <path d="M622 267L644 289L680 239" stroke="#0F5132" stroke-width="14" stroke-linecap="round" stroke-linejoin="round"/>
+  <text x="480" y="650" fill="#6F311D" font-family="Georgia, 'Times New Roman', serif" font-size="34" font-weight="700" text-anchor="middle">Ucan Oman Admin</text>
+  <defs>
+    <linearGradient id="bg" x1="150" y1="80" x2="820" y2="650" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FFF9F0"/>
+      <stop offset="0.52" stop-color="#F3E4CC"/>
+      <stop offset="1" stop-color="#EAD8BE"/>
+    </linearGradient>
+  </defs>
+</svg>
