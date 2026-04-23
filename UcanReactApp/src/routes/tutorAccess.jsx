@@ -1,4 +1,5 @@
 import AuthAccessPage from "./AuthAccessPage";
+import soharUniversityImage from "../assets/auth-images/sohar-university.jpg";
 
 export default function TutorAccess() {
   return (
@@ -8,6 +9,8 @@ export default function TutorAccess() {
       description="This page is designed for tutors who want to create an account, access the platform, and become part of the Ucan Oman support network."
       signupHeading="Create a tutor account"
       role="tutor"
+      accessImage={soharUniversityImage}
+      accessImageAlt="Sohar University campus in Oman"
     />
   );
 }

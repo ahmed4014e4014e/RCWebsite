@@ -1,4 +1,5 @@
 import AuthAccessPage from "./AuthAccessPage";
+import middleEastCollegeImage from "../assets/auth-images/middle-east-college.jpg";
 
 export default function StudentAccess() {
   return (
@@ -8,6 +9,8 @@ export default function StudentAccess() {
       description="This page is designed for students who want to create an account, log in, and access tutoring, course support, and the wider learning community."
       signupHeading="Create a student account"
       role="student"
+      accessImage={middleEastCollegeImage}
+      accessImageAlt="Middle East College campus in Oman"
     />
   );
 }

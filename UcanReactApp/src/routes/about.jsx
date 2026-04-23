@@ -80,7 +80,7 @@ export default function About() {
               Ahmed Mohammed Al Ruqaishi
             </h2>
             <p className="mt-5 text-base leading-7 text-[var(--oman-ink)]/80 sm:text-lg sm:leading-8">
-              Grew up UK... Migrated to USA... and now in Oman. You know the rest of the
+              Grew up in UK... Migrated to USA... and now in Oman. You know the rest of the
               story ... LETS GO EVERYONE!!
             </p>
             <p className="mt-5 text-base leading-7 text-[var(--oman-ink)]/80 sm:text-lg sm:leading-8">

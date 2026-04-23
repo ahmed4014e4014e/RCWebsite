@@ -12,6 +12,8 @@ export default function AuthAccessPage({
   signupHeading,
   role,
   allowSignup = true,
+  accessImage,
+  accessImageAlt,
 }) {
   const navigate = useNavigate();
   const { user, profile, loading } = useAuth();
@@ -397,8 +399,16 @@ export default function AuthAccessPage({
             <div className="oman-card rounded-3xl p-4 text-[var(--oman-ink)]">
               <div className="oman-photo-frame aspect-[4/3]">
                 <img
-                  src={role === "tutor" ? themeImages.mountainFort : themeImages.studentsStudyHall}
-                  alt={role === "tutor" ? "Traditional Omani fort scenery" : "Students in a quiet study space"}
+                  src={
+                    accessImage ||
+                    (role === "tutor" ? themeImages.mountainFort : themeImages.studentsStudyHall)
+                  }
+                  alt={
+                    accessImageAlt ||
+                    (role === "tutor"
+                      ? "Traditional Omani fort scenery"
+                      : "Students in a quiet study space")
+                  }
                 />
               </div>
             </div>
