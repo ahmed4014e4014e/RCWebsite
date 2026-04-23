@@ -1,5 +1,5 @@
 import AuthAccessPage from "./AuthAccessPage";
-import adminLoginImage from "../assets/auth-images/admin-login.svg";
+import adminLoginImage from "../assets/auth-images/admin-login-photo.jpg";
 
 export default function AdminAccess() {
   return (
@@ -10,7 +10,7 @@ export default function AdminAccess() {
       role="admin"
       allowSignup={false}
       accessImage={adminLoginImage}
-      accessImageAlt="Ucan Oman admin login security illustration"
+      accessImageAlt="Admin access card for platform administrators"
     />
   );
 }
