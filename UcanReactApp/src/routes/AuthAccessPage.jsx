@@ -20,6 +20,7 @@ export default function AuthAccessPage({
   const [loginPassword, setLoginPassword] = useState("");
   const [resetPassword, setResetPassword] = useState("");
   const [resetLoading, setResetLoading] = useState(false);
+  const [resetCooldownSeconds, setResetCooldownSeconds] = useState(0);
   const [recoveryMode, setRecoveryMode] = useState(false);
   const [signupName, setSignupName] = useState("");
   const [signupEmail, setSignupEmail] = useState("");
@@ -63,6 +64,18 @@ export default function AuthAccessPage({
 
     return () => subscription.unsubscribe();
   }, []);
+
+  useEffect(() => {
+    if (resetCooldownSeconds <= 0) {
+      return undefined;
+    }
+
+    const timeoutId = window.setTimeout(() => {
+      setResetCooldownSeconds((seconds) => Math.max(seconds - 1, 0));
+    }, 1000);
+
+    return () => window.clearTimeout(timeoutId);
+  }, [resetCooldownSeconds]);
 
   const sendUserToLogin = (email, text) => {
     setLoginEmail(email);
@@ -149,6 +162,14 @@ export default function AuthAccessPage({
   };
 
   const handleForgotPassword = async () => {
+    if (resetCooldownSeconds > 0) {
+      showMessage(
+        "error",
+        `Please wait ${resetCooldownSeconds} seconds before requesting another reset email.`
+      );
+      return;
+    }
+
     if (!loginEmail) {
       showMessage("error", "Enter your email first, then click forgot password again.");
       return;
@@ -179,6 +200,7 @@ export default function AuthAccessPage({
       "success",
       `A password reset link was sent to ${loginEmail}. Please check your email and spam folder.`
     );
+    setResetCooldownSeconds(60);
     setResetLoading(false);
   };
 
@@ -497,10 +519,14 @@ export default function AuthAccessPage({
               <button
                 type="button"
                 onClick={handleForgotPassword}
-                disabled={resetLoading}
+                disabled={resetLoading || resetCooldownSeconds > 0}
                 className="w-full rounded-2xl px-4 py-2 text-sm font-semibold text-[var(--oman-terracotta-dark)] transition hover:bg-[rgba(197,154,68,0.08)] disabled:cursor-not-allowed disabled:opacity-70"
               >
-                {resetLoading ? "Sending Reset Link..." : "Forgot password?"}
+                {resetLoading
+                  ? "Sending Reset Link..."
+                  : resetCooldownSeconds > 0
+                    ? `Try again in ${resetCooldownSeconds}s`
+                    : "Forgot password?"}
               </button>
             </form>
           )}
