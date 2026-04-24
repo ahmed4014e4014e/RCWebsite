@@ -3,7 +3,7 @@ import squImage from "../assets/campus-images/squ.jpg";
 import mcbsImage from "../assets/campus-images/mcbs.jpg";
 import dhofarUniversityImage from "../assets/campus-images/dhofar-university.jpg";
 import aboutUsCardImage from "../assets/campus-images/about-us-card.jpg";
-import ucfLogoImage from "../assets/campus-images/ucf-logo.svg";
+import ucfCampusImage from "../assets/campus-images/ucf-campus.jpg";
 
 export const themeImages = {
   heroFort: mcbsImage,
@@ -11,7 +11,7 @@ export const themeImages = {
   mountainFort: gutechImage,
   dhofarUniversity: dhofarUniversityImage,
   aboutUsCard: aboutUsCardImage,
-  ucfLogo: ucfLogoImage,
+  ucfLogo: ucfCampusImage,
   studentsLibrary: mcbsImage,
   studentsGroup: squImage,
   studentsStudyHall: gutechImage,
