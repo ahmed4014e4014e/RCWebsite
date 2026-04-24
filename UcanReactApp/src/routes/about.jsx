@@ -49,7 +49,7 @@ export default function About() {
             </div>
 
             <div className="oman-card rounded-3xl p-4 text-[var(--oman-ink)] sm:p-5">
-              <div className="oman-photo-frame ucf-logo-frame aspect-[5/4]">
+              <div className="oman-photo-frame aspect-[4/3]">
                 <img
                   src={themeImages.ucfLogo}
                   alt="University of Central Florida logo"
