@@ -87,7 +87,7 @@ export default function About() {
               story ... LETS GO EVERYONE!!
             </p>
             <p className="mt-5 text-base leading-7 text-[var(--oman-ink)]/80 sm:text-lg sm:leading-8">
-              Ahmed (He/Him/His) is a 25 year old beginner software developer who was inspired
+              Ahmed is a 25 year old beginner software developer who was inspired
               by the movie "The Social Network" to create this platform to better enhance the
               college experience academically, socially, and most importantly psychologically.
             </p>
