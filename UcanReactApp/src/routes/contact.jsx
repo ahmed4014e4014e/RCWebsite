@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useAuth } from "../context/AuthContext";
-import { createContactMessage } from "../lib/contactApi";
+import { createContactMessage, uploadContactAttachments } from "../lib/contactApi";
 import { isSupabaseConfigured } from "../lib/supabase";
 import { themeImages } from "../lib/themeImages";
 
@@ -28,9 +28,12 @@ export default function Contact() {
     fullName: profile?.full_name || user?.user_metadata?.full_name || "",
     email: profile?.email || user?.email || "",
     institute: profile?.institute || user?.user_metadata?.institute || "",
+    role: user?.user_metadata?.role || profile?.role || "",
     subject: "",
     message: "",
   });
+  const [attachmentNotes, setAttachmentNotes] = useState("");
+  const [selectedFiles, setSelectedFiles] = useState([]);
   const [submitState, setSubmitState] = useState({
     loading: false,
     type: "idle",
@@ -43,6 +46,11 @@ export default function Contact() {
       ...current,
       [name]: value,
     }));
+  };
+
+  const handleFileChange = (event) => {
+    const incomingFiles = Array.from(event.target.files || []);
+    setSelectedFiles(incomingFiles);
   };
 
   const handleSubmit = async (event) => {
@@ -64,12 +72,17 @@ export default function Contact() {
     });
 
     try {
+      const uploadedFiles = await uploadContactAttachments(selectedFiles);
+
       await createContactMessage({
         full_name: formValues.fullName.trim(),
         email: formValues.email.trim(),
         institute: formValues.institute.trim() || null,
+        role: formValues.role || null,
         subject: formValues.subject.trim(),
         message: formValues.message.trim(),
+        attachment_notes: attachmentNotes.trim() || null,
+        attachment_files: uploadedFiles,
       });
 
       setSubmitState({
@@ -82,6 +95,8 @@ export default function Contact() {
         subject: "",
         message: "",
       }));
+      setAttachmentNotes("");
+      setSelectedFiles([]);
     } catch (error) {
       setSubmitState({
         loading: false,
@@ -191,6 +206,23 @@ export default function Contact() {
 
                 <label className="flex flex-col gap-2">
                   <span className="text-sm font-semibold text-[var(--oman-terracotta-dark)]">
+                    Role
+                  </span>
+                  <select
+                    name="role"
+                    value={formValues.role}
+                    onChange={handleChange}
+                    required
+                    className="min-h-12 rounded-2xl border border-[rgba(111,49,29,0.14)] bg-[rgba(255,250,244,0.92)] px-4 py-3 text-[var(--oman-ink)] outline-none transition focus:border-[var(--oman-brass)] focus:bg-white"
+                  >
+                    <option value="">Select your role</option>
+                    <option value="student">Student</option>
+                    <option value="tutor">Tutor</option>
+                  </select>
+                </label>
+
+                <label className="flex flex-col gap-2">
+                  <span className="text-sm font-semibold text-[var(--oman-terracotta-dark)]">
                     Subject
                   </span>
                   <input
@@ -217,6 +249,43 @@ export default function Contact() {
                     placeholder="Write your message here..."
                     className="rounded-2xl border border-[rgba(111,49,29,0.14)] bg-[rgba(255,250,244,0.92)] px-4 py-3 text-[var(--oman-ink)] outline-none transition focus:border-[var(--oman-brass)] focus:bg-white"
                   />
+                </label>
+
+                <label className="flex flex-col gap-2">
+                  <span className="text-sm font-semibold text-[var(--oman-terracotta-dark)]">
+                    Attachment Notes
+                  </span>
+                  <textarea
+                    value={attachmentNotes}
+                    onChange={(event) => setAttachmentNotes(event.target.value)}
+                    rows={3}
+                    placeholder="Optional: add a short note about the files you attached."
+                    className="rounded-2xl border border-[rgba(111,49,29,0.14)] bg-[rgba(255,250,244,0.92)] px-4 py-3 text-[var(--oman-ink)] outline-none transition focus:border-[var(--oman-brass)] focus:bg-white"
+                  />
+                </label>
+
+                <label className="flex flex-col gap-2">
+                  <span className="text-sm font-semibold text-[var(--oman-terracotta-dark)]">
+                    Attach Files
+                  </span>
+                  <input
+                    type="file"
+                    multiple
+                    onChange={handleFileChange}
+                    className="rounded-2xl border border-[rgba(111,49,29,0.14)] bg-[rgba(255,250,244,0.92)] px-4 py-3 text-sm text-[var(--oman-ink)] outline-none transition file:mr-4 file:rounded-xl file:border-0 file:bg-[rgba(197,154,68,0.16)] file:px-4 file:py-2 file:font-semibold file:text-[var(--oman-terracotta-dark)] hover:file:bg-[rgba(197,154,68,0.24)]"
+                  />
+                  {selectedFiles.length > 0 && (
+                    <div className="flex flex-wrap gap-2 pt-1">
+                      {selectedFiles.map((file) => (
+                        <span
+                          key={`${file.name}-${file.size}`}
+                          className="rounded-full bg-[rgba(244,232,214,0.44)] px-3 py-2 text-sm font-medium text-[var(--oman-ink)] ring-1 ring-[rgba(111,49,29,0.12)]"
+                        >
+                          {file.name}
+                        </span>
+                      ))}
+                    </div>
+                  )}
                 </label>
               </div>
 

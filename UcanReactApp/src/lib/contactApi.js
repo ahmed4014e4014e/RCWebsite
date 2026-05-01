@@ -30,3 +30,35 @@ export async function fetchContactMessages() {
 
   return data ?? [];
 }
+
+export async function uploadContactAttachments(files) {
+  ensureSupabase();
+
+  if (!Array.isArray(files) || files.length === 0) {
+    return [];
+  }
+
+  const uploads = [];
+
+  for (const file of files) {
+    const safeName = file.name.replace(/[^a-zA-Z0-9._-]/g, "_");
+    const uniquePath = `public/${Date.now()}-${crypto.randomUUID()}-${safeName}`;
+
+    const { error } = await supabase.storage
+      .from("contact-attachments")
+      .upload(uniquePath, file, { upsert: false });
+
+    if (error) {
+      throw error;
+    }
+
+    uploads.push({
+      name: file.name,
+      path: uniquePath,
+      size: file.size,
+      type: file.type || "application/octet-stream",
+    });
+  }
+
+  return uploads;
+}

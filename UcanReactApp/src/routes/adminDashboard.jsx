@@ -254,6 +254,10 @@ export default function AdminDashboard() {
                       {message.institute || "Not provided"}
                     </p>
                     <p>
+                      <span className="font-semibold text-[var(--oman-ink)]">Role:</span>{" "}
+                      {message.role || "Not provided"}
+                    </p>
+                    <p>
                       <span className="font-semibold text-[var(--oman-ink)]">Submitted:</span>{" "}
                       {formatSubmittedAt(message.created_at)}
                     </p>
@@ -267,6 +271,31 @@ export default function AdminDashboard() {
                       {message.message}
                     </p>
                   </div>
+
+                  {(message.attachment_notes || (Array.isArray(message.attachment_files) && message.attachment_files.length > 0)) && (
+                    <div className="mt-4 rounded-2xl bg-[rgba(244,232,214,0.34)] px-4 py-4 text-[var(--oman-ink)]">
+                      <p className="text-sm font-semibold uppercase tracking-[0.16em] text-[var(--oman-terracotta)]">
+                        Attachments
+                      </p>
+                      {message.attachment_notes && (
+                        <p className="mt-3 whitespace-pre-wrap leading-7 text-[var(--oman-ink)]/80">
+                          {message.attachment_notes}
+                        </p>
+                      )}
+                      {Array.isArray(message.attachment_files) && message.attachment_files.length > 0 && (
+                        <div className="mt-3 flex flex-wrap gap-2">
+                          {message.attachment_files.map((file) => (
+                            <span
+                              key={file.path || file.name}
+                              className="rounded-full bg-[rgba(255,252,247,0.98)] px-3 py-2 text-sm font-medium text-[var(--oman-ink)] ring-1 ring-[rgba(111,49,29,0.12)]"
+                            >
+                              {file.name || "Attachment"}
+                            </span>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  )}
                 </article>
               ))}
             </div>
