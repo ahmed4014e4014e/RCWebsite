@@ -284,8 +284,8 @@ export default function Contact() {
           </div>
           <div className="oman-photo-frame aspect-[5/4]">
             <img
-              src={themeImages.studentsStudyHall}
-              alt="Students working quietly inside a library"
+              src={themeImages.contactBottomCampus}
+              alt="University campus building with landscaped lawn"
             />
           </div>
         </div>
