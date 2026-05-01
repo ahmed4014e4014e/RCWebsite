@@ -609,56 +609,6 @@ export default function Services() {
         </div>
       </section>
 
-      <section className="mx-auto max-w-6xl px-4 py-2 sm:px-6 sm:py-4">
-        <div className="rounded-[1.75rem] border border-[rgba(111,49,29,0.12)] bg-[rgba(255,248,238,0.76)] px-6 py-5 text-[var(--oman-ink)] shadow-sm">
-          <p className="text-sm font-semibold uppercase tracking-[0.24em] text-[var(--oman-terracotta)]">
-            Directory Debug Status
-          </p>
-          <div className="mt-4 grid gap-3 text-sm leading-6 sm:grid-cols-2 lg:grid-cols-4">
-            <p>
-              <span className="font-semibold">Supabase configured:</span>{" "}
-              {isSupabaseConfigured ? "Yes" : "No"}
-            </p>
-            <p>
-              <span className="font-semibold">Loading:</span>{" "}
-              {directoryLoading ? "Yes" : "No"}
-            </p>
-            <p>
-              <span className="font-semibold">Raw offerings:</span> {rawOfferingCount}
-            </p>
-            <p>
-              <span className="font-semibold">Private tutor cards:</span> {privateTutors.length}
-            </p>
-            <p>
-              <span className="font-semibold">Group tutor cards:</span> {groupTutors.length}
-            </p>
-            <p>
-              <span className="font-semibold">Visible private cards:</span>{" "}
-              {visiblePrivateTutors.length}
-            </p>
-            <p>
-              <span className="font-semibold">Visible group cards:</span>{" "}
-              {visibleGroupTutors.length}
-            </p>
-            <p>
-              <span className="font-semibold">Visible institutes:</span>{" "}
-              {Math.max(instituteOptions.length - 1, 0)}
-            </p>
-            <p>
-              <span className="font-semibold">Private filter:</span> {privateInstitute} /{" "}
-              {privateCourse}
-            </p>
-            <p>
-              <span className="font-semibold">Group filter:</span> {groupInstitute} / {groupCourse}
-            </p>
-            <p className="sm:col-span-2 lg:col-span-4">
-              <span className="font-semibold">Directory error:</span>{" "}
-              {directoryError || "None"}
-            </p>
-          </div>
-        </div>
-      </section>
-
       {directoryError && (
         <section className="mx-auto max-w-6xl px-4 py-2 sm:px-6 sm:py-4">
           <div className="rounded-[1.75rem] border border-[rgba(155,77,49,0.2)] bg-[rgba(255,239,232,0.92)] px-6 py-5 text-[var(--oman-terracotta-dark)] shadow-sm">

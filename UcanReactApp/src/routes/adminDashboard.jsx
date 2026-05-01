@@ -2,8 +2,13 @@ import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { fetchContactMessages } from "../lib/contactApi";
-import { fetchAdminTutoringRequests } from "../lib/tutoringApi";
+import {
+  buildTutorCards,
+  fetchAdminTutoringRequests,
+  fetchTutorDirectory,
+} from "../lib/tutoringApi";
 import { themeImages } from "../lib/themeImages";
+import { isSupabaseConfigured } from "../lib/supabase";
 
 function formatSubmittedAt(value) {
   if (!value) {
@@ -27,8 +32,16 @@ export default function AdminDashboard() {
   const [requests, setRequests] = useState([]);
   const [contactLoading, setContactLoading] = useState(true);
   const [requestLoading, setRequestLoading] = useState(true);
+  const [directoryLoading, setDirectoryLoading] = useState(true);
   const [contactError, setContactError] = useState("");
   const [requestError, setRequestError] = useState("");
+  const [directoryError, setDirectoryError] = useState("");
+  const [directoryDiagnostics, setDirectoryDiagnostics] = useState({
+    rawOfferingCount: 0,
+    privateTutorCards: 0,
+    groupTutorCards: 0,
+    visibleInstitutes: 0,
+  });
 
   useEffect(() => {
     let ignore = false;
@@ -75,8 +88,60 @@ export default function AdminDashboard() {
       }
     };
 
+    const loadDirectoryDiagnostics = async () => {
+      if (!isSupabaseConfigured) {
+        setDirectoryDiagnostics({
+          rawOfferingCount: 0,
+          privateTutorCards: 0,
+          groupTutorCards: 0,
+          visibleInstitutes: 0,
+        });
+        setDirectoryError("Supabase is not configured.");
+        setDirectoryLoading(false);
+        return;
+      }
+
+      setDirectoryLoading(true);
+      setDirectoryError("");
+
+      try {
+        const offerings = await fetchTutorDirectory();
+        const privateCards = buildTutorCards(offerings, "private");
+        const groupCards = buildTutorCards(offerings, "group");
+        const instituteCodes = new Set();
+
+        [...privateCards, ...groupCards].forEach((card) => {
+          card.institutes.forEach((instituteCode) => instituteCodes.add(instituteCode));
+        });
+
+        if (!ignore) {
+          setDirectoryDiagnostics({
+            rawOfferingCount: offerings.length,
+            privateTutorCards: privateCards.length,
+            groupTutorCards: groupCards.length,
+            visibleInstitutes: instituteCodes.size,
+          });
+        }
+      } catch (fetchError) {
+        if (!ignore) {
+          setDirectoryDiagnostics({
+            rawOfferingCount: 0,
+            privateTutorCards: 0,
+            groupTutorCards: 0,
+            visibleInstitutes: 0,
+          });
+          setDirectoryError(fetchError.message || "Unable to load tutor directory diagnostics right now.");
+        }
+      } finally {
+        if (!ignore) {
+          setDirectoryLoading(false);
+        }
+      }
+    };
+
     loadMessages();
     loadRequests();
+    loadDirectoryDiagnostics();
 
     return () => {
       ignore = true;
@@ -176,6 +241,43 @@ export default function AdminDashboard() {
                 >
                   Open Services
                 </Link>
+              </article>
+
+              <article className="rounded-3xl oman-outline-panel p-5">
+                <h2 className="text-lg font-semibold text-[var(--oman-ink)]">Tutor Directory Diagnostics</h2>
+                <p className="mt-3 leading-7 text-[var(--oman-ink)]/75">
+                  Internal status for the Services directory so you can troubleshoot offerings without showing debug data to public users.
+                </p>
+                <div className="mt-5 grid gap-2 text-sm leading-6 text-[var(--oman-ink)]/80">
+                  <p>
+                    <span className="font-semibold">Supabase configured:</span>{" "}
+                    {isSupabaseConfigured ? "Yes" : "No"}
+                  </p>
+                  <p>
+                    <span className="font-semibold">Loading:</span>{" "}
+                    {directoryLoading ? "Yes" : "No"}
+                  </p>
+                  <p>
+                    <span className="font-semibold">Raw offerings:</span>{" "}
+                    {directoryDiagnostics.rawOfferingCount}
+                  </p>
+                  <p>
+                    <span className="font-semibold">Private tutor cards:</span>{" "}
+                    {directoryDiagnostics.privateTutorCards}
+                  </p>
+                  <p>
+                    <span className="font-semibold">Group tutor cards:</span>{" "}
+                    {directoryDiagnostics.groupTutorCards}
+                  </p>
+                  <p>
+                    <span className="font-semibold">Visible institutes:</span>{" "}
+                    {directoryDiagnostics.visibleInstitutes}
+                  </p>
+                  <p>
+                    <span className="font-semibold">Directory error:</span>{" "}
+                    {directoryError || "None"}
+                  </p>
+                </div>
               </article>
             </div>
           </div>
