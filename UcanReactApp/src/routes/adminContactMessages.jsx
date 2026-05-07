@@ -1,0 +1,243 @@
+import { useEffect, useMemo, useState } from "react";
+import { Link } from "react-router-dom";
+import { fetchContactMessages } from "../lib/contactApi";
+import { downloadStorageAttachment } from "../lib/adminDownloads";
+import AdminAttachmentDownloadList from "../components/AdminAttachmentDownloadList";
+
+function formatSubmittedAt(value) {
+  if (!value) {
+    return "Unknown";
+  }
+
+  return new Date(value).toLocaleString("en-OM", {
+    year: "numeric",
+    month: "short",
+    day: "numeric",
+    hour: "numeric",
+    minute: "2-digit",
+  });
+}
+
+export default function AdminContactMessages() {
+  const [messages, setMessages] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+  const [feedback, setFeedback] = useState({
+    type: "idle",
+    message: "",
+  });
+  const [downloadingPaths, setDownloadingPaths] = useState({});
+
+  useEffect(() => {
+    let ignore = false;
+
+    const loadMessages = async () => {
+      setLoading(true);
+      setError("");
+
+      try {
+        const results = await fetchContactMessages();
+
+        if (!ignore) {
+          setMessages(results);
+        }
+      } catch (fetchError) {
+        if (!ignore) {
+          setError(fetchError.message || "Unable to load contact messages right now.");
+        }
+      } finally {
+        if (!ignore) {
+          setLoading(false);
+        }
+      }
+    };
+
+    loadMessages();
+
+    return () => {
+      ignore = true;
+    };
+  }, []);
+
+  const stats = useMemo(() => {
+    return {
+      totalMessages: messages.length,
+      newMessages: messages.filter((message) => message.status === "new").length,
+      messageInstitutes: new Set(messages.map((message) => message.institute).filter(Boolean)).size,
+    };
+  }, [messages]);
+
+  const handleAttachmentDownload = async ({ bucket, path, fileName }) => {
+    setFeedback({
+      type: "idle",
+      message: "",
+    });
+    setDownloadingPaths((current) => ({
+      ...current,
+      [path]: true,
+    }));
+
+    try {
+      await downloadStorageAttachment({ bucket, path, fileName });
+      setFeedback({
+        type: "success",
+        message: `Downloaded ${fileName || "attachment"} successfully.`,
+      });
+    } catch (downloadError) {
+      setFeedback({
+        type: "error",
+        message: downloadError.message || "Unable to download this attachment right now.",
+      });
+    } finally {
+      setDownloadingPaths((current) => ({
+        ...current,
+        [path]: false,
+      }));
+    }
+  };
+
+  return (
+    <main className="oman-page min-h-screen px-4 pb-16 pt-24 text-slate-900 sm:px-6 sm:pb-20 sm:pt-28">
+      <section className="mx-auto max-w-6xl">
+        <div className="rounded-[1.75rem] oman-card p-6 sm:p-8">
+          <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+            <div>
+              <p className="oman-section-kicker text-xs font-semibold uppercase sm:text-sm">
+                Admin Records
+              </p>
+              <h1 className="oman-title-accent mt-4 text-2xl font-semibold sm:text-3xl">
+                Submitted Contact Messages
+              </h1>
+              <p className="mt-4 max-w-3xl text-base leading-7 text-[var(--oman-ink)]/75 sm:text-lg sm:leading-8">
+                Review messages from the public contact form and download any submitted files directly from this page.
+              </p>
+            </div>
+            <Link
+              to="/admin-dashboard/"
+              className="oman-button-secondary inline-flex items-center justify-center rounded-2xl px-5 py-3 font-semibold transition"
+            >
+              Back to Admin Dashboard
+            </Link>
+          </div>
+
+          {feedback.message && (
+            <div
+              className={[
+                "mt-6 rounded-2xl px-4 py-3 text-sm leading-6",
+                feedback.type === "error"
+                  ? "border border-[rgba(155,77,49,0.22)] bg-[rgba(255,239,232,0.95)] text-[var(--oman-terracotta-dark)]"
+                  : "border border-[rgba(82,101,74,0.22)] bg-[rgba(239,246,236,0.95)] text-[var(--oman-olive)]",
+              ].join(" ")}
+            >
+              {feedback.message}
+            </div>
+          )}
+
+          <div className="mt-8 grid grid-cols-3 gap-3 text-center">
+            <div className="rounded-2xl bg-[rgba(244,232,214,0.42)] px-3 py-3">
+              <p className="text-xs font-semibold uppercase tracking-[0.14em] text-[var(--oman-terracotta)]">
+                Total
+              </p>
+              <p className="mt-2 text-xl font-bold text-[var(--oman-ink)]">{stats.totalMessages}</p>
+            </div>
+            <div className="rounded-2xl bg-[rgba(244,232,214,0.42)] px-3 py-3">
+              <p className="text-xs font-semibold uppercase tracking-[0.14em] text-[var(--oman-terracotta)]">
+                New
+              </p>
+              <p className="mt-2 text-xl font-bold text-[var(--oman-ink)]">{stats.newMessages}</p>
+            </div>
+            <div className="rounded-2xl bg-[rgba(244,232,214,0.42)] px-3 py-3">
+              <p className="text-xs font-semibold uppercase tracking-[0.14em] text-[var(--oman-terracotta)]">
+                Institutes
+              </p>
+              <p className="mt-2 text-xl font-bold text-[var(--oman-ink)]">{stats.messageInstitutes}</p>
+            </div>
+          </div>
+
+          {loading ? (
+            <div className="mt-8 rounded-3xl oman-outline-panel p-6 text-center">
+              <h3 className="text-xl font-semibold text-[var(--oman-ink)]">Loading contact messages...</h3>
+              <p className="mt-4 leading-7 text-[var(--oman-ink)]/75">
+                Fetching the latest submissions from Supabase.
+              </p>
+            </div>
+          ) : error ? (
+            <div className="mt-8 rounded-3xl border border-[rgba(155,77,49,0.22)] bg-[rgba(255,239,232,0.95)] p-6 text-[var(--oman-terracotta-dark)]">
+              <h3 className="text-xl font-semibold">Unable to load messages</h3>
+              <p className="mt-4 leading-7">{error}</p>
+            </div>
+          ) : messages.length === 0 ? (
+            <div className="mt-8 rounded-3xl oman-outline-panel p-6 text-center">
+              <h3 className="text-xl font-semibold text-[var(--oman-ink)]">No contact messages yet</h3>
+              <p className="mt-4 leading-7 text-[var(--oman-ink)]/75">
+                Once users submit the Contact form, their messages will appear here.
+              </p>
+            </div>
+          ) : (
+            <div className="mt-8 grid gap-4">
+              {messages.map((message) => (
+                <article key={message.id} className="rounded-3xl oman-outline-panel p-5 sm:p-6">
+                  <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+                    <div>
+                      <h3 className="text-lg font-semibold text-[var(--oman-ink)]">{message.subject}</h3>
+                      <p className="mt-2 text-sm text-[var(--oman-ink)]/70">
+                        From <span className="font-semibold">{message.full_name}</span> via {message.email}
+                      </p>
+                    </div>
+                    <span className="rounded-full bg-[rgba(197,154,68,0.12)] px-3 py-1 text-xs font-semibold uppercase tracking-[0.16em] text-[var(--oman-terracotta-dark)]">
+                      {message.status}
+                    </span>
+                  </div>
+
+                  <div className="mt-4 grid gap-2 text-sm leading-6 text-[var(--oman-ink)]/75 sm:grid-cols-2">
+                    <p>
+                      <span className="font-semibold text-[var(--oman-ink)]">Institute:</span>{" "}
+                      {message.institute || "Not provided"}
+                    </p>
+                    <p>
+                      <span className="font-semibold text-[var(--oman-ink)]">Role:</span>{" "}
+                      {message.role || "Not provided"}
+                    </p>
+                    <p>
+                      <span className="font-semibold text-[var(--oman-ink)]">Submitted:</span>{" "}
+                      {formatSubmittedAt(message.created_at)}
+                    </p>
+                  </div>
+
+                  <div className="mt-5 rounded-2xl bg-[rgba(255,252,247,0.92)] px-4 py-4 text-[var(--oman-ink)] ring-1 ring-[rgba(111,49,29,0.1)]">
+                    <p className="text-sm font-semibold uppercase tracking-[0.16em] text-[var(--oman-terracotta)]">
+                      Message
+                    </p>
+                    <p className="mt-3 whitespace-pre-wrap leading-7 text-[var(--oman-ink)]/80">
+                      {message.message}
+                    </p>
+                  </div>
+
+                  {(message.attachment_notes ||
+                    (Array.isArray(message.attachment_files) && message.attachment_files.length > 0)) && (
+                    <div className="mt-4 rounded-2xl bg-[rgba(244,232,214,0.34)] px-4 py-4 text-[var(--oman-ink)]">
+                      <p className="text-sm font-semibold uppercase tracking-[0.16em] text-[var(--oman-terracotta)]">
+                        Attachments
+                      </p>
+                      {message.attachment_notes && (
+                        <p className="mt-3 whitespace-pre-wrap leading-7 text-[var(--oman-ink)]/80">
+                          {message.attachment_notes}
+                        </p>
+                      )}
+                      <AdminAttachmentDownloadList
+                        files={message.attachment_files}
+                        bucket="contact-attachments"
+                        downloadingPaths={downloadingPaths}
+                        onDownload={handleAttachmentDownload}
+                      />
+                    </div>
+                  )}
+                </article>
+              ))}
+            </div>
+          )}
+        </div>
+      </section>
+    </main>
+  );
+}

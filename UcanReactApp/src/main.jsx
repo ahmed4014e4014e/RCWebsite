@@ -21,6 +21,8 @@ import Account from "./routes/account";
 import StudentDashboard from "./routes/studentDashboard";
 import TutorDashboard from "./routes/tutorDashboard";
 import AdminDashboard from "./routes/adminDashboard";
+import AdminContactMessages from "./routes/adminContactMessages";
+import AdminTutoringRequests from "./routes/adminTutoringRequests";
 
 // Create a Router
 const router = createBrowserRouter([
@@ -94,6 +96,22 @@ const router = createBrowserRouter([
         element: (
           <RoleProtectedRoute allowedRole="admin">
             <AdminDashboard />
+          </RoleProtectedRoute>
+        ),
+      },
+      {
+        path: "admin-contact-messages",
+        element: (
+          <RoleProtectedRoute allowedRole="admin">
+            <AdminContactMessages />
+          </RoleProtectedRoute>
+        ),
+      },
+      {
+        path: "admin-tutoring-requests",
+        element: (
+          <RoleProtectedRoute allowedRole="admin">
+            <AdminTutoringRequests />
           </RoleProtectedRoute>
         ),
       },

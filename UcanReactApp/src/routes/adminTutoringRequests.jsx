@@ -1,0 +1,259 @@
+import { useEffect, useMemo, useState } from "react";
+import { Link } from "react-router-dom";
+import { fetchAdminTutoringRequests } from "../lib/tutoringApi";
+import { downloadStorageAttachment } from "../lib/adminDownloads";
+import AdminAttachmentDownloadList from "../components/AdminAttachmentDownloadList";
+
+function formatSubmittedAt(value) {
+  if (!value) {
+    return "Unknown";
+  }
+
+  return new Date(value).toLocaleString("en-OM", {
+    year: "numeric",
+    month: "short",
+    day: "numeric",
+    hour: "numeric",
+    minute: "2-digit",
+  });
+}
+
+export default function AdminTutoringRequests() {
+  const [requests, setRequests] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+  const [feedback, setFeedback] = useState({
+    type: "idle",
+    message: "",
+  });
+  const [downloadingPaths, setDownloadingPaths] = useState({});
+
+  useEffect(() => {
+    let ignore = false;
+
+    const loadRequests = async () => {
+      setLoading(true);
+      setError("");
+
+      try {
+        const results = await fetchAdminTutoringRequests();
+
+        if (!ignore) {
+          setRequests(results);
+        }
+      } catch (fetchError) {
+        if (!ignore) {
+          setError(fetchError.message || "Unable to load tutoring requests right now.");
+        }
+      } finally {
+        if (!ignore) {
+          setLoading(false);
+        }
+      }
+    };
+
+    loadRequests();
+
+    return () => {
+      ignore = true;
+    };
+  }, []);
+
+  const stats = useMemo(() => {
+    return {
+      totalRequests: requests.length,
+      pendingRequests: requests.filter((request) => request.status === "pending").length,
+      requestInstitutes: new Set(
+        requests.map((request) => request.institute_name_snapshot).filter(Boolean)
+      ).size,
+    };
+  }, [requests]);
+
+  const handleAttachmentDownload = async ({ bucket, path, fileName }) => {
+    setFeedback({
+      type: "idle",
+      message: "",
+    });
+    setDownloadingPaths((current) => ({
+      ...current,
+      [path]: true,
+    }));
+
+    try {
+      await downloadStorageAttachment({ bucket, path, fileName });
+      setFeedback({
+        type: "success",
+        message: `Downloaded ${fileName || "attachment"} successfully.`,
+      });
+    } catch (downloadError) {
+      setFeedback({
+        type: "error",
+        message: downloadError.message || "Unable to download this attachment right now.",
+      });
+    } finally {
+      setDownloadingPaths((current) => ({
+        ...current,
+        [path]: false,
+      }));
+    }
+  };
+
+  return (
+    <main className="oman-page min-h-screen px-4 pb-16 pt-24 text-slate-900 sm:px-6 sm:pb-20 sm:pt-28">
+      <section className="mx-auto max-w-6xl">
+        <div className="rounded-[1.75rem] oman-card p-6 sm:p-8">
+          <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+            <div>
+              <p className="oman-section-kicker text-xs font-semibold uppercase sm:text-sm">
+                Admin Records
+              </p>
+              <h1 className="oman-title-accent mt-4 text-2xl font-semibold sm:text-3xl">
+                Submitted Tutoring Requests
+              </h1>
+              <p className="mt-4 max-w-3xl text-base leading-7 text-[var(--oman-ink)]/75 sm:text-lg sm:leading-8">
+                Review student tutoring requests and download submitted files directly from this page.
+              </p>
+            </div>
+            <Link
+              to="/admin-dashboard/"
+              className="oman-button-secondary inline-flex items-center justify-center rounded-2xl px-5 py-3 font-semibold transition"
+            >
+              Back to Admin Dashboard
+            </Link>
+          </div>
+
+          {feedback.message && (
+            <div
+              className={[
+                "mt-6 rounded-2xl px-4 py-3 text-sm leading-6",
+                feedback.type === "error"
+                  ? "border border-[rgba(155,77,49,0.22)] bg-[rgba(255,239,232,0.95)] text-[var(--oman-terracotta-dark)]"
+                  : "border border-[rgba(82,101,74,0.22)] bg-[rgba(239,246,236,0.95)] text-[var(--oman-olive)]",
+              ].join(" ")}
+            >
+              {feedback.message}
+            </div>
+          )}
+
+          <div className="mt-8 grid grid-cols-3 gap-3 text-center">
+            <div className="rounded-2xl bg-[rgba(244,232,214,0.42)] px-3 py-3">
+              <p className="text-xs font-semibold uppercase tracking-[0.14em] text-[var(--oman-terracotta)]">
+                Total
+              </p>
+              <p className="mt-2 text-xl font-bold text-[var(--oman-ink)]">{stats.totalRequests}</p>
+            </div>
+            <div className="rounded-2xl bg-[rgba(244,232,214,0.42)] px-3 py-3">
+              <p className="text-xs font-semibold uppercase tracking-[0.14em] text-[var(--oman-terracotta)]">
+                Pending
+              </p>
+              <p className="mt-2 text-xl font-bold text-[var(--oman-ink)]">{stats.pendingRequests}</p>
+            </div>
+            <div className="rounded-2xl bg-[rgba(244,232,214,0.42)] px-3 py-3">
+              <p className="text-xs font-semibold uppercase tracking-[0.14em] text-[var(--oman-terracotta)]">
+                Institutes
+              </p>
+              <p className="mt-2 text-xl font-bold text-[var(--oman-ink)]">{stats.requestInstitutes}</p>
+            </div>
+          </div>
+
+          {loading ? (
+            <div className="mt-8 rounded-3xl oman-outline-panel p-6 text-center">
+              <h3 className="text-xl font-semibold text-[var(--oman-ink)]">Loading tutoring requests...</h3>
+              <p className="mt-4 leading-7 text-[var(--oman-ink)]/75">
+                Fetching the latest student tutoring submissions from Supabase.
+              </p>
+            </div>
+          ) : error ? (
+            <div className="mt-8 rounded-3xl border border-[rgba(155,77,49,0.22)] bg-[rgba(255,239,232,0.95)] p-6 text-[var(--oman-terracotta-dark)]">
+              <h3 className="text-xl font-semibold">Unable to load tutoring requests</h3>
+              <p className="mt-4 leading-7">{error}</p>
+            </div>
+          ) : requests.length === 0 ? (
+            <div className="mt-8 rounded-3xl oman-outline-panel p-6 text-center">
+              <h3 className="text-xl font-semibold text-[var(--oman-ink)]">No tutoring requests yet</h3>
+              <p className="mt-4 leading-7 text-[var(--oman-ink)]/75">
+                Once students save booking requests, they will appear here for review.
+              </p>
+            </div>
+          ) : (
+            <div className="mt-8 grid gap-4">
+              {requests.map((request) => (
+                <article key={request.id} className="rounded-3xl oman-outline-panel p-5 sm:p-6">
+                  <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+                    <div>
+                      <h3 className="text-lg font-semibold text-[var(--oman-ink)]">
+                        {request.course?.code || "Course"}{" "}
+                        <span className="text-[var(--oman-ink)]/60">
+                          - {request.course?.title || "Unknown title"}
+                        </span>
+                      </h3>
+                      <p className="mt-2 text-sm text-[var(--oman-ink)]/70">
+                        Student{" "}
+                        <span className="font-semibold">
+                          {request.student?.full_name || "Unknown student"}
+                        </span>{" "}
+                        via {request.student?.email || "No email"}
+                      </p>
+                    </div>
+                    <div className="flex flex-wrap gap-2">
+                      <span className="rounded-full bg-[rgba(197,154,68,0.12)] px-3 py-1 text-xs font-semibold uppercase tracking-[0.16em] text-[var(--oman-terracotta-dark)]">
+                        {request.session_type}
+                      </span>
+                      <span className="rounded-full bg-[rgba(155,77,49,0.12)] px-3 py-1 text-xs font-semibold uppercase tracking-[0.16em] text-[var(--oman-terracotta-dark)]">
+                        {request.status}
+                      </span>
+                    </div>
+                  </div>
+
+                  <div className="mt-4 grid gap-2 text-sm leading-6 text-[var(--oman-ink)]/75 sm:grid-cols-2 lg:grid-cols-3">
+                    <p>
+                      <span className="font-semibold text-[var(--oman-ink)]">Institute:</span>{" "}
+                      {request.institute_name_snapshot || request.student?.institute || "Not provided"}
+                    </p>
+                    <p>
+                      <span className="font-semibold text-[var(--oman-ink)]">Tutor:</span>{" "}
+                      {request.tutor?.display_name || "Unknown tutor"}
+                    </p>
+                    <p>
+                      <span className="font-semibold text-[var(--oman-ink)]">Submitted:</span>{" "}
+                      {formatSubmittedAt(request.created_at)}
+                    </p>
+                  </div>
+
+                  <div className="mt-5 rounded-2xl bg-[rgba(255,252,247,0.92)] px-4 py-4 text-[var(--oman-ink)] ring-1 ring-[rgba(111,49,29,0.1)]">
+                    <p className="text-sm font-semibold uppercase tracking-[0.16em] text-[var(--oman-terracotta)]">
+                      Topics Need Help With
+                    </p>
+                    <p className="mt-3 whitespace-pre-wrap leading-7 text-[var(--oman-ink)]/80">
+                      {request.topics_needed_help_with}
+                    </p>
+                  </div>
+
+                  {(request.attachment_notes ||
+                    (Array.isArray(request.attachment_files) && request.attachment_files.length > 0)) && (
+                    <div className="mt-4 rounded-2xl bg-[rgba(244,232,214,0.34)] px-4 py-4 text-[var(--oman-ink)]">
+                      <p className="text-sm font-semibold uppercase tracking-[0.16em] text-[var(--oman-terracotta)]">
+                        Attachments
+                      </p>
+                      {request.attachment_notes && (
+                        <p className="mt-3 whitespace-pre-wrap leading-7 text-[var(--oman-ink)]/80">
+                          {request.attachment_notes}
+                        </p>
+                      )}
+                      <AdminAttachmentDownloadList
+                        files={request.attachment_files}
+                        bucket="tutoring-attachments"
+                        downloadingPaths={downloadingPaths}
+                        onDownload={handleAttachmentDownload}
+                      />
+                    </div>
+                  )}
+                </article>
+              ))}
+            </div>
+          )}
+        </div>
+      </section>
+    </main>
+  );
+}
