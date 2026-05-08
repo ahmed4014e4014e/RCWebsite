@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Outlet, NavLink, useLocation, useNavigate } from "react-router-dom";
+import ActionFeedback from "../components/ActionFeedback";
 import { useAuth } from "../context/AuthContext";
 import { getDashboardPath, getUserRole } from "../lib/authRouting";
 
@@ -66,9 +67,12 @@ export default function Navbar() {
     <>
       <ScrollToTopOnRouteChange />
       {logoutMessage && (
-        <div className="fixed left-1/2 top-20 z-[80] w-[min(92vw,32rem)] -translate-x-1/2 rounded-2xl border border-[rgba(82,101,74,0.22)] bg-[rgba(239,246,236,0.98)] px-5 py-4 text-sm font-medium text-[var(--oman-olive)] shadow-lg backdrop-blur">
-          {logoutMessage}
-        </div>
+        <ActionFeedback
+          type="success"
+          message={logoutMessage}
+          title="Session update"
+          className="fixed left-1/2 top-20 z-[80] w-[min(92vw,32rem)] -translate-x-1/2 rounded-2xl px-5 py-4 shadow-lg backdrop-blur"
+        />
       )}
       <nav className="fixed left-0 top-0 z-50 w-full border-b border-[rgba(111,49,29,0.12)] bg-[rgba(255,248,238,0.88)] shadow-sm backdrop-blur">
         <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-4 sm:px-6">

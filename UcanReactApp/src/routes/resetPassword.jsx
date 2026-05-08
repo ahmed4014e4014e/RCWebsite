@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import ActionFeedback from "../components/ActionFeedback";
 import { supabase, isSupabaseConfigured } from "../lib/supabase";
 import { themeImages } from "../lib/themeImages";
 
@@ -91,18 +92,12 @@ export default function ResetPassword() {
           Reset your password
         </h2>
 
-        {message && (
-          <div
-            className={[
-              "mt-6 rounded-3xl px-5 py-4 text-sm leading-6",
-              messageType === "error"
-                ? "border border-[rgba(155,77,49,0.22)] bg-[rgba(255,239,232,0.95)] text-[var(--oman-terracotta-dark)]"
-                : "border border-[rgba(82,101,74,0.22)] bg-[rgba(239,246,236,0.95)] text-[var(--oman-olive)]",
-            ].join(" ")}
-          >
-            {message}
-          </div>
-        )}
+        <ActionFeedback
+          type={messageType}
+          message={message}
+          title="Password reset update"
+          className="mt-6 rounded-3xl px-5 py-4"
+        />
 
         <form className="mt-6 space-y-4" onSubmit={handleSubmit}>
           <label className="flex flex-col gap-2">

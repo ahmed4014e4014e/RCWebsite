@@ -2,6 +2,7 @@
 /* eslint-disable react-hooks/set-state-in-effect */
 import { useEffect, useMemo, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
+import ActionFeedback from "../components/ActionFeedback";
 import { useAuth } from "../context/AuthContext";
 import { isSupabaseConfigured } from "../lib/supabase";
 import {
@@ -868,18 +869,11 @@ export default function Services() {
                   />
                 </label>
 
-                {requestMessage && (
-                  <div
-                    className={[
-                      "rounded-2xl px-4 py-3 text-sm leading-6",
-                      requestMessageType === "error"
-                        ? "border border-[rgba(155,77,49,0.22)] bg-[rgba(255,239,232,0.95)] text-[var(--oman-terracotta-dark)]"
-                        : "border border-[rgba(82,101,74,0.22)] bg-[rgba(239,246,236,0.95)] text-[var(--oman-olive)]",
-                    ].join(" ")}
-                  >
-                    {requestMessage}
-                  </div>
-                )}
+                <ActionFeedback
+                  type={requestMessageType}
+                  message={requestMessage}
+                  title="Tutoring request update"
+                />
 
                 <button
                   type="submit"

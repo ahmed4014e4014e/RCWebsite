@@ -1,4 +1,5 @@
 import { useState } from "react";
+import ActionFeedback from "../components/ActionFeedback";
 import { useAuth } from "../context/AuthContext";
 import { createContactMessage, uploadContactAttachments } from "../lib/contactApi";
 import {
@@ -311,18 +312,12 @@ export default function Contact() {
                 </label>
               </div>
 
-              {submitState.message && (
-                <div
-                  className={[
-                    "mt-5 rounded-2xl px-4 py-3 text-sm leading-6",
-                    submitState.type === "error"
-                      ? "border border-[rgba(155,77,49,0.22)] bg-[rgba(255,239,232,0.95)] text-[var(--oman-terracotta-dark)]"
-                      : "border border-[rgba(82,101,74,0.22)] bg-[rgba(239,246,236,0.95)] text-[var(--oman-olive)]",
-                  ].join(" ")}
-                >
-                  {submitState.message}
-                </div>
-              )}
+              <ActionFeedback
+                type={submitState.type}
+                message={submitState.message}
+                title="Contact form update"
+                className="mt-5"
+              />
 
               <button
                 type="submit"

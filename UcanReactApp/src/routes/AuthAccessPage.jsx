@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
+import ActionFeedback from "../components/ActionFeedback";
 import { supabase, isSupabaseConfigured } from "../lib/supabase";
 import { getDashboardPath, getUserRole } from "../lib/authRouting";
 import { themeImages } from "../lib/themeImages";
@@ -435,18 +436,18 @@ export default function AuthAccessPage({
           </div>
         )}
 
-        {message && (
-          <div
-            className={[
-              "mt-6 rounded-3xl px-5 py-4 text-sm leading-6",
-              messageType === "error"
-                ? "border border-[rgba(155,77,49,0.22)] bg-[rgba(255,239,232,0.95)] text-[var(--oman-terracotta-dark)]"
-                : "border border-[rgba(82,101,74,0.22)] bg-[rgba(239,246,236,0.95)] text-[var(--oman-olive)]",
-            ].join(" ")}
-          >
-            {message}
-          </div>
-        )}
+        <ActionFeedback
+          type={messageType}
+          message={message}
+          title={
+            messageType === "error"
+              ? "Authentication update"
+              : recoveryMode
+                ? "Password recovery update"
+                : "Account access update"
+          }
+          className="mt-6 rounded-3xl px-5 py-4"
+        />
 
         {!loading && !user && pendingConfirmationEmail && (
           <div className="mt-4 rounded-3xl oman-card px-5 py-4">

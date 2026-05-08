@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
+import ActionFeedback from "../components/ActionFeedback";
 import { useAuth } from "../context/AuthContext";
 import { downloadStorageAttachment } from "../lib/adminDownloads";
 import AdminAttachmentDownloadList from "../components/AdminAttachmentDownloadList";
@@ -202,18 +203,12 @@ export default function TutorTutoringRequests() {
             </Link>
           </div>
 
-          {feedback.message && (
-            <div
-              className={[
-                "mt-6 rounded-2xl px-4 py-3 text-sm leading-6",
-                feedback.type === "error"
-                  ? "border border-[rgba(155,77,49,0.22)] bg-[rgba(255,239,232,0.95)] text-[var(--oman-terracotta-dark)]"
-                  : "border border-[rgba(82,101,74,0.22)] bg-[rgba(239,246,236,0.95)] text-[var(--oman-olive)]",
-              ].join(" ")}
-            >
-              {feedback.message}
-            </div>
-          )}
+          <ActionFeedback
+            type={feedback.type}
+            message={feedback.message}
+            title="Tutor request update"
+            className="mt-6"
+          />
 
           <div className="mt-8 grid grid-cols-3 gap-3 text-center">
             <div className="rounded-2xl bg-[rgba(244,232,214,0.42)] px-3 py-3">
