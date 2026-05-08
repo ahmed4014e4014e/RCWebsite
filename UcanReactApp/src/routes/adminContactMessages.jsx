@@ -1,8 +1,13 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
-import { fetchContactMessages } from "../lib/contactApi";
+import { fetchContactMessages, updateContactMessageStatus } from "../lib/contactApi";
 import { downloadStorageAttachment } from "../lib/adminDownloads";
 import AdminAttachmentDownloadList from "../components/AdminAttachmentDownloadList";
+import {
+  CONTACT_STATUS_OPTIONS,
+  formatStatusLabel,
+  normalizeStatus,
+} from "../lib/requestStatuses";
 
 function formatSubmittedAt(value) {
   if (!value) {
@@ -28,6 +33,8 @@ export default function AdminContactMessages() {
     message: "",
   });
   const [downloadingPaths, setDownloadingPaths] = useState({});
+  const [statusDraft, setStatusDraft] = useState("pending");
+  const [statusSaving, setStatusSaving] = useState(false);
 
   useEffect(() => {
     let ignore = false;
@@ -75,10 +82,21 @@ export default function AdminContactMessages() {
     return () => window.removeEventListener("keydown", handleEscape);
   }, [activeMessage]);
 
+  useEffect(() => {
+    if (!activeMessage) {
+      setStatusDraft("pending");
+      return;
+    }
+
+    setStatusDraft(normalizeStatus(activeMessage.status));
+  }, [activeMessage]);
+
   const stats = useMemo(() => {
     return {
       totalMessages: messages.length,
-      newMessages: messages.filter((message) => message.status === "new").length,
+      pendingMessages: messages.filter(
+        (message) => normalizeStatus(message.status) === "pending"
+      ).length,
       messageInstitutes: new Set(messages.map((message) => message.institute).filter(Boolean)).size,
     };
   }, [messages]);
@@ -109,6 +127,42 @@ export default function AdminContactMessages() {
         ...current,
         [path]: false,
       }));
+    }
+  };
+
+  const handleStatusSave = async () => {
+    if (!activeMessage) {
+      return;
+    }
+
+    setStatusSaving(true);
+    setFeedback({
+      type: "idle",
+      message: "",
+    });
+
+    try {
+      const updatedMessage = await updateContactMessageStatus(activeMessage.id, statusDraft);
+      const normalizedMessage = {
+        ...updatedMessage,
+        status: normalizeStatus(updatedMessage.status),
+      };
+
+      setMessages((current) =>
+        current.map((message) => (message.id === normalizedMessage.id ? normalizedMessage : message))
+      );
+      setActiveMessage(normalizedMessage);
+      setFeedback({
+        type: "success",
+        message: `Contact message marked as ${formatStatusLabel(statusDraft)}.`,
+      });
+    } catch (statusError) {
+      setFeedback({
+        type: "error",
+        message: statusError.message || "Unable to update this contact message status right now.",
+      });
+    } finally {
+      setStatusSaving(false);
     }
   };
 
@@ -158,9 +212,9 @@ export default function AdminContactMessages() {
             </div>
             <div className="rounded-2xl bg-[rgba(244,232,214,0.42)] px-3 py-3">
               <p className="text-xs font-semibold uppercase tracking-[0.14em] text-[var(--oman-terracotta)]">
-                New
+                Pending
               </p>
-              <p className="mt-2 text-xl font-bold text-[var(--oman-ink)]">{stats.newMessages}</p>
+              <p className="mt-2 text-xl font-bold text-[var(--oman-ink)]">{stats.pendingMessages}</p>
             </div>
             <div className="rounded-2xl bg-[rgba(244,232,214,0.42)] px-3 py-3">
               <p className="text-xs font-semibold uppercase tracking-[0.14em] text-[var(--oman-terracotta)]">
@@ -206,7 +260,7 @@ export default function AdminContactMessages() {
                       </p>
                     </div>
                     <span className="rounded-full bg-[rgba(197,154,68,0.12)] px-3 py-1 text-xs font-semibold uppercase tracking-[0.16em] text-[var(--oman-terracotta-dark)]">
-                      {message.status}
+                      {formatStatusLabel(message.status)}
                     </span>
                   </div>
 
@@ -272,7 +326,7 @@ export default function AdminContactMessages() {
               </p>
               <p>
                 <span className="font-semibold text-[var(--oman-ink)]">Status:</span>{" "}
-                {activeMessage.status}
+                {formatStatusLabel(activeMessage.status)}
               </p>
               <p>
                 <span className="font-semibold text-[var(--oman-ink)]">Submitted:</span>{" "}
@@ -281,6 +335,38 @@ export default function AdminContactMessages() {
             </div>
 
             <div className="mt-6 rounded-2xl bg-[rgba(255,252,247,0.92)] px-4 py-4 text-[var(--oman-ink)] ring-1 ring-[rgba(111,49,29,0.1)]">
+              <p className="text-sm font-semibold uppercase tracking-[0.16em] text-[var(--oman-terracotta)]">
+                Status Workflow
+              </p>
+              <div className="mt-4 flex flex-col gap-3 sm:flex-row sm:items-end">
+                <label className="flex-1">
+                  <span className="text-sm font-semibold text-[var(--oman-terracotta-dark)]">
+                    Update status
+                  </span>
+                  <select
+                    value={statusDraft}
+                    onChange={(event) => setStatusDraft(event.target.value)}
+                    className="mt-2 min-h-12 w-full rounded-2xl border border-[rgba(111,49,29,0.14)] bg-white px-4 py-3 text-[var(--oman-ink)] outline-none transition focus:border-[var(--oman-brass)]"
+                  >
+                    {CONTACT_STATUS_OPTIONS.map((statusOption) => (
+                      <option key={statusOption} value={statusOption}>
+                        {formatStatusLabel(statusOption)}
+                      </option>
+                    ))}
+                  </select>
+                </label>
+                <button
+                  type="button"
+                  onClick={handleStatusSave}
+                  disabled={statusSaving || statusDraft === normalizeStatus(activeMessage.status)}
+                  className="oman-button-secondary inline-flex items-center justify-center rounded-2xl px-5 py-3 font-semibold transition disabled:cursor-not-allowed disabled:opacity-70"
+                >
+                  {statusSaving ? "Saving..." : "Save Status"}
+                </button>
+              </div>
+            </div>
+
+            <div className="mt-4 rounded-2xl bg-[rgba(255,252,247,0.92)] px-4 py-4 text-[var(--oman-ink)] ring-1 ring-[rgba(111,49,29,0.1)]">
               <p className="text-sm font-semibold uppercase tracking-[0.16em] text-[var(--oman-terracotta)]">
                 Message
               </p>

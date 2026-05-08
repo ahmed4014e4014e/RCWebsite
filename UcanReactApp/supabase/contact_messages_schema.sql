@@ -6,7 +6,7 @@ create table if not exists public.contact_messages (
   institute text,
   subject text not null,
   message text not null,
-  status text not null default 'new',
+  status text not null default 'pending' check (status in ('pending', 'reviewed', 'scheduled', 'completed', 'cancelled')),
   created_at timestamptz not null default timezone('utc', now())
 );
 

@@ -31,6 +31,23 @@ export async function fetchContactMessages() {
   return data ?? [];
 }
 
+export async function updateContactMessageStatus(messageId, status) {
+  ensureSupabase();
+
+  const { data, error } = await supabase
+    .from("contact_messages")
+    .update({ status })
+    .eq("id", messageId)
+    .select("*")
+    .single();
+
+  if (error) {
+    throw error;
+  }
+
+  return data;
+}
+
 export async function uploadContactAttachments(files) {
   ensureSupabase();
 

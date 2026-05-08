@@ -1,7 +1,14 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
-import { fetchTutorTutoringRequests } from "../lib/tutoringApi";
+import {
+  fetchTutorTutoringRequests,
+  updateTutoringRequestStatus,
+} from "../lib/tutoringApi";
+import {
+  formatStatusLabel,
+  TUTORING_STATUS_OPTIONS,
+} from "../lib/requestStatuses";
 import { themeImages } from "../lib/themeImages";
 
 const tutorActions = [
@@ -26,6 +33,11 @@ export default function TutorDashboard() {
   const [requests, setRequests] = useState([]);
   const [requestLoading, setRequestLoading] = useState(true);
   const [requestError, setRequestError] = useState("");
+  const [statusSavingById, setStatusSavingById] = useState({});
+  const [requestFeedback, setRequestFeedback] = useState({
+    type: "idle",
+    message: "",
+  });
 
   useEffect(() => {
     let ignore = false;
@@ -84,6 +96,40 @@ export default function TutorDashboard() {
       hour: "numeric",
       minute: "2-digit",
     });
+  };
+
+  const handleStatusChange = async (requestId, nextStatus) => {
+    setRequestFeedback({
+      type: "idle",
+      message: "",
+    });
+    setStatusSavingById((current) => ({
+      ...current,
+      [requestId]: true,
+    }));
+
+    try {
+      const updatedRequest = await updateTutoringRequestStatus(requestId, nextStatus);
+      setRequests((current) =>
+        current.map((request) =>
+          request.id === requestId ? { ...request, status: updatedRequest.status } : request
+        )
+      );
+      setRequestFeedback({
+        type: "success",
+        message: `Request updated to ${formatStatusLabel(nextStatus)}.`,
+      });
+    } catch (error) {
+      setRequestFeedback({
+        type: "error",
+        message: error.message || "Unable to update this tutoring request status right now.",
+      });
+    } finally {
+      setStatusSavingById((current) => ({
+        ...current,
+        [requestId]: false,
+      }));
+    }
   };
 
   return (
@@ -190,6 +236,19 @@ export default function TutorDashboard() {
             </div>
           </div>
 
+          {requestFeedback.message && (
+            <div
+              className={[
+                "mt-6 rounded-2xl px-4 py-3 text-sm leading-6",
+                requestFeedback.type === "error"
+                  ? "border border-[rgba(155,77,49,0.22)] bg-[rgba(255,239,232,0.95)] text-[var(--oman-terracotta-dark)]"
+                  : "border border-[rgba(82,101,74,0.22)] bg-[rgba(239,246,236,0.95)] text-[var(--oman-olive)]",
+              ].join(" ")}
+            >
+              {requestFeedback.message}
+            </div>
+          )}
+
           {requestLoading ? (
             <div className="mt-8 rounded-3xl oman-outline-panel p-6 text-center">
               <h3 className="text-xl font-semibold text-[var(--oman-ink)]">Loading tutoring requests...</h3>
@@ -230,7 +289,7 @@ export default function TutorDashboard() {
                         {request.session_type}
                       </span>
                       <span className="rounded-full bg-[rgba(155,77,49,0.12)] px-3 py-1 text-xs font-semibold uppercase tracking-[0.16em] text-[var(--oman-terracotta-dark)]">
-                        {request.status}
+                        {formatStatusLabel(request.status)}
                       </span>
                     </div>
                   </div>
@@ -244,6 +303,31 @@ export default function TutorDashboard() {
                       <span className="font-semibold text-[var(--oman-ink)]">Attachments:</span>{" "}
                       {Array.isArray(request.attachment_files) ? request.attachment_files.length : 0}
                     </p>
+                  </div>
+
+                  <div className="mt-5 rounded-2xl bg-[rgba(244,232,214,0.34)] px-4 py-4 text-[var(--oman-ink)]">
+                    <label className="block">
+                      <span className="text-sm font-semibold uppercase tracking-[0.16em] text-[var(--oman-terracotta)]">
+                        Update Status
+                      </span>
+                      <select
+                        value={request.status}
+                        onChange={(event) => handleStatusChange(request.id, event.target.value)}
+                        disabled={Boolean(statusSavingById[request.id])}
+                        className="mt-2 min-h-12 w-full rounded-2xl border border-[rgba(111,49,29,0.14)] bg-white px-4 py-3 text-[var(--oman-ink)] outline-none transition focus:border-[var(--oman-brass)] disabled:cursor-not-allowed disabled:opacity-70"
+                      >
+                        {TUTORING_STATUS_OPTIONS.map((statusOption) => (
+                          <option key={statusOption} value={statusOption}>
+                            {formatStatusLabel(statusOption)}
+                          </option>
+                        ))}
+                      </select>
+                    </label>
+                    {statusSavingById[request.id] && (
+                      <p className="mt-3 text-sm font-semibold text-[var(--oman-terracotta-dark)]">
+                        Saving status...
+                      </p>
+                    )}
                   </div>
 
                   <div className="mt-5 rounded-2xl bg-[rgba(255,252,247,0.92)] px-4 py-4 text-[var(--oman-ink)] ring-1 ring-[rgba(111,49,29,0.1)]">

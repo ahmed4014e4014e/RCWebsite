@@ -231,3 +231,47 @@ export async function fetchTutorTutoringRequests(tutorId) {
 
   return data ?? [];
 }
+
+export async function updateTutoringRequestStatus(requestId, status) {
+  ensureSupabase();
+
+  const { data, error } = await supabase
+    .from("tutoring_requests")
+    .update({ status })
+    .eq("id", requestId)
+    .select(
+      `
+        id,
+        session_type,
+        institute_name_snapshot,
+        topics_needed_help_with,
+        attachment_notes,
+        attachment_files,
+        status,
+        created_at,
+        student:profiles!tutoring_requests_student_id_fkey (
+          id,
+          full_name,
+          email,
+          institute
+        ),
+        tutor:tutor_profiles!tutoring_requests_tutor_id_fkey (
+          id,
+          display_name,
+          institute_code
+        ),
+        course:courses!tutoring_requests_course_id_fkey (
+          id,
+          code,
+          title
+        )
+      `
+    )
+    .single();
+
+  if (error) {
+    throw error;
+  }
+
+  return data;
+}

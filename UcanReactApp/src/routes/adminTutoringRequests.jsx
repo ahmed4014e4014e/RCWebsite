@@ -1,8 +1,16 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
-import { fetchAdminTutoringRequests } from "../lib/tutoringApi";
+import {
+  fetchAdminTutoringRequests,
+  updateTutoringRequestStatus,
+} from "../lib/tutoringApi";
 import { downloadStorageAttachment } from "../lib/adminDownloads";
 import AdminAttachmentDownloadList from "../components/AdminAttachmentDownloadList";
+import {
+  formatStatusLabel,
+  normalizeStatus,
+  TUTORING_STATUS_OPTIONS,
+} from "../lib/requestStatuses";
 
 function formatSubmittedAt(value) {
   if (!value) {
@@ -28,6 +36,8 @@ export default function AdminTutoringRequests() {
     message: "",
   });
   const [downloadingPaths, setDownloadingPaths] = useState({});
+  const [statusDraft, setStatusDraft] = useState("pending");
+  const [statusSaving, setStatusSaving] = useState(false);
 
   useEffect(() => {
     let ignore = false;
@@ -75,6 +85,15 @@ export default function AdminTutoringRequests() {
     return () => window.removeEventListener("keydown", handleEscape);
   }, [activeRequest]);
 
+  useEffect(() => {
+    if (!activeRequest) {
+      setStatusDraft("pending");
+      return;
+    }
+
+    setStatusDraft(normalizeStatus(activeRequest.status));
+  }, [activeRequest]);
+
   const stats = useMemo(() => {
     return {
       totalRequests: requests.length,
@@ -111,6 +130,42 @@ export default function AdminTutoringRequests() {
         ...current,
         [path]: false,
       }));
+    }
+  };
+
+  const handleStatusSave = async () => {
+    if (!activeRequest) {
+      return;
+    }
+
+    setStatusSaving(true);
+    setFeedback({
+      type: "idle",
+      message: "",
+    });
+
+    try {
+      const updatedRequest = await updateTutoringRequestStatus(activeRequest.id, statusDraft);
+      const normalizedRequest = {
+        ...updatedRequest,
+        status: normalizeStatus(updatedRequest.status),
+      };
+
+      setRequests((current) =>
+        current.map((request) => (request.id === normalizedRequest.id ? normalizedRequest : request))
+      );
+      setActiveRequest(normalizedRequest);
+      setFeedback({
+        type: "success",
+        message: `Tutoring request marked as ${formatStatusLabel(statusDraft)}.`,
+      });
+    } catch (statusError) {
+      setFeedback({
+        type: "error",
+        message: statusError.message || "Unable to update this tutoring request status right now.",
+      });
+    } finally {
+      setStatusSaving(false);
     }
   };
 
@@ -221,7 +276,7 @@ export default function AdminTutoringRequests() {
                         {request.session_type}
                       </span>
                       <span className="rounded-full bg-[rgba(155,77,49,0.12)] px-3 py-1 text-xs font-semibold uppercase tracking-[0.16em] text-[var(--oman-terracotta-dark)]">
-                        {request.status}
+                        {formatStatusLabel(request.status)}
                       </span>
                     </div>
                   </div>
@@ -292,7 +347,7 @@ export default function AdminTutoringRequests() {
               </p>
               <p>
                 <span className="font-semibold text-[var(--oman-ink)]">Status:</span>{" "}
-                {activeRequest.status}
+                {formatStatusLabel(activeRequest.status)}
               </p>
               <p className="sm:col-span-2">
                 <span className="font-semibold text-[var(--oman-ink)]">Submitted:</span>{" "}
@@ -301,6 +356,38 @@ export default function AdminTutoringRequests() {
             </div>
 
             <div className="mt-6 rounded-2xl bg-[rgba(255,252,247,0.92)] px-4 py-4 text-[var(--oman-ink)] ring-1 ring-[rgba(111,49,29,0.1)]">
+              <p className="text-sm font-semibold uppercase tracking-[0.16em] text-[var(--oman-terracotta)]">
+                Status Workflow
+              </p>
+              <div className="mt-4 flex flex-col gap-3 sm:flex-row sm:items-end">
+                <label className="flex-1">
+                  <span className="text-sm font-semibold text-[var(--oman-terracotta-dark)]">
+                    Update status
+                  </span>
+                  <select
+                    value={statusDraft}
+                    onChange={(event) => setStatusDraft(event.target.value)}
+                    className="mt-2 min-h-12 w-full rounded-2xl border border-[rgba(111,49,29,0.14)] bg-white px-4 py-3 text-[var(--oman-ink)] outline-none transition focus:border-[var(--oman-brass)]"
+                  >
+                    {TUTORING_STATUS_OPTIONS.map((statusOption) => (
+                      <option key={statusOption} value={statusOption}>
+                        {formatStatusLabel(statusOption)}
+                      </option>
+                    ))}
+                  </select>
+                </label>
+                <button
+                  type="button"
+                  onClick={handleStatusSave}
+                  disabled={statusSaving || statusDraft === normalizeStatus(activeRequest.status)}
+                  className="oman-button-secondary inline-flex items-center justify-center rounded-2xl px-5 py-3 font-semibold transition disabled:cursor-not-allowed disabled:opacity-70"
+                >
+                  {statusSaving ? "Saving..." : "Save Status"}
+                </button>
+              </div>
+            </div>
+
+            <div className="mt-4 rounded-2xl bg-[rgba(255,252,247,0.92)] px-4 py-4 text-[var(--oman-ink)] ring-1 ring-[rgba(111,49,29,0.1)]">
               <p className="text-sm font-semibold uppercase tracking-[0.16em] text-[var(--oman-terracotta)]">
                 Topics Need Help With
               </p>
