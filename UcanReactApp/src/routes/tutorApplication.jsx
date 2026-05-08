@@ -69,7 +69,7 @@ export default function TutorApplication() {
       setSubmitState({
         loading: false,
         type: "error",
-        message: "Please read and agree to the Terms of Service before submitting your tutor application.",
+        message: "Please read and agree to the Ucan Oman Platform Policies before submitting your tutor application.",
       });
       return;
     }
@@ -369,7 +369,7 @@ export default function TutorApplication() {
                   rel="noreferrer"
                   className="font-semibold text-[var(--oman-terracotta)] underline"
                 >
-                  Terms of Service
+                  Ucan Oman Platform Policies
                 </Link>
                 .
               </span>

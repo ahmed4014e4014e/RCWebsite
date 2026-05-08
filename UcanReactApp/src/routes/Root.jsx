@@ -26,7 +26,7 @@ export default function Navbar() {
     { name: "About", to: "/about/" },
     { name: "Services", to: "/services/" },
     { name: "Contact", to: "/contact/" },
-    { name: "Terms", to: "/terms/" },
+    { name: "Policies", to: "/terms/" },
   ];
   const guestLinks = [
     { name: "Student Access", to: "/student-access/" },

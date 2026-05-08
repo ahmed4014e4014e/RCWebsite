@@ -635,7 +635,7 @@ export default function AuthAccessPage({
                           rel="noreferrer"
                           className="font-semibold text-[var(--oman-terracotta)] underline"
                         >
-                          Terms of Service
+                          Ucan Oman Platform Policies
                         </a>
                         .
                       </span>
