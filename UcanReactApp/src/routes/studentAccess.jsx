@@ -9,6 +9,7 @@ export default function StudentAccess() {
       description="This page is designed for students who want to create an account, log in, and access tutoring, course support, and the wider learning community."
       signupHeading="Create a student account"
       role="student"
+      requireTermsAgreement
       accessImage={middleEastCollegeImage}
       accessImageAlt="Middle East College campus in Oman"
     />

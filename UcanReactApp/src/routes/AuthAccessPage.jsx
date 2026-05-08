@@ -16,6 +16,7 @@ export default function AuthAccessPage({
   accessImage,
   accessImageAlt,
   signupPanel = null,
+  requireTermsAgreement = false,
 }) {
   const navigate = useNavigate();
   const { user, profile, loading } = useAuth();
@@ -30,6 +31,7 @@ export default function AuthAccessPage({
   const [signupEmail, setSignupEmail] = useState("");
   const [signupPassword, setSignupPassword] = useState("");
   const [signupInstitute, setSignupInstitute] = useState("");
+  const [signupAcceptedTerms, setSignupAcceptedTerms] = useState(false);
   const [loginLoading, setLoginLoading] = useState(false);
   const [signupLoading, setSignupLoading] = useState(false);
   const [resendLoading, setResendLoading] = useState(false);
@@ -297,6 +299,14 @@ export default function AuthAccessPage({
 
   const handleSignup = async (event) => {
     event.preventDefault();
+
+    if (requireTermsAgreement && !signupAcceptedTerms) {
+      showMessage(
+        "error",
+        "Please read and agree to the Terms of Service before creating your account."
+      );
+      return;
+    }
 
     if (!isSupabaseConfigured || !supabase) {
       showMessage(
@@ -608,6 +618,29 @@ export default function AuthAccessPage({
                       required
                     />
                   </label>
+                  {requireTermsAgreement && (
+                    <label className="flex items-start gap-3 rounded-2xl bg-[rgba(244,232,214,0.34)] px-4 py-4 text-sm leading-6 text-[var(--oman-ink)]">
+                      <input
+                        type="checkbox"
+                        checked={signupAcceptedTerms}
+                        onChange={(event) => setSignupAcceptedTerms(event.target.checked)}
+                        className="mt-1 h-4 w-4 rounded border-[rgba(111,49,29,0.24)] text-[var(--oman-terracotta)] focus:ring-[var(--oman-brass)]"
+                        required
+                      />
+                      <span>
+                        I have read and agree to the{" "}
+                        <a
+                          href="/terms/"
+                          target="_blank"
+                          rel="noreferrer"
+                          className="font-semibold text-[var(--oman-terracotta)] underline"
+                        >
+                          Terms of Service
+                        </a>
+                        .
+                      </span>
+                    </label>
+                  )}
                   <button
                     type="submit"
                     disabled={signupLoading}

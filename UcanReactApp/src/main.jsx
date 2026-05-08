@@ -13,6 +13,7 @@ import Home from "./routes/home";
 import About from "./routes/about";
 import Services from "./routes/services";
 import Contact from "./routes/contact";
+import Terms from "./routes/terms";
 import NotFound from "./routes/NotFound";
 import TutorAccess from "./routes/tutorAccess";
 import TutorApplication from "./routes/tutorApplication";
@@ -53,6 +54,10 @@ const router = createBrowserRouter([
       {
         path: "contact",
         element: <Contact />,
+      },
+      {
+        path: "terms",
+        element: <Terms />,
       },
       {
         path: "tutor-access",

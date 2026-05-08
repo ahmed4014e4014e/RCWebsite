@@ -31,6 +31,7 @@ export default function TutorApplication() {
     phoneNumber: "",
   });
   const [selectedFiles, setSelectedFiles] = useState([]);
+  const [acceptedTerms, setAcceptedTerms] = useState(false);
   const [submitState, setSubmitState] = useState({
     loading: false,
     type: "idle",
@@ -63,6 +64,15 @@ export default function TutorApplication() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+
+    if (!acceptedTerms) {
+      setSubmitState({
+        loading: false,
+        type: "error",
+        message: "Please read and agree to the Terms of Service before submitting your tutor application.",
+      });
+      return;
+    }
 
     if (!isSupabaseConfigured) {
       setSubmitState({
@@ -116,7 +126,7 @@ export default function TutorApplication() {
         loading: false,
         type: "success",
         message:
-          "Your tutor application was submitted successfully. The Ucan Oman team can now review your form and attachments.",
+          "Your tutor application was submitted successfully. The Ucan Oman team can now review your form and attachments. You will recieve a reply in less than 24 hours",
       });
       setFormValues({
         fullName: "",
@@ -341,6 +351,28 @@ export default function TutorApplication() {
                   ))}
                 </div>
               )}
+            </label>
+
+            <label className="flex items-start gap-3 rounded-2xl bg-[rgba(244,232,214,0.34)] px-4 py-4 text-sm leading-6 text-[var(--oman-ink)]">
+              <input
+                type="checkbox"
+                checked={acceptedTerms}
+                onChange={(event) => setAcceptedTerms(event.target.checked)}
+                className="mt-1 h-4 w-4 rounded border-[rgba(111,49,29,0.24)] text-[var(--oman-terracotta)] focus:ring-[var(--oman-brass)]"
+                required
+              />
+              <span>
+                I have read and agree to the{" "}
+                <Link
+                  to="/terms/"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="font-semibold text-[var(--oman-terracotta)] underline"
+                >
+                  Terms of Service
+                </Link>
+                .
+              </span>
             </label>
 
             <button
