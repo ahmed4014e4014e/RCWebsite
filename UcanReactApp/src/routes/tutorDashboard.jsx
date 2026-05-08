@@ -10,18 +10,6 @@ const tutorActions = [
     to: "/tutor-tutoring-requests/",
     action: "View Tutoring Requests",
   },
-  {
-    title: "View Tutoring Services",
-    description: "Review how tutoring appears on the public services page.",
-    to: "/services/#tutor-directory",
-    action: "Open Services",
-  },
-  {
-    title: "Contact Website Admin",
-    description: "Use the contact page if you want to coordinate new tutoring support or updates.",
-    to: "/contact/",
-    action: "Open Contact",
-  },
 ];
 
 export default function TutorDashboard() {
