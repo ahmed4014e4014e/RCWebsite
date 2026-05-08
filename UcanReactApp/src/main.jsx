@@ -15,6 +15,7 @@ import Services from "./routes/services";
 import Contact from "./routes/contact";
 import NotFound from "./routes/NotFound";
 import TutorAccess from "./routes/tutorAccess";
+import TutorApplication from "./routes/tutorApplication";
 import StudentAccess from "./routes/studentAccess";
 import AdminAccess from "./routes/adminAccess";
 import ResetPassword from "./routes/resetPassword";
@@ -56,6 +57,10 @@ const router = createBrowserRouter([
       {
         path: "tutor-access",
         element: <TutorAccess />,
+      },
+      {
+        path: "tutor-application",
+        element: <TutorApplication />,
       },
       {
         path: "admin-access",
