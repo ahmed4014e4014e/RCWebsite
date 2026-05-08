@@ -22,6 +22,7 @@ export default function AdminContactMessages() {
   const [messages, setMessages] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [activeMessage, setActiveMessage] = useState(null);
   const [feedback, setFeedback] = useState({
     type: "idle",
     message: "",
@@ -58,6 +59,21 @@ export default function AdminContactMessages() {
       ignore = true;
     };
   }, []);
+
+  useEffect(() => {
+    if (!activeMessage) {
+      return undefined;
+    }
+
+    const handleEscape = (event) => {
+      if (event.key === "Escape") {
+        setActiveMessage(null);
+      }
+    };
+
+    window.addEventListener("keydown", handleEscape);
+    return () => window.removeEventListener("keydown", handleEscape);
+  }, [activeMessage]);
 
   const stats = useMemo(() => {
     return {
@@ -176,7 +192,12 @@ export default function AdminContactMessages() {
           ) : (
             <div className="mt-8 grid gap-4">
               {messages.map((message) => (
-                <article key={message.id} className="rounded-3xl oman-outline-panel p-5 sm:p-6">
+                <button
+                  key={message.id}
+                  type="button"
+                  onClick={() => setActiveMessage(message)}
+                  className="rounded-3xl oman-outline-panel p-5 text-left transition hover:-translate-y-0.5 hover:shadow-[0_16px_38px_rgba(73,39,27,0.08)] sm:p-6"
+                >
                   <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
                     <div>
                       <h3 className="text-lg font-semibold text-[var(--oman-ink)]">{message.subject}</h3>
@@ -203,41 +224,93 @@ export default function AdminContactMessages() {
                       {formatSubmittedAt(message.created_at)}
                     </p>
                   </div>
-
-                  <div className="mt-5 rounded-2xl bg-[rgba(255,252,247,0.92)] px-4 py-4 text-[var(--oman-ink)] ring-1 ring-[rgba(111,49,29,0.1)]">
-                    <p className="text-sm font-semibold uppercase tracking-[0.16em] text-[var(--oman-terracotta)]">
-                      Message
-                    </p>
-                    <p className="mt-3 whitespace-pre-wrap leading-7 text-[var(--oman-ink)]/80">
-                      {message.message}
-                    </p>
-                  </div>
-
-                  {(message.attachment_notes ||
-                    (Array.isArray(message.attachment_files) && message.attachment_files.length > 0)) && (
-                    <div className="mt-4 rounded-2xl bg-[rgba(244,232,214,0.34)] px-4 py-4 text-[var(--oman-ink)]">
-                      <p className="text-sm font-semibold uppercase tracking-[0.16em] text-[var(--oman-terracotta)]">
-                        Attachments
-                      </p>
-                      {message.attachment_notes && (
-                        <p className="mt-3 whitespace-pre-wrap leading-7 text-[var(--oman-ink)]/80">
-                          {message.attachment_notes}
-                        </p>
-                      )}
-                      <AdminAttachmentDownloadList
-                        files={message.attachment_files}
-                        bucket="contact-attachments"
-                        downloadingPaths={downloadingPaths}
-                        onDownload={handleAttachmentDownload}
-                      />
-                    </div>
-                  )}
-                </article>
+                  <p className="mt-4 text-sm leading-6 text-[var(--oman-ink)]/70">
+                    Click to open this message in a separate popup window.
+                  </p>
+                </button>
               ))}
             </div>
           )}
         </div>
       </section>
+
+      {activeMessage && (
+        <div className="oman-overlay fixed inset-0 z-[70] flex items-center justify-center bg-slate-950/65 px-4 py-6">
+          <div className="relative max-h-[90vh] w-full max-w-3xl overflow-y-auto rounded-[1.75rem] oman-card p-6 sm:p-8">
+            <button
+              type="button"
+              onClick={() => setActiveMessage(null)}
+              className="absolute right-4 top-4 rounded-full bg-[rgba(197,154,68,0.12)] px-3 py-2 text-sm font-semibold text-[var(--oman-terracotta-dark)] transition hover:bg-[rgba(197,154,68,0.2)]"
+              aria-label="Close popup"
+            >
+              Close
+            </button>
+
+            <p className="oman-section-kicker text-xs font-semibold uppercase sm:text-sm">
+              Contact Submission
+            </p>
+            <h2 className="oman-title-accent mt-4 pr-16 text-2xl font-semibold sm:text-3xl">
+              {activeMessage.subject}
+            </h2>
+
+            <div className="mt-6 grid gap-3 text-sm leading-6 text-[var(--oman-ink)]/75 sm:grid-cols-2">
+              <p>
+                <span className="font-semibold text-[var(--oman-ink)]">From:</span>{" "}
+                {activeMessage.full_name}
+              </p>
+              <p>
+                <span className="font-semibold text-[var(--oman-ink)]">Email:</span>{" "}
+                {activeMessage.email}
+              </p>
+              <p>
+                <span className="font-semibold text-[var(--oman-ink)]">Institute:</span>{" "}
+                {activeMessage.institute || "Not provided"}
+              </p>
+              <p>
+                <span className="font-semibold text-[var(--oman-ink)]">Role:</span>{" "}
+                {activeMessage.role || "Not provided"}
+              </p>
+              <p>
+                <span className="font-semibold text-[var(--oman-ink)]">Status:</span>{" "}
+                {activeMessage.status}
+              </p>
+              <p>
+                <span className="font-semibold text-[var(--oman-ink)]">Submitted:</span>{" "}
+                {formatSubmittedAt(activeMessage.created_at)}
+              </p>
+            </div>
+
+            <div className="mt-6 rounded-2xl bg-[rgba(255,252,247,0.92)] px-4 py-4 text-[var(--oman-ink)] ring-1 ring-[rgba(111,49,29,0.1)]">
+              <p className="text-sm font-semibold uppercase tracking-[0.16em] text-[var(--oman-terracotta)]">
+                Message
+              </p>
+              <p className="mt-3 whitespace-pre-wrap leading-7 text-[var(--oman-ink)]/80">
+                {activeMessage.message}
+              </p>
+            </div>
+
+            {(activeMessage.attachment_notes ||
+              (Array.isArray(activeMessage.attachment_files) && activeMessage.attachment_files.length > 0)) && (
+              <div className="mt-4 rounded-2xl bg-[rgba(244,232,214,0.34)] px-4 py-4 text-[var(--oman-ink)]">
+                <p className="text-sm font-semibold uppercase tracking-[0.16em] text-[var(--oman-terracotta)]">
+                  Attachments
+                </p>
+                {activeMessage.attachment_notes && (
+                  <p className="mt-3 whitespace-pre-wrap leading-7 text-[var(--oman-ink)]/80">
+                    {activeMessage.attachment_notes}
+                  </p>
+                )}
+                <AdminAttachmentDownloadList
+                  files={activeMessage.attachment_files}
+                  bucket="contact-attachments"
+                  downloadingPaths={downloadingPaths}
+                  onDownload={handleAttachmentDownload}
+                />
+              </div>
+            )}
+          </div>
+        </div>
+      )}
     </main>
   );
 }
