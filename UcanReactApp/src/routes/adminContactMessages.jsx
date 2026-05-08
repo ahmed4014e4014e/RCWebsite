@@ -29,6 +29,7 @@ export default function AdminContactMessages() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [activeMessage, setActiveMessage] = useState(null);
+  const [statusFilter, setStatusFilter] = useState("all");
   const [feedback, setFeedback] = useState({
     type: "idle",
     message: "",
@@ -101,6 +102,14 @@ export default function AdminContactMessages() {
       messageInstitutes: new Set(messages.map((message) => message.institute).filter(Boolean)).size,
     };
   }, [messages]);
+
+  const filteredMessages = useMemo(() => {
+    if (statusFilter === "all") {
+      return messages;
+    }
+
+    return messages.filter((message) => normalizeStatus(message.status) === statusFilter);
+  }, [messages, statusFilter]);
 
   const handleAttachmentDownload = async ({ bucket, path, fileName }) => {
     setFeedback({
@@ -219,6 +228,37 @@ export default function AdminContactMessages() {
             </div>
           </div>
 
+          <div className="mt-6 rounded-3xl oman-outline-panel p-5">
+            <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
+              <div>
+                <p className="text-sm font-semibold uppercase tracking-[0.16em] text-[var(--oman-terracotta)]">
+                  Message Workflow
+                </p>
+                <p className="mt-2 text-sm leading-6 text-[var(--oman-ink)]/75">
+                  Start with pending messages, move them to reviewed after checking them, then use
+                  scheduled or completed to reflect the outcome.
+                </p>
+              </div>
+              <label className="flex flex-col gap-2 lg:min-w-56">
+                <span className="text-sm font-semibold text-[var(--oman-terracotta-dark)]">
+                  Filter by status
+                </span>
+                <select
+                  value={statusFilter}
+                  onChange={(event) => setStatusFilter(event.target.value)}
+                  className="min-h-12 rounded-2xl border border-[rgba(111,49,29,0.14)] bg-white px-4 py-3 text-[var(--oman-ink)] outline-none transition focus:border-[var(--oman-brass)]"
+                >
+                  <option value="all">All statuses</option>
+                  {CONTACT_STATUS_OPTIONS.map((statusOption) => (
+                    <option key={statusOption} value={statusOption}>
+                      {formatStatusLabel(statusOption)}
+                    </option>
+                  ))}
+                </select>
+              </label>
+            </div>
+          </div>
+
           {loading ? (
             <div className="mt-8 rounded-3xl oman-outline-panel p-6 text-center">
               <h3 className="text-xl font-semibold text-[var(--oman-ink)]">Loading contact messages...</h3>
@@ -238,9 +278,18 @@ export default function AdminContactMessages() {
                 Once users submit the Contact form, their messages will appear here.
               </p>
             </div>
+          ) : filteredMessages.length === 0 ? (
+            <div className="mt-8 rounded-3xl oman-outline-panel p-6 text-center">
+              <h3 className="text-xl font-semibold text-[var(--oman-ink)]">
+                No {formatStatusLabel(statusFilter).toLowerCase()} messages
+              </h3>
+              <p className="mt-4 leading-7 text-[var(--oman-ink)]/75">
+                Try another status filter to continue processing contact submissions.
+              </p>
+            </div>
           ) : (
             <div className="mt-8 grid gap-4">
-              {messages.map((message) => (
+              {filteredMessages.map((message) => (
                 <button
                   key={message.id}
                   type="button"

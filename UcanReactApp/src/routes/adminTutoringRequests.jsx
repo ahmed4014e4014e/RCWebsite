@@ -32,6 +32,7 @@ export default function AdminTutoringRequests() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [activeRequest, setActiveRequest] = useState(null);
+  const [statusFilter, setStatusFilter] = useState("all");
   const [feedback, setFeedback] = useState({
     type: "idle",
     message: "",
@@ -104,6 +105,14 @@ export default function AdminTutoringRequests() {
       ).size,
     };
   }, [requests]);
+
+  const filteredRequests = useMemo(() => {
+    if (statusFilter === "all") {
+      return requests;
+    }
+
+    return requests.filter((request) => normalizeStatus(request.status) === statusFilter);
+  }, [requests, statusFilter]);
 
   const handleAttachmentDownload = async ({ bucket, path, fileName }) => {
     setFeedback({
@@ -222,6 +231,37 @@ export default function AdminTutoringRequests() {
             </div>
           </div>
 
+          <div className="mt-6 rounded-3xl oman-outline-panel p-5">
+            <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
+              <div>
+                <p className="text-sm font-semibold uppercase tracking-[0.16em] text-[var(--oman-terracotta)]">
+                  Request Workflow
+                </p>
+                <p className="mt-2 text-sm leading-6 text-[var(--oman-ink)]/75">
+                  Review pending tutoring requests first, then move them through reviewed,
+                  scheduled, completed, or cancelled as each case progresses.
+                </p>
+              </div>
+              <label className="flex flex-col gap-2 lg:min-w-56">
+                <span className="text-sm font-semibold text-[var(--oman-terracotta-dark)]">
+                  Filter by status
+                </span>
+                <select
+                  value={statusFilter}
+                  onChange={(event) => setStatusFilter(event.target.value)}
+                  className="min-h-12 rounded-2xl border border-[rgba(111,49,29,0.14)] bg-white px-4 py-3 text-[var(--oman-ink)] outline-none transition focus:border-[var(--oman-brass)]"
+                >
+                  <option value="all">All statuses</option>
+                  {TUTORING_STATUS_OPTIONS.map((statusOption) => (
+                    <option key={statusOption} value={statusOption}>
+                      {formatStatusLabel(statusOption)}
+                    </option>
+                  ))}
+                </select>
+              </label>
+            </div>
+          </div>
+
           {loading ? (
             <div className="mt-8 rounded-3xl oman-outline-panel p-6 text-center">
               <h3 className="text-xl font-semibold text-[var(--oman-ink)]">Loading tutoring requests...</h3>
@@ -241,9 +281,18 @@ export default function AdminTutoringRequests() {
                 Once students save booking requests, they will appear here for review.
               </p>
             </div>
+          ) : filteredRequests.length === 0 ? (
+            <div className="mt-8 rounded-3xl oman-outline-panel p-6 text-center">
+              <h3 className="text-xl font-semibold text-[var(--oman-ink)]">
+                No {formatStatusLabel(statusFilter).toLowerCase()} tutoring requests
+              </h3>
+              <p className="mt-4 leading-7 text-[var(--oman-ink)]/75">
+                Try another status filter to continue handling tutoring workflows.
+              </p>
+            </div>
           ) : (
             <div className="mt-8 grid gap-4">
-              {requests.map((request) => (
+              {filteredRequests.map((request) => (
                 <button
                   key={request.id}
                   type="button"

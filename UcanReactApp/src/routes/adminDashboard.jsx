@@ -5,6 +5,7 @@ import {
   buildTutorCards,
   fetchTutorDirectory,
 } from "../lib/tutoringApi";
+import { CONTACT_STATUS_OPTIONS, TUTORING_STATUS_OPTIONS } from "../lib/requestStatuses";
 import { themeImages } from "../lib/themeImages";
 import { isSupabaseConfigured } from "../lib/supabase";
 
@@ -26,6 +27,9 @@ export default function AdminDashboard() {
     directoryDiagnostics.rawOfferingCount === 0 &&
     directoryDiagnostics.privateTutorCards === 0 &&
     directoryDiagnostics.groupTutorCards === 0;
+  const workflowStatuses = Array.from(
+    new Set([...CONTACT_STATUS_OPTIONS, ...TUTORING_STATUS_OPTIONS])
+  );
 
   useEffect(() => {
     let ignore = false;
@@ -168,6 +172,47 @@ export default function AdminDashboard() {
                 >
                   View Tutoring Requests
                 </Link>
+              </article>
+
+              <article className="rounded-3xl oman-outline-panel p-5 lg:col-span-2">
+                <h2 className="text-lg font-semibold text-[var(--oman-ink)]">Simple Admin Workflow</h2>
+                <p className="mt-3 leading-7 text-[var(--oman-ink)]/75">
+                  Use the same status flow for contact messages and tutoring requests so nothing gets lost.
+                </p>
+                <div className="mt-5 grid gap-4 md:grid-cols-2">
+                  <div className="rounded-2xl bg-[rgba(255,252,247,0.92)] px-4 py-4 ring-1 ring-[rgba(111,49,29,0.1)]">
+                    <p className="text-sm font-semibold uppercase tracking-[0.16em] text-[var(--oman-terracotta)]">
+                      Contact Messages
+                    </p>
+                    <ol className="mt-3 space-y-2 text-sm leading-6 text-[var(--oman-ink)]/80">
+                      <li>1. Open pending messages first.</li>
+                      <li>2. Mark as reviewed after reading and deciding the next step.</li>
+                      <li>3. Mark as scheduled if follow-up is arranged.</li>
+                      <li>4. Mark as completed once the issue is fully handled.</li>
+                    </ol>
+                  </div>
+                  <div className="rounded-2xl bg-[rgba(255,252,247,0.92)] px-4 py-4 ring-1 ring-[rgba(111,49,29,0.1)]">
+                    <p className="text-sm font-semibold uppercase tracking-[0.16em] text-[var(--oman-terracotta)]">
+                      Tutoring Requests
+                    </p>
+                    <ol className="mt-3 space-y-2 text-sm leading-6 text-[var(--oman-ink)]/80">
+                      <li>1. Review new student requests and attachments.</li>
+                      <li>2. Move to reviewed after checking the course/topic details.</li>
+                      <li>3. Use scheduled once the session is arranged.</li>
+                      <li>4. Mark completed or cancelled when the workflow ends.</li>
+                    </ol>
+                  </div>
+                </div>
+                <div className="mt-5 flex flex-wrap gap-2">
+                  {workflowStatuses.map((status) => (
+                    <span
+                      key={status}
+                      className="rounded-full bg-[rgba(197,154,68,0.12)] px-3 py-2 text-xs font-semibold uppercase tracking-[0.16em] text-[var(--oman-terracotta-dark)]"
+                    >
+                      {status}
+                    </span>
+                  ))}
+                </div>
               </article>
 
               <article className="rounded-3xl oman-outline-panel p-5 lg:col-span-2">
