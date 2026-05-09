@@ -22,6 +22,23 @@ export async function fetchContactMessages() {
   const { data, error } = await supabase
     .from("contact_messages")
     .select("*")
+    .not("subject", "ilike", "Tutor Application - %")
+    .order("created_at", { ascending: false });
+
+  if (error) {
+    throw error;
+  }
+
+  return data ?? [];
+}
+
+export async function fetchTutorApplications() {
+  ensureSupabase();
+
+  const { data, error } = await supabase
+    .from("contact_messages")
+    .select("*")
+    .ilike("subject", "Tutor Application - %")
     .order("created_at", { ascending: false });
 
   if (error) {

@@ -26,6 +26,7 @@ import TutorDashboard from "./routes/tutorDashboard";
 import TutorTutoringRequests from "./routes/tutorTutoringRequests";
 import AdminDashboard from "./routes/adminDashboard";
 import AdminContactMessages from "./routes/adminContactMessages";
+import AdminTutorApplications from "./routes/adminTutorApplications";
 import AdminTutoringRequests from "./routes/adminTutoringRequests";
 
 // Create a Router
@@ -124,6 +125,14 @@ const router = createBrowserRouter([
         element: (
           <RoleProtectedRoute allowedRole="admin">
             <AdminContactMessages />
+          </RoleProtectedRoute>
+        ),
+      },
+      {
+        path: "admin-tutor-applications",
+        element: (
+          <RoleProtectedRoute allowedRole="admin">
+            <AdminTutorApplications />
           </RoleProtectedRoute>
         ),
       },

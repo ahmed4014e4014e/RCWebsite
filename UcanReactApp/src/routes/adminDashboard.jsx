@@ -162,6 +162,19 @@ export default function AdminDashboard() {
               </article>
 
               <article className="rounded-3xl oman-outline-panel p-5">
+                <h2 className="text-lg font-semibold text-[var(--oman-ink)]">Tutor Applications</h2>
+                <p className="mt-3 leading-7 text-[var(--oman-ink)]/75">
+                  Open a separate admin page to review people applying to become tutors and check their verification documents.
+                </p>
+                <Link
+                  to="/admin-tutor-applications/"
+                  className="oman-button-secondary mt-5 inline-flex items-center justify-center rounded-2xl px-5 py-3 font-semibold transition"
+                >
+                  View Tutor Applications
+                </Link>
+              </article>
+
+              <article className="rounded-3xl oman-outline-panel p-5">
                 <h2 className="text-lg font-semibold text-[var(--oman-ink)]">Submitted Tutoring Requests</h2>
                 <p className="mt-3 leading-7 text-[var(--oman-ink)]/75">
                   Open a separate admin page to review tutoring requests and download any submitted attachments.
