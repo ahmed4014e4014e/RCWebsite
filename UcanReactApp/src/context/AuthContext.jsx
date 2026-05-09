@@ -1,10 +1,10 @@
-import { createContext, useContext, useEffect, useMemo, useState } from "react";
+import { createContext, useContext, useEffect, useMemo, useRef, useState } from "react";
 import { isSupabaseConfigured, supabase } from "../lib/supabase";
-import { getUserRole } from "../lib/authRouting";
 
 const AuthContext = createContext(null);
+const PROFILE_LOAD_TIMEOUT_MS = 8000;
 
-function createProfileSeed(authUser, fallbackRole = "student") {
+function createProfileSeed(authUser, fallbackRole = null) {
   if (!authUser?.id) {
     return null;
   }
@@ -18,66 +18,154 @@ function createProfileSeed(authUser, fallbackRole = "student") {
   };
 }
 
+function withTimeout(promise, timeoutMs, timeoutMessage) {
+  return new Promise((resolve, reject) => {
+    const timeoutId = window.setTimeout(() => {
+      reject(new Error(timeoutMessage));
+    }, timeoutMs);
+
+    promise
+      .then((value) => {
+        window.clearTimeout(timeoutId);
+        resolve(value);
+      })
+      .catch((error) => {
+        window.clearTimeout(timeoutId);
+        reject(error);
+      });
+  });
+}
+
 export function AuthProvider({ children }) {
   const [session, setSession] = useState(null);
   const [user, setUser] = useState(null);
   const [profile, setProfile] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [profileLoading, setProfileLoading] = useState(false);
+  const [profileError, setProfileError] = useState("");
+  const profileRequestIdRef = useRef(0);
 
-  const loadProfile = async (authUser) => {
+  const clearAuthState = () => {
+    profileRequestIdRef.current += 1;
+    setSession(null);
+    setUser(null);
+    setProfile(null);
+    setProfileLoading(false);
+    setProfileError("");
+    setLoading(false);
+  };
+
+  const resolveProfileRecord = async (authUser) => {
     if (!isSupabaseConfigured || !supabase || !authUser?.id) {
-      setProfile(null);
       return null;
     }
 
-    const seededRole = authUser.user_metadata?.role || "student";
+    const seededRole = authUser.user_metadata?.role || null;
     const profileSeed = createProfileSeed(authUser, seededRole);
 
-    const { data, error } = await supabase
-      .from("profiles")
-      .select("*")
-      .eq("id", authUser.id)
-      .maybeSingle();
+    const { data, error } = await withTimeout(
+      supabase.from("profiles").select("*").eq("id", authUser.id).maybeSingle(),
+      PROFILE_LOAD_TIMEOUT_MS,
+      "Profile loading timed out. Please try again."
+    );
 
     if (error) {
+      throw error;
+    }
+
+    if (!data) {
+      if (!profileSeed?.role) {
+        throw new Error(
+          "Your account session exists, but the platform could not find a matching profile row."
+        );
+      }
+
+      const { data: createdProfile, error: createError } = await withTimeout(
+        supabase.from("profiles").upsert(profileSeed).select("*").single(),
+        PROFILE_LOAD_TIMEOUT_MS,
+        "Profile creation timed out. Please try again."
+      );
+
+      if (createError) {
+        throw createError;
+      }
+
+      return createdProfile;
+    }
+
+    const profileUpdates = {};
+
+    if (!data.full_name && profileSeed?.full_name) {
+      profileUpdates.full_name = profileSeed.full_name;
+    }
+
+    if (!data.institute && profileSeed?.institute) {
+      profileUpdates.institute = profileSeed.institute;
+    }
+
+    if (!data.email && profileSeed?.email) {
+      profileUpdates.email = profileSeed.email;
+    }
+
+    if (Object.keys(profileUpdates).length === 0) {
+      return data;
+    }
+
+    const { data: syncedProfile, error: syncError } = await withTimeout(
+      supabase
+        .from("profiles")
+        .update(profileUpdates)
+        .eq("id", authUser.id)
+        .select("*")
+        .single(),
+      PROFILE_LOAD_TIMEOUT_MS,
+      "Profile sync timed out. Please try again."
+    );
+
+    if (syncError) {
+      return data;
+    }
+
+    return syncedProfile;
+  };
+
+  const loadProfile = async (authUser) => {
+    const requestId = ++profileRequestIdRef.current;
+
+    if (!authUser?.id || !isSupabaseConfigured || !supabase) {
       setProfile(null);
+      setProfileLoading(false);
+      setProfileError("");
       return null;
     }
 
-    const profilePayload = data
-      ? {
-          id: authUser.id,
-          full_name: data.full_name || profileSeed.full_name,
-          role: data.role,
-          institute: data.institute || profileSeed.institute,
-          email: profileSeed.email || data.email,
-        }
-      : profileSeed;
+    setProfileLoading(true);
+    setProfileError("");
 
-    const shouldSyncProfile =
-      !data ||
-      (!data.full_name && profileSeed.full_name) ||
-      (!data.institute && profileSeed.institute) ||
-      (!data.email && profileSeed.email);
+    try {
+      const resolvedProfile = await resolveProfileRecord(authUser);
 
-    if (!shouldSyncProfile) {
-      setProfile(data ?? null);
-      return data ?? null;
+      if (profileRequestIdRef.current !== requestId) {
+        return resolvedProfile;
+      }
+
+      setProfile(resolvedProfile);
+      setProfileError("");
+      return resolvedProfile;
+    } catch (error) {
+      if (profileRequestIdRef.current === requestId) {
+        setProfile(null);
+        setProfileError(
+          error?.message ||
+            "We found your session, but your profile could not be loaded."
+        );
+      }
+      return null;
+    } finally {
+      if (profileRequestIdRef.current === requestId) {
+        setProfileLoading(false);
+      }
     }
-
-    const { data: syncedProfile, error: syncError } = await supabase
-      .from("profiles")
-      .upsert(profilePayload)
-      .select("*")
-      .single();
-
-    if (syncError) {
-      setProfile(data ?? null);
-      return data ?? null;
-    }
-
-    setProfile(syncedProfile);
-    return syncedProfile;
   };
 
   useEffect(() => {
@@ -97,17 +185,14 @@ export function AuthProvider({ children }) {
 
         setSession(currentSession ?? null);
         setUser(currentSession?.user ?? null);
+        setLoading(false);
 
         if (currentSession?.user) {
-          const resolvedProfile = await loadProfile(currentSession.user);
-          if (!mounted) return;
-          setProfile(resolvedProfile);
-          setLoading(false);
+          void loadProfile(currentSession.user);
         } else {
           setProfile(null);
-          if (mounted) {
-            setLoading(false);
-          }
+          setProfileLoading(false);
+          setProfileError("");
         }
       } finally {
         if (mounted) {
@@ -132,17 +217,14 @@ export function AuthProvider({ children }) {
 
         setSession(nextSession ?? null);
         setUser(nextSession?.user ?? null);
+        setLoading(false);
 
         if (nextSession?.user) {
-          const resolvedProfile = await loadProfile(nextSession.user);
-          if (!mounted) return;
-          setProfile(resolvedProfile);
-          setLoading(false);
+          void loadProfile(nextSession.user);
         } else {
           setProfile(null);
-          if (mounted) {
-            setLoading(false);
-          }
+          setProfileLoading(false);
+          setProfileError("");
         }
       } finally {
         if (mounted) {
@@ -158,13 +240,19 @@ export function AuthProvider({ children }) {
   }, []);
 
   const signOut = async () => {
-    if (isSupabaseConfigured && supabase) {
-      await supabase.auth.signOut();
-    }
+    clearAuthState();
 
-    setSession(null);
-    setUser(null);
-    setProfile(null);
+    if (isSupabaseConfigured && supabase) {
+      try {
+        await withTimeout(
+          supabase.auth.signOut({ scope: "local" }),
+          5000,
+          "Local sign out timed out."
+        );
+      } catch (_error) {
+        // Local auth state was already cleared above, so we do not block logout on a network issue.
+      }
+    }
   };
 
   const value = useMemo(
@@ -173,11 +261,13 @@ export function AuthProvider({ children }) {
       user,
       profile,
       loading,
+      profileLoading,
+      profileError,
       signOut,
       refreshProfile: () => loadProfile(user),
       isSupabaseConfigured,
     }),
-    [session, user, profile, loading]
+    [session, user, profile, loading, profileLoading, profileError]
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
