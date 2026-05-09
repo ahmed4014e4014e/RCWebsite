@@ -1,6 +1,12 @@
 import { Link } from "react-router-dom";
 import { themeImages } from "../lib/themeImages";
 import ucanLogo from "../assets/campus-images/ucan-logo.png";
+import googleMeetLogo from "../assets/tool-logos/google-meet.svg";
+import zoomLogo from "../assets/tool-logos/zoom.svg";
+import microsoftTeamsLogo from "../assets/tool-logos/microsoft-teams.svg";
+import microsoftWhiteboardLogo from "../assets/tool-logos/microsoft-whiteboard.svg";
+import clickUpLogo from "../assets/tool-logos/clickup.svg";
+import miroLogo from "../assets/tool-logos/miro.svg";
 
 const features = [
   {
@@ -50,9 +56,9 @@ const tutoringToolGroups = [
     description:
       "Run tutoring sessions smoothly through trusted meeting tools for video, voice, and screen sharing.",
     tools: [
-      { name: "Google Meet", short: "GM", accent: "from-[#6fa46a]/25 to-[#c7d36f]/25" },
-      { name: "Zoom", short: "ZO", accent: "from-[#77a7d8]/25 to-[#3b82f6]/20" },
-      { name: "Microsoft Teams", short: "MT", accent: "from-[#7c6fd3]/25 to-[#9b77f0]/20" },
+      { name: "Google Meet", logo: googleMeetLogo },
+      { name: "Zoom", logo: zoomLogo },
+      { name: "Microsoft Teams", logo: microsoftTeamsLogo },
     ],
   },
   {
@@ -60,9 +66,9 @@ const tutoringToolGroups = [
     description:
       "Explain ideas visually, organize tutoring workflows, and brainstorm concepts together in real time.",
     tools: [
-      { name: "Microsoft Whiteboard", short: "WB", accent: "from-[#f2d8b0]/35 to-[#f6eddc]/40" },
-      { name: "ClickUp", short: "CU", accent: "from-[#f59e0b]/20 to-[#ec4899]/18" },
-      { name: "Miro", short: "MI", accent: "from-[#f6d365]/30 to-[#fde68a]/35" },
+      { name: "Microsoft Whiteboard", logo: microsoftWhiteboardLogo },
+      { name: "ClickUp", logo: clickUpLogo },
+      { name: "Miro", logo: miroLogo },
     ],
   },
 ];
@@ -205,10 +211,12 @@ export default function Home() {
                       key={tool.name}
                       className="rounded-[1.5rem] bg-[rgba(255,252,247,0.95)] p-4 text-center shadow-[0_14px_34px_rgba(73,39,27,0.07)] ring-1 ring-[rgba(111,49,29,0.1)]"
                     >
-                      <div
-                        className={`mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br ${tool.accent} text-lg font-bold text-[var(--oman-terracotta-dark)] ring-1 ring-[rgba(111,49,29,0.08)]`}
-                      >
-                        {tool.short}
+                      <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-white ring-1 ring-[rgba(111,49,29,0.08)]">
+                        <img
+                          src={tool.logo}
+                          alt={`${tool.name} logo`}
+                          className="h-12 w-12 object-contain"
+                        />
                       </div>
                       <h3 className="mt-4 text-sm font-semibold leading-6 text-[var(--oman-ink)] sm:text-base">
                         {tool.name}
