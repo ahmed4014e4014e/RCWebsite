@@ -211,15 +211,14 @@ export default function Contact() {
 
               <div className="mt-4 grid gap-4">
                 <label className="flex flex-col gap-2">
-                  <span className="text-sm font-semibold text-[var(--oman-terracotta-dark)]">
-                    Institute
-                  </span>
+                  <RequiredLabel>Institute</RequiredLabel>
                   <input
                     type="text"
                     name="institute"
                     value={formValues.institute}
                     onChange={handleChange}
                     placeholder="Example: MCBS"
+                    required
                     className="min-h-12 rounded-2xl border border-[rgba(111,49,29,0.14)] bg-[rgba(255,250,244,0.92)] px-4 py-3 text-[var(--oman-ink)] outline-none transition focus:border-[var(--oman-brass)] focus:bg-white"
                   />
                 </label>

@@ -369,7 +369,9 @@ export default function Services() {
   const [directoryLoading, setDirectoryLoading] = useState(true);
   const [directoryError, setDirectoryError] = useState("");
   const [activeTutor, setActiveTutor] = useState(null);
+  const [requestTitle, setRequestTitle] = useState("");
   const [selectedCourseId, setSelectedCourseId] = useState("");
+  const [studentInstitute, setStudentInstitute] = useState("");
   const [topicsNeededHelpWith, setTopicsNeededHelpWith] = useState("");
   const [attachmentNotes, setAttachmentNotes] = useState("");
   const [selectedAttachments, setSelectedAttachments] = useState([]);
@@ -469,14 +471,16 @@ export default function Services() {
     if (!activeTutor) return;
 
     const firstCourse = activeTutor.courses[0];
+    setRequestTitle("");
     setSelectedCourseId(firstCourse?.id || "");
+    setStudentInstitute(profile?.institute || user?.user_metadata?.institute || "");
     setTopicsNeededHelpWith("");
     setAttachmentNotes("");
     setSelectedAttachments([]);
     setRequestLoading(false);
     setRequestMessage("");
     setRequestMessageType("info");
-  }, [activeTutor]);
+  }, [activeTutor, profile?.institute, user?.user_metadata?.institute]);
 
   const handleTutorClick = (tutor) => {
     setActiveTutor(tutor);
@@ -504,6 +508,18 @@ export default function Services() {
       return;
     }
 
+    if (!requestTitle.trim() || !studentInstitute.trim()) {
+      setRequestMessageType("error");
+      setRequestMessage("Please complete the required title and student institute fields.");
+      return;
+    }
+
+    if (selectedAttachments.length === 0) {
+      setRequestMessageType("error");
+      setRequestMessage("Please attach at least one file before submitting your tutoring request.");
+      return;
+    }
+
     const selectedCourse = activeTutor.courses.find((course) => course.id === selectedCourseId);
 
     if (!selectedCourse) {
@@ -528,8 +544,14 @@ export default function Services() {
         tutor_id: activeTutor.tutorId,
         course_id: selectedCourseId,
         session_type: activeTutor.sessionType,
-        institute_name_snapshot: selectedCourse.label.split(" ")[0],
-        topics_needed_help_with: topicsNeededHelpWith,
+        institute_name_snapshot: studentInstitute.trim(),
+        topics_needed_help_with: [
+          `Title: ${requestTitle.trim()}`,
+          `Student Institute: ${studentInstitute.trim()}`,
+          "",
+          "Topics Need Help With:",
+          topicsNeededHelpWith.trim(),
+        ].join("\n"),
         attachment_notes: attachmentNotes || null,
         attachment_files: attachmentFiles,
       });
@@ -538,6 +560,8 @@ export default function Services() {
       setRequestMessage(
         "Your tutoring request was saved successfully. You can now continue to Calendly booking."
       );
+      setRequestTitle("");
+      setStudentInstitute(profile?.institute || user?.user_metadata?.institute || "");
       setTopicsNeededHelpWith("");
       setAttachmentNotes("");
       setSelectedAttachments([]);
@@ -795,12 +819,26 @@ export default function Services() {
                   Fields marked with <span className="font-semibold text-[var(--oman-terracotta)]">*</span> are required.
                 </p>
                 <label className="flex flex-col gap-2">
-                  <RequiredLabel>Institute</RequiredLabel>
+                  <RequiredLabel>Title</RequiredLabel>
                   <input
                     type="text"
-                    value={profile?.institute || user?.user_metadata?.institute || ""}
-                    readOnly
-                    className="min-h-12 rounded-2xl border border-[rgba(111,49,29,0.14)] bg-[rgba(255,250,244,0.92)] px-4 py-3 text-[var(--oman-ink)] outline-none"
+                    value={requestTitle}
+                    onChange={(event) => setRequestTitle(event.target.value)}
+                    placeholder="Example: Help with MAT255 midterm review"
+                    required
+                    className="min-h-12 rounded-2xl border border-[rgba(111,49,29,0.14)] bg-[rgba(255,250,244,0.92)] px-4 py-3 text-[var(--oman-ink)] outline-none transition focus:border-[var(--oman-brass)] focus:bg-white"
+                  />
+                </label>
+
+                <label className="flex flex-col gap-2">
+                  <RequiredLabel>Student institute</RequiredLabel>
+                  <input
+                    type="text"
+                    value={studentInstitute}
+                    onChange={(event) => setStudentInstitute(event.target.value)}
+                    placeholder="Example: MCBS"
+                    required
+                    className="min-h-12 rounded-2xl border border-[rgba(111,49,29,0.14)] bg-[rgba(255,250,244,0.92)] px-4 py-3 text-[var(--oman-ink)] outline-none transition focus:border-[var(--oman-brass)] focus:bg-white"
                   />
                 </label>
 
@@ -833,12 +871,11 @@ export default function Services() {
                 </label>
 
                 <label className="flex flex-col gap-2">
-                  <span className="text-sm font-semibold text-[var(--oman-terracotta-dark)]">
-                    Attach files
-                  </span>
+                  <RequiredLabel>Attach files</RequiredLabel>
                   <input
                     type="file"
                     multiple
+                    required
                     accept={ACCEPTED_UPLOAD_ATTRIBUTE}
                     onChange={handleAttachmentChange}
                     className="min-h-12 rounded-2xl border border-[rgba(111,49,29,0.14)] bg-[rgba(255,250,244,0.92)] px-4 py-3 text-sm text-[var(--oman-ink)] outline-none transition file:mr-4 file:rounded-xl file:border-0 file:bg-[rgba(197,154,68,0.16)] file:px-4 file:py-2 file:font-semibold file:text-[var(--oman-terracotta-dark)] focus:border-[var(--oman-brass)] focus:bg-white"
