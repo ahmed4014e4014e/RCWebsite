@@ -20,6 +20,14 @@ const requiredAttachments = [
   "Copy of your university ID card",
 ];
 
+function RequiredLabel({ children }) {
+  return (
+    <span className="text-sm font-semibold text-[var(--oman-terracotta-dark)]">
+      {children} <span aria-hidden="true" className="text-[var(--oman-terracotta)]">*</span>
+    </span>
+  );
+}
+
 export default function TutorApplication() {
   const [formValues, setFormValues] = useState({
     fullName: "",
@@ -211,10 +219,11 @@ export default function TutorApplication() {
           />
 
           <form onSubmit={handleSubmit} className="mt-8 space-y-4">
+            <p className="text-sm leading-6 text-[var(--oman-ink)]/70">
+              Fields marked with <span className="font-semibold text-[var(--oman-terracotta)]">*</span> are required.
+            </p>
             <label className="flex flex-col gap-2">
-              <span className="text-sm font-semibold text-[var(--oman-terracotta-dark)]">
-                Full name
-              </span>
+              <RequiredLabel>Full name</RequiredLabel>
               <input
                 type="text"
                 name="fullName"
@@ -226,9 +235,7 @@ export default function TutorApplication() {
             </label>
 
             <label className="flex flex-col gap-2">
-              <span className="text-sm font-semibold text-[var(--oman-terracotta-dark)]">
-                University Name
-              </span>
+              <RequiredLabel>University Name</RequiredLabel>
               <input
                 type="text"
                 name="universityName"
@@ -240,9 +247,7 @@ export default function TutorApplication() {
             </label>
 
             <label className="flex flex-col gap-2">
-              <span className="text-sm font-semibold text-[var(--oman-terracotta-dark)]">
-                University ID
-              </span>
+              <RequiredLabel>University ID</RequiredLabel>
               <input
                 type="text"
                 name="universityId"
@@ -254,9 +259,7 @@ export default function TutorApplication() {
             </label>
 
             <label className="flex flex-col gap-2">
-              <span className="text-sm font-semibold text-[var(--oman-terracotta-dark)]">
-                Major Name
-              </span>
+              <RequiredLabel>Major Name</RequiredLabel>
               <input
                 type="text"
                 name="majorName"
@@ -268,9 +271,7 @@ export default function TutorApplication() {
             </label>
 
             <label className="flex flex-col gap-2">
-              <span className="text-sm font-semibold text-[var(--oman-terracotta-dark)]">
-                Desired Tutoring Courses
-              </span>
+              <RequiredLabel>Desired Tutoring Courses</RequiredLabel>
               <textarea
                 name="desiredTutoringCourses"
                 value={formValues.desiredTutoringCourses}
@@ -283,9 +284,7 @@ export default function TutorApplication() {
             </label>
 
             <label className="flex flex-col gap-2">
-              <span className="text-sm font-semibold text-[var(--oman-terracotta-dark)]">
-                University Email
-              </span>
+              <RequiredLabel>University Email</RequiredLabel>
               <input
                 type="email"
                 name="universityEmail"
@@ -297,9 +296,7 @@ export default function TutorApplication() {
             </label>
 
             <label className="flex flex-col gap-2">
-              <span className="text-sm font-semibold text-[var(--oman-terracotta-dark)]">
-                Phone number (WhatsApp)
-              </span>
+              <RequiredLabel>Phone number (WhatsApp)</RequiredLabel>
               <input
                 type="text"
                 name="phoneNumber"
@@ -324,9 +321,7 @@ export default function TutorApplication() {
             </div>
 
             <label className="flex flex-col gap-2">
-              <span className="text-sm font-semibold text-[var(--oman-terracotta-dark)]">
-                Attach files
-              </span>
+              <RequiredLabel>Attach files</RequiredLabel>
               <input
                 type="file"
                 multiple

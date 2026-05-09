@@ -18,16 +18,19 @@ const contactMethods = [
     description: "Reach out with questions about tutoring, study resources, or joining the Ucan Oman student community.",
   },
   {
-    title: "Phone",
-    value: "+968 9575 9446",
-    description: "Contact us directly for help with free tutoring sessions, course support, and platform guidance.",
-  },
-  {
     title: "Location",
     value: "Qurum Beach, Muscat, Oman",
     description: "Ucan Oman serves students online while supporting a growing college learning community from Oman.",
   },
 ];
+
+function RequiredLabel({ children }) {
+  return (
+    <span className="text-sm font-semibold text-[var(--oman-terracotta-dark)]">
+      {children} <span aria-hidden="true" className="text-[var(--oman-terracotta)]">*</span>
+    </span>
+  );
+}
 
 export default function Contact() {
   const { user, profile } = useAuth();
@@ -177,11 +180,12 @@ export default function Contact() {
             </div>
 
             <form onSubmit={handleSubmit} className="mt-10 rounded-[1.75rem] oman-card p-6 sm:mt-12 sm:p-8">
+              <p className="mb-5 text-sm leading-6 text-[var(--oman-ink)]/70">
+                Fields marked with <span className="font-semibold text-[var(--oman-terracotta)]">*</span> are required.
+              </p>
               <div className="grid gap-4 md:grid-cols-2">
                 <label className="flex flex-col gap-2">
-                  <span className="text-sm font-semibold text-[var(--oman-terracotta-dark)]">
-                    Full name
-                  </span>
+                  <RequiredLabel>Full name</RequiredLabel>
                   <input
                     type="text"
                     name="fullName"
@@ -193,9 +197,7 @@ export default function Contact() {
                 </label>
 
                 <label className="flex flex-col gap-2">
-                  <span className="text-sm font-semibold text-[var(--oman-terracotta-dark)]">
-                    Email
-                  </span>
+                  <RequiredLabel>Email</RequiredLabel>
                   <input
                     type="email"
                     name="email"
@@ -223,9 +225,7 @@ export default function Contact() {
                 </label>
 
                 <label className="flex flex-col gap-2">
-                  <span className="text-sm font-semibold text-[var(--oman-terracotta-dark)]">
-                    Role
-                  </span>
+                  <RequiredLabel>Role</RequiredLabel>
                   <select
                     name="role"
                     value={formValues.role}
@@ -240,9 +240,7 @@ export default function Contact() {
                 </label>
 
                 <label className="flex flex-col gap-2">
-                  <span className="text-sm font-semibold text-[var(--oman-terracotta-dark)]">
-                    Subject
-                  </span>
+                  <RequiredLabel>Subject</RequiredLabel>
                   <input
                     type="text"
                     name="subject"
@@ -255,9 +253,7 @@ export default function Contact() {
                 </label>
 
                 <label className="flex flex-col gap-2">
-                  <span className="text-sm font-semibold text-[var(--oman-terracotta-dark)]">
-                    Message
-                  </span>
+                  <RequiredLabel>Message</RequiredLabel>
                   <textarea
                     name="message"
                     value={formValues.message}

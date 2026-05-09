@@ -79,6 +79,14 @@ function filterTutorCards(tutors, selectedInstitute, selectedCourse) {
   });
 }
 
+function RequiredLabel({ children }) {
+  return (
+    <span className="text-sm font-semibold text-[var(--oman-terracotta-dark)]">
+      {children} <span aria-hidden="true" className="text-[var(--oman-terracotta)]">*</span>
+    </span>
+  );
+}
+
 function TutorSection({
   id,
   label,
@@ -783,10 +791,11 @@ export default function Services() {
               </p>
 
               <form className="mt-6 space-y-4" onSubmit={handleRequestSubmit}>
+                <p className="text-sm leading-6 text-[var(--oman-ink)]/70">
+                  Fields marked with <span className="font-semibold text-[var(--oman-terracotta)]">*</span> are required.
+                </p>
                 <label className="flex flex-col gap-2">
-                  <span className="text-sm font-semibold text-[var(--oman-terracotta-dark)]">
-                    Institute
-                  </span>
+                  <RequiredLabel>Institute</RequiredLabel>
                   <input
                     type="text"
                     value={profile?.institute || user?.user_metadata?.institute || ""}
@@ -796,9 +805,7 @@ export default function Services() {
                 </label>
 
                 <label className="flex flex-col gap-2">
-                  <span className="text-sm font-semibold text-[var(--oman-terracotta-dark)]">
-                    Course
-                  </span>
+                  <RequiredLabel>Course</RequiredLabel>
                   <select
                     value={selectedCourseId}
                     onChange={(event) => setSelectedCourseId(event.target.value)}
@@ -814,9 +821,7 @@ export default function Services() {
                 </label>
 
                 <label className="flex flex-col gap-2">
-                  <span className="text-sm font-semibold text-[var(--oman-terracotta-dark)]">
-                    Topics need help with
-                  </span>
+                  <RequiredLabel>Topics need help with</RequiredLabel>
                   <textarea
                     value={topicsNeededHelpWith}
                     onChange={(event) => setTopicsNeededHelpWith(event.target.value)}
