@@ -3,11 +3,15 @@ import { Link } from "react-router-dom";
 import ActionFeedback from "../components/ActionFeedback";
 import AdminAttachmentDownloadList from "../components/AdminAttachmentDownloadList";
 import { downloadStorageAttachment } from "../lib/adminDownloads";
-import { fetchTutorApplications, updateContactMessageStatus } from "../lib/contactApi";
 import {
-  CONTACT_STATUS_OPTIONS,
+  fetchTutorApplicants,
+  TUTOR_APPLICANT_BUCKET,
+  updateTutorApplicantStatus,
+} from "../lib/tutorApplicantsApi";
+import {
   formatStatusLabel,
   normalizeStatus,
+  TUTOR_APPLICATION_STATUS_OPTIONS,
 } from "../lib/requestStatuses";
 
 function formatSubmittedAt(value) {
@@ -22,15 +26,6 @@ function formatSubmittedAt(value) {
     hour: "numeric",
     minute: "2-digit",
   });
-}
-
-function extractField(message, label) {
-  if (!message) {
-    return "";
-  }
-
-  const match = message.match(new RegExp(`${label}:\\s*(.+)`, "i"));
-  return match ? match[1].trim() : "";
 }
 
 export default function AdminTutorApplications() {
@@ -55,7 +50,7 @@ export default function AdminTutorApplications() {
       setError("");
 
       try {
-        const results = await fetchTutorApplications();
+        const results = await fetchTutorApplicants();
 
         if (!ignore) {
           setApplications(results);
@@ -109,7 +104,7 @@ export default function AdminTutorApplications() {
         (application) => normalizeStatus(application.status) === "pending"
       ).length,
       applicationInstitutes: new Set(
-        applications.map((application) => application.institute).filter(Boolean)
+        applications.map((application) => application.university_name).filter(Boolean)
       ).size,
     };
   }, [applications]);
@@ -165,7 +160,7 @@ export default function AdminTutorApplications() {
     });
 
     try {
-      const updatedApplication = await updateContactMessageStatus(activeApplication.id, statusDraft);
+      const updatedApplication = await updateTutorApplicantStatus(activeApplication.id, statusDraft);
       const normalizedApplication = {
         ...updatedApplication,
         status: normalizeStatus(updatedApplication.status),
@@ -250,7 +245,7 @@ export default function AdminTutorApplications() {
                   Application Workflow
                 </p>
                 <p className="mt-2 text-sm leading-6 text-[var(--oman-ink)]/75">
-                  Start with pending tutor applications, review the documents carefully, then move them through reviewed, scheduled, or completed based on your onboarding process.
+                  Start with pending tutor applications, review the documents carefully, then move them through reviewed, approved, or rejected based on your onboarding process.
                 </p>
               </div>
               <label className="flex flex-col gap-2 lg:min-w-56">
@@ -263,7 +258,7 @@ export default function AdminTutorApplications() {
                   className="min-h-12 rounded-2xl border border-[rgba(111,49,29,0.14)] bg-white px-4 py-3 text-[var(--oman-ink)] outline-none transition focus:border-[var(--oman-brass)]"
                 >
                   <option value="all">All statuses</option>
-                  {CONTACT_STATUS_OPTIONS.map((statusOption) => (
+                  {TUTOR_APPLICATION_STATUS_OPTIONS.map((statusOption) => (
                     <option key={statusOption} value={statusOption}>
                       {formatStatusLabel(statusOption)}
                     </option>
@@ -314,7 +309,7 @@ export default function AdminTutorApplications() {
                     <div>
                       <h3 className="text-lg font-semibold text-[var(--oman-ink)]">{application.full_name}</h3>
                       <p className="mt-2 text-sm text-[var(--oman-ink)]/70">
-                        {application.institute || "University not provided"} via {application.email}
+                        {application.university_name || "University not provided"} via {application.university_email}
                       </p>
                     </div>
                     <span className="rounded-full bg-[rgba(197,154,68,0.12)] px-3 py-1 text-xs font-semibold uppercase tracking-[0.16em] text-[var(--oman-terracotta-dark)]">
@@ -325,15 +320,15 @@ export default function AdminTutorApplications() {
                   <div className="mt-4 grid gap-2 text-sm leading-6 text-[var(--oman-ink)]/75 sm:grid-cols-2">
                     <p>
                       <span className="font-semibold text-[var(--oman-ink)]">University ID:</span>{" "}
-                      {extractField(application.message, "University ID") || "Not provided"}
+                      {application.university_id || "Not provided"}
                     </p>
                     <p>
                       <span className="font-semibold text-[var(--oman-ink)]">Major:</span>{" "}
-                      {extractField(application.message, "Major Name") || "Not provided"}
+                      {application.major_name || "Not provided"}
                     </p>
                     <p>
                       <span className="font-semibold text-[var(--oman-ink)]">Submitted:</span>{" "}
-                      {formatSubmittedAt(application.created_at)}
+                      {formatSubmittedAt(application.submitted_at || application.created_at)}
                     </p>
                   </div>
                   <p className="mt-4 text-sm leading-6 text-[var(--oman-ink)]/70">
@@ -368,27 +363,27 @@ export default function AdminTutorApplications() {
             <div className="mt-6 grid gap-3 text-sm leading-6 text-[var(--oman-ink)]/75 sm:grid-cols-2">
               <p>
                 <span className="font-semibold text-[var(--oman-ink)]">University:</span>{" "}
-                {activeApplication.institute || "Not provided"}
+                {activeApplication.university_name || "Not provided"}
               </p>
               <p>
                 <span className="font-semibold text-[var(--oman-ink)]">Email:</span>{" "}
-                {activeApplication.email}
+                {activeApplication.university_email}
               </p>
               <p>
                 <span className="font-semibold text-[var(--oman-ink)]">University ID:</span>{" "}
-                {extractField(activeApplication.message, "University ID") || "Not provided"}
+                {activeApplication.university_id || "Not provided"}
               </p>
               <p>
                 <span className="font-semibold text-[var(--oman-ink)]">Major:</span>{" "}
-                {extractField(activeApplication.message, "Major Name") || "Not provided"}
+                {activeApplication.major_name || "Not provided"}
               </p>
               <p>
                 <span className="font-semibold text-[var(--oman-ink)]">Desired Courses:</span>{" "}
-                {extractField(activeApplication.message, "Desired Tutoring Courses") || "Not provided"}
+                {activeApplication.desired_tutoring_courses || "Not provided"}
               </p>
               <p>
                 <span className="font-semibold text-[var(--oman-ink)]">WhatsApp:</span>{" "}
-                {extractField(activeApplication.message, "Phone number \\(WhatsApp\\)") || "Not provided"}
+                {activeApplication.phone_number || "Not provided"}
               </p>
               <p>
                 <span className="font-semibold text-[var(--oman-ink)]">Status:</span>{" "}
@@ -396,7 +391,7 @@ export default function AdminTutorApplications() {
               </p>
               <p>
                 <span className="font-semibold text-[var(--oman-ink)]">Submitted:</span>{" "}
-                {formatSubmittedAt(activeApplication.created_at)}
+                {formatSubmittedAt(activeApplication.submitted_at || activeApplication.created_at)}
               </p>
             </div>
 
@@ -414,7 +409,7 @@ export default function AdminTutorApplications() {
                     onChange={(event) => setStatusDraft(event.target.value)}
                     className="mt-2 min-h-12 w-full rounded-2xl border border-[rgba(111,49,29,0.14)] bg-white px-4 py-3 text-[var(--oman-ink)] outline-none transition focus:border-[var(--oman-brass)]"
                   >
-                    {CONTACT_STATUS_OPTIONS.map((statusOption) => (
+                    {TUTOR_APPLICATION_STATUS_OPTIONS.map((statusOption) => (
                       <option key={statusOption} value={statusOption}>
                         {formatStatusLabel(statusOption)}
                       </option>
@@ -437,7 +432,7 @@ export default function AdminTutorApplications() {
                 Submitted Details
               </p>
               <p className="mt-3 whitespace-pre-wrap leading-7 text-[var(--oman-ink)]/80">
-                {activeApplication.message}
+                {activeApplication.application_message || "No extra application message provided."}
               </p>
             </div>
 
@@ -455,7 +450,7 @@ export default function AdminTutorApplications() {
                 )}
                 <AdminAttachmentDownloadList
                   files={activeApplication.attachment_files}
-                  bucket="contact-attachments"
+                  bucket={TUTOR_APPLICANT_BUCKET}
                   downloadingPaths={downloadingPaths}
                   onDownload={handleAttachmentDownload}
                 />

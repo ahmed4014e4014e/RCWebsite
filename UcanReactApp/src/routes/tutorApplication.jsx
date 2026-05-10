@@ -1,10 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import ActionFeedback from "../components/ActionFeedback";
-import {
-  createContactMessage,
-  uploadContactAttachments,
-} from "../lib/contactApi";
+import { useAuth } from "../context/AuthContext";
 import {
   ACCEPTED_UPLOAD_ATTRIBUTE,
   ACCEPTED_UPLOAD_TYPES,
@@ -12,6 +9,10 @@ import {
   validateUploadSelection,
 } from "../lib/fileUploadRules";
 import { isSupabaseConfigured } from "../lib/supabase";
+import {
+  createTutorApplicant,
+  uploadTutorApplicantAttachments,
+} from "../lib/tutorApplicantsApi";
 import { themeImages } from "../lib/themeImages";
 
 const requiredAttachments = [
@@ -29,6 +30,7 @@ function RequiredLabel({ children }) {
 }
 
 export default function TutorApplication() {
+  const { user } = useAuth();
   const [formValues, setFormValues] = useState({
     fullName: "",
     universityName: "",
@@ -107,25 +109,22 @@ export default function TutorApplication() {
     });
 
     try {
-      const uploadedFiles = await uploadContactAttachments(selectedFiles);
+      const uploadedFiles = await uploadTutorApplicantAttachments(selectedFiles);
 
-      const message = [
-        `Full name: ${formValues.fullName.trim()}`,
-        `University Name: ${formValues.universityName.trim()}`,
-        `University ID: ${formValues.universityId.trim()}`,
-        `Major Name: ${formValues.majorName.trim()}`,
-        `Desired Tutoring Courses: ${formValues.desiredTutoringCourses.trim()}`,
-        `University Email: ${formValues.universityEmail.trim()}`,
-        `Phone number (WhatsApp): ${formValues.phoneNumber.trim()}`,
-      ].join("\n");
-
-      await createContactMessage({
+      await createTutorApplicant({
+        applicant_profile_id: user?.id || null,
         full_name: formValues.fullName.trim(),
-        email: formValues.universityEmail.trim(),
-        institute: formValues.universityName.trim(),
-        role: "tutor",
-        subject: `Tutor Application - ${formValues.fullName.trim()}`,
-        message,
+        university_name: formValues.universityName.trim(),
+        university_id: formValues.universityId.trim(),
+        major_name: formValues.majorName.trim(),
+        desired_tutoring_courses: formValues.desiredTutoringCourses.trim(),
+        university_email: formValues.universityEmail.trim(),
+        phone_number: formValues.phoneNumber.trim(),
+        application_message: [
+          `Tutor application submitted by ${formValues.fullName.trim()}.`,
+          `University: ${formValues.universityName.trim()}`,
+          `Desired tutoring courses: ${formValues.desiredTutoringCourses.trim()}`,
+        ].join("\n"),
         attachment_notes: requiredAttachments.join("\n"),
         attachment_files: uploadedFiles,
       });

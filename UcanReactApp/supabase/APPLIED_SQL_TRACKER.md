@@ -21,6 +21,7 @@ Status guide:
 | `request_volume_indexes.sql` | confirmed applied | Adds scaling indexes for request-heavy tables on `created_at`, `status`, and `tutor_id`. |
 | `status_workflow_updates.sql` | confirmed applied  | Normalizes contact statuses and adds admin update policies for request workflows. |
 | `tutoring_attachments_storage.sql` | confirmed applied | Needed for tutoring request attachments and tutor-side attachment downloads. |
+| `tutor_applicants_schema.sql` | Pending / not confirmed | Creates the dedicated tutor applicants table, indexes, RLS policies, and separate storage bucket policies. |
 
 ## Update rule
 

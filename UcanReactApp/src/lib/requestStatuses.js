@@ -1,5 +1,12 @@
 export const CONTACT_STATUS_OPTIONS = ["pending", "reviewed", "scheduled", "completed"];
 
+export const TUTOR_APPLICATION_STATUS_OPTIONS = [
+  "pending",
+  "reviewed",
+  "approved",
+  "rejected",
+];
+
 export const TUTORING_STATUS_OPTIONS = [
   "pending",
   "reviewed",
