@@ -271,6 +271,9 @@ export default function TutorApplication() {
 
             <label className="flex flex-col gap-2">
               <RequiredLabel>Desired Tutoring Courses</RequiredLabel>
+              <p className="text-sm leading-6 text-[var(--oman-ink)]/70">
+                Please highlight course code (for example: CPT 220)
+              </p>
               <textarea
                 name="desiredTutoringCourses"
                 value={formValues.desiredTutoringCourses}
