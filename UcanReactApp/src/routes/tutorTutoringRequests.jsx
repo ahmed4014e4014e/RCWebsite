@@ -273,8 +273,8 @@ export default function TutorTutoringRequests() {
                 No active tutoring requests
               </h3>
               <p className="mt-4 leading-7 text-[var(--oman-ink)]/75">
-                Completed tutoring requests are hidden from the dashboard, but still remain stored
-                in Supabase.
+                Completed and cancelled tutoring requests are hidden from the dashboard, but still
+                remain stored in Supabase.
               </p>
             </div>
           ) : (

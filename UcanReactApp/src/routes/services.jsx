@@ -68,9 +68,12 @@ function getTutorInitials(name) {
 }
 
 function filterTutorCards(tutors, selectedInstitute, selectedCourse) {
+  if (!selectedInstitute) {
+    return [];
+  }
+
   return tutors.filter((tutor) => {
-    const instituteMatches =
-      selectedInstitute === "All Institutes" || tutor.institutes.includes(selectedInstitute);
+    const instituteMatches = tutor.institutes.includes(selectedInstitute);
     const courseMatches =
       selectedCourse === "All Courses" ||
       tutor.courses.some((course) => course.label === selectedCourse);
@@ -103,11 +106,15 @@ function TutorSection({
   loading,
   authLoading,
 }) {
+  const hasSelectedInstitute = Boolean(selectedInstitute);
   const availableCourses = useMemo(() => {
-    const relevantTutors =
-      selectedInstitute === "All Institutes"
-        ? tutors
-        : tutors.filter((tutor) => tutor.institutes.includes(selectedInstitute));
+    if (!selectedInstitute) {
+      return [];
+    }
+
+    const relevantTutors = tutors.filter((tutor) =>
+      tutor.institutes.includes(selectedInstitute)
+    );
 
     const uniqueCourses = Array.from(
       new Set(relevantTutors.flatMap((tutor) => tutor.courses.map((course) => course.label)))
@@ -117,14 +124,16 @@ function TutorSection({
   }, [selectedInstitute, tutors]);
 
   const hasCourseOptions = availableCourses.length > 1;
-  const shouldHideDirectory = !canBook;
   const showLoginPrompt = !canBook;
   const showDirectoryLoading = canBook && (authLoading || loading);
 
   const filteredTutors = useMemo(() => {
+    if (!selectedInstitute) {
+      return [];
+    }
+
     return tutors.filter((tutor) => {
-      const instituteMatches =
-        selectedInstitute === "All Institutes" || tutor.institutes.includes(selectedInstitute);
+      const instituteMatches = tutor.institutes.includes(selectedInstitute);
       const courseMatches =
         selectedCourse === "All Courses" ||
         tutor.courses.some((course) => course.label === selectedCourse);
@@ -138,10 +147,17 @@ function TutorSection({
   }, [filteredTutors]);
 
   useEffect(() => {
+    if (!selectedInstitute) {
+      if (selectedCourse) {
+        setSelectedCourse("");
+      }
+      return;
+    }
+
     if (!availableCourses.includes(selectedCourse)) {
       setSelectedCourse("All Courses");
     }
-  }, [availableCourses, selectedCourse, setSelectedCourse]);
+  }, [availableCourses, selectedCourse, selectedInstitute, setSelectedCourse]);
 
   return (
     <section
@@ -168,9 +184,13 @@ function TutorSection({
             </span>
             <select
               value={selectedInstitute}
-              onChange={(event) => setSelectedInstitute(event.target.value)}
+              onChange={(event) => {
+                setSelectedInstitute(event.target.value);
+                setSelectedCourse(event.target.value ? "All Courses" : "");
+              }}
               className="min-h-12 rounded-2xl border border-[rgba(111,49,29,0.14)] bg-[rgba(255,250,244,0.92)] px-4 py-3 text-[var(--oman-ink)] outline-none transition focus:border-[var(--oman-brass)] focus:bg-white"
             >
+              <option value="">Select university</option>
               {institutes.map((institute) => (
                 <option key={institute} value={institute}>
                   {institute}
@@ -186,10 +206,12 @@ function TutorSection({
             <select
               value={selectedCourse}
               onChange={(event) => setSelectedCourse(event.target.value)}
-              disabled={!hasCourseOptions}
+              disabled={!hasSelectedInstitute || !hasCourseOptions}
               className="min-h-12 rounded-2xl border border-[rgba(111,49,29,0.14)] bg-[rgba(255,250,244,0.92)] px-4 py-3 text-[var(--oman-ink)] outline-none transition focus:border-[var(--oman-brass)] focus:bg-white disabled:cursor-not-allowed disabled:opacity-60"
             >
-              {hasCourseOptions ? (
+              {!hasSelectedInstitute ? (
+                <option value="">Select a university first</option>
+              ) : hasCourseOptions ? (
                 availableCourses.map((course) => (
                   <option key={course} value={course}>
                     {course}
@@ -202,7 +224,7 @@ function TutorSection({
           </label>
         </div>
 
-        {!loading && filteredTutors.length > 0 && (
+        {hasSelectedInstitute && !loading && filteredTutors.length > 0 && (
           <div className="mt-6 rounded-3xl border border-[rgba(197,154,68,0.24)] bg-[rgba(255,244,222,0.74)] p-5 text-[var(--oman-ink)] shadow-sm">
             <p className="text-xs font-semibold uppercase tracking-[0.22em] text-[var(--oman-terracotta)]">
               Available Now
@@ -249,6 +271,15 @@ function TutorSection({
               </h3>
               <p className="mt-4 leading-7 text-[var(--oman-ink)]/75">
                 Fetching tutors, courses, and available session types from Supabase.
+              </p>
+            </div>
+          ) : !hasSelectedInstitute ? (
+            <div className="rounded-3xl oman-outline-panel p-6 text-center sm:p-8 lg:col-span-2">
+              <h3 className="text-xl font-semibold text-[var(--oman-ink)]">
+                Select a university to view courses
+              </h3>
+              <p className="mt-4 leading-7 text-[var(--oman-ink)]/75">
+                Course options and tutor cards will appear only after a university is selected.
               </p>
             </div>
           ) : filteredTutors.length > 0 ? (
@@ -359,10 +390,10 @@ function TutorSection({
 
 export default function Services() {
   const { user, profile, loading: authLoading } = useAuth();
-  const [privateInstitute, setPrivateInstitute] = useState("All Institutes");
-  const [privateCourse, setPrivateCourse] = useState("All Courses");
-  const [groupInstitute, setGroupInstitute] = useState("All Institutes");
-  const [groupCourse, setGroupCourse] = useState("All Courses");
+  const [privateInstitute, setPrivateInstitute] = useState("");
+  const [privateCourse, setPrivateCourse] = useState("");
+  const [groupInstitute, setGroupInstitute] = useState("");
+  const [groupCourse, setGroupCourse] = useState("");
   const [privateTutors, setPrivateTutors] = useState([]);
   const [groupTutors, setGroupTutors] = useState([]);
   const [rawOfferingCount, setRawOfferingCount] = useState(0);
@@ -390,7 +421,7 @@ export default function Services() {
       tutor.institutes.forEach((institute) => instituteCodes.add(institute));
     });
 
-    return ["All Institutes", ...Array.from(instituteCodes).sort()];
+    return Array.from(instituteCodes).sort();
   }, [groupTutors, privateTutors]);
 
   const visiblePrivateTutors = useMemo(

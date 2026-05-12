@@ -301,7 +301,8 @@ export default function AdminTutoringRequests() {
             <div className="mt-8 rounded-3xl oman-outline-panel p-6 text-center">
               <h3 className="text-xl font-semibold text-[var(--oman-ink)]">No active tutoring requests</h3>
               <p className="mt-4 leading-7 text-[var(--oman-ink)]/75">
-                Completed tutoring requests are hidden from the dashboard, but still kept in Supabase.
+                Completed and cancelled tutoring requests are hidden from the dashboard, but still
+                kept in Supabase.
               </p>
             </div>
           ) : filteredRequests.length === 0 ? (

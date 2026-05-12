@@ -36,5 +36,5 @@ export function formatStatusLabel(value) {
 }
 
 export function isDashboardArchivedStatus(value) {
-  return normalizeStatus(value) === "completed";
+  return ["completed", "cancelled"].includes(normalizeStatus(value));
 }
