@@ -1,5 +1,8 @@
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import ActionFeedback from "../components/ActionFeedback";
 import { useAuth } from "../context/AuthContext";
+import { isSupabaseConfigured, supabase } from "../lib/supabase";
 import { themeImages } from "../lib/themeImages";
 
 const quickLinks = [
@@ -18,9 +21,88 @@ const quickLinks = [
 ];
 
 export default function StudentDashboard() {
-  const { user, profile } = useAuth();
-  const name = profile?.full_name || user?.user_metadata?.full_name || "Student";
-  const institute = profile?.institute || user?.user_metadata?.institute || "Not set yet";
+  const { user, profile, refreshProfile } = useAuth();
+  const [fullName, setFullName] = useState("");
+  const [universityName, setUniversityName] = useState("");
+  const [savingProfile, setSavingProfile] = useState(false);
+  const [feedback, setFeedback] = useState({
+    type: "idle",
+    message: "",
+  });
+  const name = profile?.full_name || "Student";
+  const profileComplete = Boolean(profile?.full_name?.trim() && profile?.institute?.trim());
+
+  useEffect(() => {
+    setFullName(profile?.full_name || "");
+    setUniversityName(profile?.institute || "");
+  }, [profile?.full_name, profile?.institute]);
+
+  const handleProfileSubmit = async (event) => {
+    event.preventDefault();
+
+    if (!user?.id || !isSupabaseConfigured || !supabase) {
+      setFeedback({
+        type: "error",
+        message: "Your student profile cannot be saved until Supabase is configured.",
+      });
+      return;
+    }
+
+    if (!fullName.trim() || !universityName.trim()) {
+      setFeedback({
+        type: "error",
+        message: "Please enter your student name and university name to complete your profile.",
+      });
+      return;
+    }
+
+    setSavingProfile(true);
+    setFeedback({
+      type: "idle",
+      message: "",
+    });
+
+    try {
+      const profilePayload = {
+        id: user.id,
+        full_name: fullName.trim(),
+        institute: universityName.trim(),
+        email: user.email || profile?.email || null,
+        role: "student",
+      };
+
+      const { error } = await supabase.from("profiles").upsert(profilePayload);
+
+      if (error) {
+        throw error;
+      }
+
+      const { error: metadataError } = await supabase.auth.updateUser({
+        data: {
+          full_name: profilePayload.full_name,
+          institute: profilePayload.institute,
+          role: "student",
+        },
+      });
+
+      if (metadataError) {
+        throw metadataError;
+      }
+
+      await refreshProfile();
+      setFeedback({
+        type: "success",
+        message: "Your student profile was saved. You can now send tutoring requests.",
+      });
+    } catch (error) {
+      setFeedback({
+        type: "error",
+        message: error.message || "We could not save your student profile right now.",
+      });
+    } finally {
+      setSavingProfile(false);
+    }
+  };
 
   return (
     <main className="oman-page min-h-screen px-4 pb-16 pt-24 text-slate-900 sm:px-6 sm:pb-20 sm:pt-28">
@@ -38,8 +120,8 @@ export default function StudentDashboard() {
                 Welcome, {name}
               </h1>
               <p className="mt-5 max-w-3xl text-base leading-7 text-[#f4e8d6] sm:text-lg sm:leading-8">
-                Your student session is protected. This dashboard gives you a simple
-                home base for tutoring access, academic support, and future student tools.
+                Complete your student profile first, then use this protected dashboard as your
+                home base for tutoring access and academic support.
               </p>
             </div>
             <div className="oman-card rounded-3xl p-4 text-[var(--oman-ink)]">
@@ -54,35 +136,83 @@ export default function StudentDashboard() {
       <section className="mx-auto mt-10 grid max-w-6xl gap-8 lg:grid-cols-[0.9fr_1.1fr]">
         <div className="rounded-[1.75rem] oman-card p-6 sm:p-8">
           <p className="oman-section-kicker text-xs font-semibold uppercase sm:text-sm">
-            Profile
+            Student Profile
           </p>
-          <div className="mt-6 space-y-4 text-[var(--oman-ink)]/80">
-            <p>
-              <span className="font-semibold">Full name:</span> {name}
-            </p>
-            <p>
-              <span className="font-semibold">Email:</span> {user?.email || "Not set"}
-            </p>
-            <p>
-              <span className="font-semibold">Institute:</span> {institute}
-            </p>
-            <p>
-              <span className="font-semibold">Role:</span> Student
-            </p>
-          </div>
+          <h2 className="oman-title-accent mt-4 text-2xl font-semibold">
+            {profileComplete ? "Profile complete" : "Complete your profile"}
+          </h2>
+          <p className="mt-4 leading-7 text-[var(--oman-ink)]/75">
+            Enter your student name and university name before sending tutoring requests.
+          </p>
+
+          <ActionFeedback
+            type={feedback.type}
+            message={feedback.message}
+            title="Student profile update"
+            className="mt-5"
+          />
+
+          <form className="mt-6 space-y-4" onSubmit={handleProfileSubmit}>
+            <label className="flex flex-col gap-2">
+              <span className="text-sm font-semibold text-[var(--oman-terracotta-dark)]">
+                Student name <span aria-hidden="true" className="text-[var(--oman-terracotta)]">*</span>
+              </span>
+              <input
+                type="text"
+                value={fullName}
+                onChange={(event) => setFullName(event.target.value)}
+                placeholder="Enter your full name"
+                required
+                className="min-h-12 rounded-2xl border border-[rgba(111,49,29,0.14)] bg-[rgba(255,250,244,0.92)] px-4 py-3 text-[var(--oman-ink)] outline-none transition focus:border-[var(--oman-brass)] focus:bg-white"
+              />
+            </label>
+
+            <label className="flex flex-col gap-2">
+              <span className="text-sm font-semibold text-[var(--oman-terracotta-dark)]">
+                University name <span aria-hidden="true" className="text-[var(--oman-terracotta)]">*</span>
+              </span>
+              <input
+                type="text"
+                value={universityName}
+                onChange={(event) => setUniversityName(event.target.value)}
+                placeholder="Example: MCBS"
+                required
+                className="min-h-12 rounded-2xl border border-[rgba(111,49,29,0.14)] bg-[rgba(255,250,244,0.92)] px-4 py-3 text-[var(--oman-ink)] outline-none transition focus:border-[var(--oman-brass)] focus:bg-white"
+              />
+            </label>
+
+            <div className="rounded-2xl bg-[rgba(244,232,214,0.34)] px-4 py-4 text-sm leading-6 text-[var(--oman-ink)]/80">
+              <p>
+                <span className="font-semibold text-[var(--oman-ink)]">Email:</span>{" "}
+                {user?.email || "Not set"}
+              </p>
+              <p className="mt-2">
+                <span className="font-semibold text-[var(--oman-ink)]">Role:</span> Student
+              </p>
+            </div>
+
+            <button
+              type="submit"
+              disabled={savingProfile}
+              className="oman-button-primary inline-flex w-full items-center justify-center rounded-2xl px-6 py-3 font-semibold transition disabled:cursor-not-allowed disabled:opacity-70"
+            >
+              {savingProfile ? "Saving Profile..." : "Save Student Profile"}
+            </button>
+          </form>
         </div>
 
         <div className="rounded-[1.75rem] oman-card p-6 sm:p-8">
           <p className="oman-section-kicker text-xs font-semibold uppercase sm:text-sm">
             Student Actions
           </p>
-          {quickLinks.length === 0 ? (
+          {!profileComplete ? (
             <div className="mt-6 rounded-3xl oman-outline-panel p-6 text-center">
               <h2 className="text-lg font-semibold text-[var(--oman-ink)]">
-                No student actions available yet
+                Complete your profile to unlock tutoring requests
               </h2>
               <p className="mt-3 leading-7 text-[var(--oman-ink)]/75">
-                New student tools will appear here as the platform grows.
+                Save your student name and university name first, then tutoring request tools will
+                become available.
               </p>
             </div>
           ) : (

@@ -10,6 +10,7 @@ export default function StudentAccess() {
       signupHeading="Create a student account"
       role="student"
       requireTermsAgreement
+      collectSignupProfile={false}
       accessImage={middleEastCollegeImage}
       accessImageAlt="Middle East College campus in Oman"
     />

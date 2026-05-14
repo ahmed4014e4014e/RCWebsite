@@ -105,6 +105,7 @@ function TutorSection({
   institutes,
   loading,
   authLoading,
+  requiresProfileCompletion,
 }) {
   const hasSelectedInstitute = Boolean(selectedInstitute);
   const availableCourses = useMemo(() => {
@@ -256,13 +257,33 @@ function TutorSection({
         <div className="mt-8 grid gap-6 lg:grid-cols-2">
           {showLoginPrompt ? (
             <div className="rounded-3xl oman-outline-panel p-6 text-center sm:p-8 lg:col-span-2">
-              <h3 className="text-xl font-semibold text-[var(--oman-ink)]">
-                Please login / sign up to view available tutors
-              </h3>
-              <p className="mt-4 leading-7 text-[var(--oman-ink)]/75">
-                Create an account or log in first to access the private and group tutoring
-                directory and send a tutoring request.
-              </p>
+              {requiresProfileCompletion ? (
+                <>
+                  <h3 className="text-xl font-semibold text-[var(--oman-ink)]">
+                    Complete your student profile to view available tutors
+                  </h3>
+                  <p className="mt-4 leading-7 text-[var(--oman-ink)]/75">
+                    Add your student name and university name in your dashboard before sending a
+                    tutoring request.
+                  </p>
+                  <Link
+                    to="/student-dashboard/"
+                    className="oman-button-secondary mt-5 inline-flex items-center justify-center rounded-2xl px-5 py-3 font-semibold transition"
+                  >
+                    Complete Student Profile
+                  </Link>
+                </>
+              ) : (
+                <>
+                  <h3 className="text-xl font-semibold text-[var(--oman-ink)]">
+                    Please login / sign up to view available tutors
+                  </h3>
+                  <p className="mt-4 leading-7 text-[var(--oman-ink)]/75">
+                    Create an account or log in first to access the private and group tutoring
+                    directory and send a tutoring request.
+                  </p>
+                </>
+              )}
             </div>
           ) : showDirectoryLoading ? (
             <div className="rounded-3xl oman-outline-panel p-6 text-center sm:p-8 lg:col-span-2">
@@ -410,7 +431,12 @@ export default function Services() {
   const [requestMessage, setRequestMessage] = useState("");
   const [requestMessageType, setRequestMessageType] = useState("info");
   const location = useLocation();
-  const canBook = Boolean(user?.id && profile?.role);
+  const needsStudentProfileCompletion = Boolean(
+    user?.id &&
+      profile?.role === "student" &&
+      (!profile?.full_name?.trim() || !profile?.institute?.trim())
+  );
+  const canBook = Boolean(user?.id && profile?.role && !needsStudentProfileCompletion);
   const studentAccountName = profile?.full_name || user?.user_metadata?.full_name || "Not available";
   const studentAccountEmail = profile?.email || user?.email || "Not available";
 
@@ -740,6 +766,7 @@ export default function Services() {
         institutes={instituteOptions}
         loading={directoryLoading}
         authLoading={authLoading}
+        requiresProfileCompletion={needsStudentProfileCompletion}
       />
 
       <TutorSection
@@ -757,6 +784,7 @@ export default function Services() {
         institutes={instituteOptions}
         loading={directoryLoading}
         authLoading={authLoading}
+        requiresProfileCompletion={needsStudentProfileCompletion}
       />
 
       <section className="mx-auto max-w-6xl px-4 py-4 sm:px-6 sm:py-8">

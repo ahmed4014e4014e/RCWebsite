@@ -18,6 +18,7 @@ export default function AuthAccessPage({
   accessImageAlt,
   signupPanel = null,
   requireTermsAgreement = false,
+  collectSignupProfile = true,
 }) {
   const navigate = useNavigate();
   const { user, profile, loading } = useAuth();
@@ -325,9 +326,13 @@ export default function AuthAccessPage({
       password: signupPassword,
       options: {
         data: {
-          full_name: signupName,
           role,
-          institute: signupInstitute,
+          ...(collectSignupProfile
+            ? {
+                full_name: signupName,
+                institute: signupInstitute,
+              }
+            : {}),
         },
       },
     });
@@ -368,13 +373,19 @@ export default function AuthAccessPage({
     const hasSession = Boolean(data.session);
 
     if (userId && hasSession) {
-      const { error: profileError } = await supabase.from("profiles").upsert({
+      const profilePayload = {
         id: userId,
-        full_name: signupName,
         role,
-        institute: signupInstitute,
         email: signupEmail,
-      });
+        ...(collectSignupProfile
+          ? {
+              full_name: signupName,
+              institute: signupInstitute,
+            }
+          : {}),
+      };
+
+      const { error: profileError } = await supabase.from("profiles").upsert(profilePayload);
 
       if (profileError) {
         showMessage(
@@ -565,28 +576,32 @@ export default function AuthAccessPage({
                 </p>
                 <h2 className="oman-title-accent mt-4 text-2xl font-semibold">{signupHeading}</h2>
                 <form className="mt-6 space-y-4" onSubmit={handleSignup}>
-                  <label className="flex flex-col gap-2">
-                    <span className="text-sm font-semibold text-[var(--oman-terracotta-dark)]">Full Name</span>
-                    <input
-                      type="text"
-                      placeholder="Enter your full name"
-                      value={signupName}
-                      onChange={(event) => setSignupName(event.target.value)}
-                      className="min-h-12 rounded-2xl border border-[rgba(111,49,29,0.14)] bg-[rgba(255,250,244,0.92)] px-4 py-3 text-[var(--oman-ink)] outline-none transition focus:border-[var(--oman-brass)] focus:bg-white"
-                      required
-                    />
-                  </label>
-                  <label className="flex flex-col gap-2">
-                    <span className="text-sm font-semibold text-[var(--oman-terracotta-dark)]">Institute</span>
-                    <input
-                      type="text"
-                      placeholder="Enter your institute name"
-                      value={signupInstitute}
-                      onChange={(event) => setSignupInstitute(event.target.value)}
-                      className="min-h-12 rounded-2xl border border-[rgba(111,49,29,0.14)] bg-[rgba(255,250,244,0.92)] px-4 py-3 text-[var(--oman-ink)] outline-none transition focus:border-[var(--oman-brass)] focus:bg-white"
-                      required
-                    />
-                  </label>
+                  {collectSignupProfile && (
+                    <>
+                      <label className="flex flex-col gap-2">
+                        <span className="text-sm font-semibold text-[var(--oman-terracotta-dark)]">Full Name</span>
+                        <input
+                          type="text"
+                          placeholder="Enter your full name"
+                          value={signupName}
+                          onChange={(event) => setSignupName(event.target.value)}
+                          className="min-h-12 rounded-2xl border border-[rgba(111,49,29,0.14)] bg-[rgba(255,250,244,0.92)] px-4 py-3 text-[var(--oman-ink)] outline-none transition focus:border-[var(--oman-brass)] focus:bg-white"
+                          required
+                        />
+                      </label>
+                      <label className="flex flex-col gap-2">
+                        <span className="text-sm font-semibold text-[var(--oman-terracotta-dark)]">Institute</span>
+                        <input
+                          type="text"
+                          placeholder="Enter your institute name"
+                          value={signupInstitute}
+                          onChange={(event) => setSignupInstitute(event.target.value)}
+                          className="min-h-12 rounded-2xl border border-[rgba(111,49,29,0.14)] bg-[rgba(255,250,244,0.92)] px-4 py-3 text-[var(--oman-ink)] outline-none transition focus:border-[var(--oman-brass)] focus:bg-white"
+                          required
+                        />
+                      </label>
+                    </>
+                  )}
                   <label className="flex flex-col gap-2">
                     <span className="text-sm font-semibold text-[var(--oman-terracotta-dark)]">Email</span>
                     <input
