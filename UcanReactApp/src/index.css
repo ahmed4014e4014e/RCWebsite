@@ -231,4 +231,32 @@ html[dir="rtl"] .oman-section-kicker {
   .oman-page :where(.rounded-3xl, .rounded-\[1\.75rem\]) {
     border-radius: 1.25rem;
   }
+
+  .contact-page {
+    width: 100%;
+    max-width: 100vw;
+  }
+
+  .contact-page > section {
+    width: 100%;
+    max-width: 100vw;
+    overflow-x: clip;
+  }
+
+  .contact-page :where(.contact-mobile-grid, .contact-mobile-grid > *, form, .oman-card, .oman-dark-panel) {
+    min-width: 0;
+    max-width: 100%;
+  }
+
+  .contact-page :where(input, select, textarea, input[type="file"]) {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+  }
+
+  .contact-page .oman-card,
+  .contact-page .oman-dark-panel {
+    margin-left: auto;
+    margin-right: auto;
+  }
 }

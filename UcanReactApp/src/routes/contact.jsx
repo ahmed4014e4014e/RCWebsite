@@ -122,14 +122,14 @@ export default function Contact() {
   };
 
   return (
-    <main className="oman-page min-h-screen text-slate-900">
+    <main className="contact-page oman-page min-h-screen overflow-x-hidden text-slate-900">
       <section
         className="oman-hero text-white"
         style={{ backgroundImage: `url(${themeImages.studentsGroup})` }}
       >
         <div className="mx-auto max-w-6xl px-4 pb-16 pt-24 sm:px-6 sm:pb-20 sm:pt-28">
-          <div className="grid items-center gap-8 lg:grid-cols-[1.15fr_0.85fr] lg:gap-12">
-            <div className="text-center lg:text-left">
+          <div className="contact-mobile-grid grid items-center gap-8 lg:grid-cols-[1.15fr_0.85fr] lg:gap-12">
+            <div className="min-w-0 text-center lg:text-left">
               <p className="oman-kicker mb-4 text-xs font-semibold uppercase sm:text-sm">
                 {t("contact.heroKicker")}
               </p>
@@ -141,7 +141,7 @@ export default function Contact() {
               </p>
             </div>
 
-            <div className="oman-card rounded-[1.75rem] p-4 text-[var(--oman-ink)] sm:p-5">
+            <div className="min-w-0 oman-card rounded-[1.75rem] p-4 text-[var(--oman-ink)] sm:p-5">
               <div className="oman-photo-frame aspect-[4/5]">
                 <img
                   src={themeImages.heroFort}
@@ -157,8 +157,8 @@ export default function Contact() {
       </section>
 
       <section className="mx-auto max-w-6xl px-4 py-12 sm:px-6 sm:py-16">
-        <div className="grid gap-8 lg:grid-cols-[1.05fr_0.95fr] lg:items-start lg:gap-10">
-          <div>
+        <div className="contact-mobile-grid grid gap-8 lg:grid-cols-[1.05fr_0.95fr] lg:items-start lg:gap-10">
+          <div className="min-w-0">
             <div className="max-w-2xl text-center lg:text-left">
               <p className="oman-section-kicker text-xs font-semibold uppercase sm:text-sm">
                 {t("contact.formKicker")}
@@ -171,7 +171,7 @@ export default function Contact() {
               </p>
             </div>
 
-            <form onSubmit={handleSubmit} className="mt-10 rounded-[1.75rem] oman-card p-6 sm:mt-12 sm:p-8">
+            <form onSubmit={handleSubmit} className="mt-10 min-w-0 rounded-[1.75rem] oman-card p-6 sm:mt-12 sm:p-8">
               <p className="mb-5 text-sm leading-6 text-[var(--oman-ink)]/70">
                 {t("common.fieldsRequired")}
               </p>
@@ -315,7 +315,7 @@ export default function Contact() {
             </form>
           </div>
 
-          <div>
+          <div className="min-w-0">
             <div className="max-w-2xl text-center lg:text-left">
               <p className="oman-section-kicker text-xs font-semibold uppercase sm:text-sm">
                 {t("contact.methodsKicker")}
@@ -341,8 +341,8 @@ export default function Contact() {
       </section>
 
       <section className="mx-auto max-w-6xl px-4 pb-16 sm:px-6 sm:pb-20">
-        <div className="grid items-center gap-6 rounded-[1.75rem] oman-dark-panel px-6 py-10 text-white sm:px-8 sm:py-12 lg:grid-cols-[1fr_0.88fr]">
-          <div className="text-center lg:text-left">
+        <div className="contact-mobile-grid grid items-center gap-6 rounded-[1.75rem] oman-dark-panel px-6 py-10 text-white sm:px-8 sm:py-12 lg:grid-cols-[1fr_0.88fr]">
+          <div className="min-w-0 text-center lg:text-left">
             <p className="oman-kicker text-xs font-semibold uppercase sm:text-sm">
               {t("contact.ctaKicker")}
             </p>
@@ -353,7 +353,7 @@ export default function Contact() {
               {t("contact.ctaText")}
             </p>
           </div>
-          <div className="oman-photo-frame aspect-[5/4]">
+          <div className="min-w-0 oman-photo-frame aspect-[5/4]">
             <img
               src={themeImages.contactBottomCampus}
               alt="University campus building with landscaped lawn"
