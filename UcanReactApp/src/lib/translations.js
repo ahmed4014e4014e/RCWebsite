@@ -217,7 +217,7 @@ export const translations = {
       formKicker: "Contact Form",
       formTitle: "Send your message directly to Ucan.",
       formText:
-        "Fill in the form below and your message will be saved in Supabase so the team can review it properly.",
+        "Fill in the form below and your message will be saved in database so the team can review it properly.",
       labels: {
         fullName: "Full name",
         email: "Email",
@@ -241,9 +241,9 @@ export const translations = {
       submitting: "Submitting...",
       submit: "Submit Contact Form",
       notConfigured:
-        "Supabase is not configured yet, so the contact form cannot submit right now.",
+        "database is not configured yet, so the contact form cannot submit right now.",
       success:
-        "Your message was submitted successfully. We will review it through Supabase.",
+        "Your message was submitted successfully. We will review it through database.",
       error: "We could not submit your message right now.",
       methodsKicker: "Other Ways to Reach Us",
       methodsTitle: "Clear ways to connect with the Ucan team.",
@@ -335,7 +335,7 @@ export const translations = {
         loginText:
           "Create an account or log in first to access the private and group tutoring directory and send a tutoring request.",
         loadingTitle: "Loading tutor directory...",
-        loadingText: "Fetching tutors, courses, and available session types from Supabase.",
+        loadingText: "Fetching tutors, courses, and available session types from database.",
         selectInstituteTitle: "Select a university to view courses",
         selectInstituteText:
           "Course options and tutor cards will appear only after a university is selected.",
@@ -353,7 +353,7 @@ export const translations = {
           "Please log in to your student or tutor account before sending a tutoring session.",
         emptyTitle: "No tutor listed yet for this selection",
         emptyText:
-          "Once more tutors and course offerings are added in Supabase, this directory will update automatically.",
+          "Once more tutors and course offerings are added in database, this directory will update automatically.",
       },
       otherKicker: "Future Course Areas",
       otherTitle: "High-demand subjects Ucan can develop for Oman’s digital workforce.",
@@ -428,7 +428,7 @@ export const translations = {
       },
       messages: {
         directoryNotConfigured:
-          "Supabase is not configured yet. Add your environment variables before using the live tutor directory.",
+          "database is not configured yet. Add your environment variables before using the live tutor directory.",
         loginAndCourse: "Please log in and choose a course before submitting a request.",
         requiredTitleInstitute: "Please complete the required title and student institute fields.",
         attachmentRequired:
@@ -601,7 +601,7 @@ export const translations = {
     authAccess: {
       recoveryStart: "Enter a new password below to finish resetting your account.",
       supabaseMissing:
-        "Supabase is not configured yet. Add VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY in .env.local.",
+        "database is not configured yet. Add your database environment variables in .env.local.",
       studentSignupFirst:
         "We could not find a student account with those login details. Please sign up first if you have not created an account yet.",
       profileLoadError: "We could not load your account profile yet. Please try again in a moment.",
@@ -627,7 +627,7 @@ export const translations = {
       accountCreatedConfirm:
         "Account created. Check {email} for your confirmation email before logging in.",
       supabaseNotice:
-        "Supabase is not configured yet. Add `VITE_SUPABASE_URL` and `VITE_SUPABASE_ANON_KEY` to `.env.local` before testing auth.",
+        "database is not configured yet. Add your database environment variables to `.env.local` before testing auth.",
       feedbackErrorTitle: "Authentication update",
       feedbackRecoveryTitle: "Password recovery update",
       feedbackAccessTitle: "Account access update",
@@ -704,7 +704,7 @@ export const translations = {
       lockedText:
         "Save your student name and university name first, then tutoring request tools will become available.",
       messages: {
-        notConfigured: "Your student profile cannot be saved until Supabase is configured.",
+        notConfigured: "Your student profile cannot be saved until database is configured.",
         required: "Please enter your student name and university name to complete your profile.",
         success: "Your student profile was saved. You can now send tutoring requests.",
         error: "We could not save your student profile right now.",
@@ -764,7 +764,7 @@ export const translations = {
       yes: "Yes",
       no: "No",
       none: "None",
-      supabaseNotConfigured: "Supabase is not configured.",
+      supabaseNotConfigured: "database is not configured.",
       diagnosticsError: "Unable to load tutor directory diagnostics right now.",
       heroKicker: "Admin Dashboard",
       welcome: "Welcome, {name}",
@@ -821,9 +821,9 @@ export const translations = {
         "Internal status for the Services directory so you can troubleshoot offerings without showing debug data to public users.",
       noDataTitle: "No tutor directory data yet",
       noDataText:
-        "Supabase is connected, but no active tutor offerings are available to report yet.",
+        "database is connected, but no active tutor offerings are available to report yet.",
       diagnosticLabels: {
-        configured: "Supabase configured:",
+        configured: "database configured:",
         loading: "Loading:",
         raw: "Raw offerings:",
         privateCards: "Private tutor cards:",
@@ -834,12 +834,12 @@ export const translations = {
     },
     resetPasswordPage: {
       recoveryPrompt: "Enter your new password below to complete the reset.",
-      supabaseMissing: "Supabase is not configured yet.",
+      supabaseMissing: "database is not configured yet.",
       shortPassword: "Your new password must be at least 6 characters.",
       success: "Your password was updated successfully. You can now log in.",
       heroKicker: "Password Reset",
       heroTitle: "Create a new password for your Ucan account.",
-      heroText: "Use this page after opening the Supabase password recovery email.",
+      heroText: "Use this page after opening the database password recovery email.",
       formKicker: "New Password",
       formTitle: "Reset your password",
       feedbackTitle: "Password reset update",
@@ -882,7 +882,7 @@ export const translations = {
       ],
       messages: {
         terms: "Please read and agree to the Ucan Platform Policies before submitting your instructor application.",
-        notConfigured: "Supabase is not configured yet, so the tutor application cannot submit right now.",
+        notConfigured: "database is not configured yet, so the tutor application cannot submit right now.",
         files: "Please attach the required supporting documents before submitting your tutor application.",
         success:
           "Your instructor application was submitted successfully. The Ucan team can now review your form and attachments. You will receive a reply in less than 24 hours.",
@@ -932,11 +932,11 @@ export const translations = {
         filter: "Filter by status",
         allStatuses: "All statuses",
         loadingTitle: "Loading contact messages...",
-        loadingText: "Fetching the latest submissions from Supabase.",
+        loadingText: "Fetching the latest submissions from database.",
         errorTitle: "Unable to load messages",
         emptyTitle: "No active contact messages",
         emptyText:
-          "Completed contact messages are hidden from the dashboard, but still kept in Supabase.",
+          "Completed contact messages are hidden from the dashboard, but still kept in database.",
         noFilteredTitle: "No {status} messages",
         noFilteredText: "Try another status filter to continue processing contact submissions.",
         fromLine: "From {name} via {email}",
@@ -959,7 +959,7 @@ export const translations = {
         errorTitle: "Unable to load tutoring requests",
         emptyTitle: "No active tutoring requests",
         emptyText:
-          "Completed and cancelled tutoring requests are hidden from the dashboard, but still remain stored in Supabase.",
+          "Completed and cancelled tutoring requests are hidden from the dashboard, but still remain stored in database.",
         studentLine: "Student {name} via {email}",
         student: "Student:",
         studentInstitute: "Student institute:",
@@ -1152,7 +1152,7 @@ export const translations = {
       formKicker: "نموذج التواصل",
       formTitle: "أرسل رسالتك مباشرة إلى يوكان.",
       formText:
-        "املأ النموذج أدناه وسيتم حفظ رسالتك في Supabase حتى يتمكن الفريق من مراجعتها بشكل مناسب.",
+        "املأ النموذج أدناه وسيتم حفظ رسالتك في database حتى يتمكن الفريق من مراجعتها بشكل مناسب.",
       labels: {
         fullName: "الاسم الكامل",
         email: "البريد الإلكتروني",
@@ -1175,8 +1175,8 @@ export const translations = {
       feedbackTitle: "تحديث نموذج التواصل",
       submitting: "جارٍ الإرسال...",
       submit: "إرسال نموذج التواصل",
-      notConfigured: "لم يتم إعداد Supabase بعد، لذلك لا يمكن إرسال نموذج التواصل حالياً.",
-      success: "تم إرسال رسالتك بنجاح. سنراجعها من خلال Supabase.",
+      notConfigured: "لم يتم إعداد database بعد، لذلك لا يمكن إرسال نموذج التواصل حالياً.",
+      success: "تم إرسال رسالتك بنجاح. سنراجعها من خلال database.",
       error: "تعذر إرسال رسالتك حالياً.",
       methodsKicker: "طرق أخرى للتواصل",
       methodsTitle: "طرق واضحة للتواصل مع فريق يوكان.",
@@ -1264,7 +1264,7 @@ export const translations = {
         loginText:
           "أنشئ حساباً أو سجل الدخول أولاً للوصول إلى دليل التدريس الفردي والجماعي وإرسال طلب تدريس.",
         loadingTitle: "جارٍ تحميل دليل المدرسين...",
-        loadingText: "يتم جلب المدرسين والمقررات وأنواع الجلسات المتاحة من Supabase.",
+        loadingText: "يتم جلب المدرسين والمقررات وأنواع الجلسات المتاحة من database.",
         selectInstituteTitle: "اختر جامعة لعرض المقررات",
         selectInstituteText: "ستظهر خيارات المقررات وبطاقات المدرسين فقط بعد اختيار جامعة.",
         profileLabel: "ملف مدرس للتدريس المجاني",
@@ -1280,7 +1280,7 @@ export const translations = {
         loginNote: "يرجى تسجيل الدخول إلى حساب الطالب أو المدرس قبل إرسال جلسة تدريس.",
         emptyTitle: "لا يوجد مدرس لهذا الاختيار بعد",
         emptyText:
-          "عند إضافة المزيد من المدرسين وعروض المقررات في Supabase، سيتم تحديث هذا الدليل تلقائياً.",
+          "عند إضافة المزيد من المدرسين وعروض المقررات في database، سيتم تحديث هذا الدليل تلقائياً.",
       },
       otherKicker: "مجالات الدورات المستقبلية",
       otherTitle: "موضوعات عالية الطلب يمكن ليوكان تطويرها للقوى الرقمية العاملة في عُمان.",
@@ -1354,7 +1354,7 @@ export const translations = {
       },
       messages: {
         directoryNotConfigured:
-          "لم يتم إعداد Supabase بعد. أضف متغيرات البيئة قبل استخدام دليل المدرسين المباشر.",
+          "لم يتم إعداد database بعد. أضف متغيرات البيئة قبل استخدام دليل المدرسين المباشر.",
         loginAndCourse: "يرجى تسجيل الدخول واختيار مقرر قبل إرسال الطلب.",
         requiredTitleInstitute: "يرجى إكمال حقلي العنوان واسم المؤسسة التعليمية المطلوبين.",
         attachmentRequired: "يرجى إرفاق ملف واحد على الأقل قبل إرسال طلب التدريس.",
@@ -1525,7 +1525,7 @@ export const translations = {
     authAccess: {
       recoveryStart: "أدخل كلمة مرور جديدة أدناه لإكمال إعادة تعيين حسابك.",
       supabaseMissing:
-        "لم يتم إعداد Supabase بعد. أضف VITE_SUPABASE_URL و VITE_SUPABASE_ANON_KEY في ملف .env.local.",
+        "لم يتم إعداد database بعد. أضف متغيرات بيئة قاعدة البيانات في ملف .env.local.",
       studentSignupFirst:
         "لم نتمكن من العثور على حساب طالب بهذه البيانات. يرجى إنشاء حساب أولاً إذا لم تكن قد أنشأت حساباً بعد.",
       profileLoadError: "تعذر تحميل ملف حسابك حالياً. يرجى المحاولة بعد قليل.",
@@ -1550,7 +1550,7 @@ export const translations = {
       accountCreatedConfirm:
         "تم إنشاء الحساب. تحقق من {email} للحصول على بريد التأكيد قبل تسجيل الدخول.",
       supabaseNotice:
-        "لم يتم إعداد Supabase بعد. أضف `VITE_SUPABASE_URL` و `VITE_SUPABASE_ANON_KEY` إلى `.env.local` قبل اختبار المصادقة.",
+        "لم يتم إعداد database بعد. أضف متغيرات بيئة قاعدة البيانات إلى `.env.local` قبل اختبار المصادقة.",
       feedbackErrorTitle: "تحديث المصادقة",
       feedbackRecoveryTitle: "تحديث استعادة كلمة المرور",
       feedbackAccessTitle: "تحديث الوصول للحساب",
@@ -1627,7 +1627,7 @@ export const translations = {
       lockedText:
         "احفظ اسم الطالب واسم الجامعة أولاً، ثم ستصبح أدوات طلب التدريس متاحة.",
       messages: {
-        notConfigured: "لا يمكن حفظ ملف الطالب حتى يتم إعداد Supabase.",
+        notConfigured: "لا يمكن حفظ ملف الطالب حتى يتم إعداد database.",
         required: "يرجى إدخال اسم الطالب واسم الجامعة لإكمال ملفك.",
         success: "تم حفظ ملف الطالب. يمكنك الآن إرسال طلبات التدريس.",
         error: "تعذر حفظ ملف الطالب حالياً.",
@@ -1687,7 +1687,7 @@ export const translations = {
       yes: "نعم",
       no: "لا",
       none: "لا يوجد",
-      supabaseNotConfigured: "لم يتم إعداد Supabase.",
+      supabaseNotConfigured: "لم يتم إعداد database.",
       diagnosticsError: "تعذر تحميل تشخيصات دليل المدرسين حالياً.",
       heroKicker: "لوحة الإدارة",
       welcome: "مرحباً، {name}",
@@ -1744,9 +1744,9 @@ export const translations = {
         "حالة داخلية لدليل الخدمات حتى تتمكن من حل مشكلات العروض دون إظهار بيانات التشخيص للمستخدمين.",
       noDataTitle: "لا توجد بيانات لدليل المدرسين بعد",
       noDataText:
-        "Supabase متصل، لكن لا توجد عروض مدرسين نشطة للإبلاغ عنها حالياً.",
+        "database متصل، لكن لا توجد عروض مدرسين نشطة للإبلاغ عنها حالياً.",
       diagnosticLabels: {
-        configured: "Supabase معد:",
+        configured: "database معد:",
         loading: "جارٍ التحميل:",
         raw: "العروض الخام:",
         privateCards: "بطاقات المدرسين الفرديين:",
@@ -1757,12 +1757,12 @@ export const translations = {
     },
     resetPasswordPage: {
       recoveryPrompt: "أدخل كلمة المرور الجديدة أدناه لإكمال إعادة التعيين.",
-      supabaseMissing: "لم يتم إعداد Supabase بعد.",
+      supabaseMissing: "لم يتم إعداد database بعد.",
       shortPassword: "يجب أن تتكون كلمة المرور الجديدة من 6 أحرف على الأقل.",
       success: "تم تحديث كلمة المرور بنجاح. يمكنك الآن تسجيل الدخول.",
       heroKicker: "إعادة تعيين كلمة المرور",
       heroTitle: "أنشئ كلمة مرور جديدة لحسابك في يوكان.",
-      heroText: "استخدم هذه الصفحة بعد فتح بريد استعادة كلمة المرور من Supabase.",
+      heroText: "استخدم هذه الصفحة بعد فتح بريد استعادة كلمة المرور من database.",
       formKicker: "كلمة مرور جديدة",
       formTitle: "إعادة تعيين كلمة المرور",
       feedbackTitle: "تحديث إعادة تعيين كلمة المرور",
@@ -1805,7 +1805,7 @@ export const translations = {
       ],
       messages: {
         terms: "يرجى قراءة سياسات منصة يوكان والموافقة عليها قبل إرسال طلب المدرب.",
-        notConfigured: "لم يتم إعداد Supabase بعد، لذلك لا يمكن إرسال طلب المدرس حالياً.",
+        notConfigured: "لم يتم إعداد database بعد، لذلك لا يمكن إرسال طلب المدرس حالياً.",
         files: "يرجى إرفاق المستندات الداعمة المطلوبة قبل إرسال طلب المدرس.",
         success:
           "تم إرسال طلب المدرب بنجاح. يمكن لفريق يوكان الآن مراجعة النموذج والمرفقات. ستتلقى رداً خلال أقل من 24 ساعة.",
@@ -1855,11 +1855,11 @@ export const translations = {
         filter: "تصفية حسب الحالة",
         allStatuses: "كل الحالات",
         loadingTitle: "جارٍ تحميل رسائل التواصل...",
-        loadingText: "يتم جلب أحدث الرسائل من Supabase.",
+        loadingText: "يتم جلب أحدث الرسائل من database.",
         errorTitle: "تعذر تحميل الرسائل",
         emptyTitle: "لا توجد رسائل تواصل نشطة",
         emptyText:
-          "يتم إخفاء رسائل التواصل المكتملة من لوحة التحكم، لكنها تبقى محفوظة في Supabase.",
+          "يتم إخفاء رسائل التواصل المكتملة من لوحة التحكم، لكنها تبقى محفوظة في database.",
         noFilteredTitle: "لا توجد رسائل بحالة {status}",
         noFilteredText: "جرّب حالة أخرى لمتابعة معالجة رسائل التواصل.",
         fromLine: "من {name} عبر {email}",
@@ -1882,7 +1882,7 @@ export const translations = {
         errorTitle: "تعذر تحميل طلبات التدريس",
         emptyTitle: "لا توجد طلبات تدريس نشطة",
         emptyText:
-          "يتم إخفاء طلبات التدريس المكتملة والملغية من لوحة التحكم، لكنها تبقى محفوظة في Supabase.",
+          "يتم إخفاء طلبات التدريس المكتملة والملغية من لوحة التحكم، لكنها تبقى محفوظة في database.",
         studentLine: "الطالب {name} عبر {email}",
         student: "الطالب:",
         studentInstitute: "مؤسسة الطالب:",

@@ -285,7 +285,7 @@ export default function AdminTutorApplications() {
             <div className="mt-8 rounded-3xl oman-outline-panel p-6 text-center">
               <h3 className="text-xl font-semibold text-[var(--oman-ink)]">Loading tutor applications...</h3>
               <p className="mt-4 leading-7 text-[var(--oman-ink)]/75">
-                Fetching the latest tutor applications from Supabase.
+                Fetching the latest tutor applications from database.
               </p>
             </div>
           ) : error ? (
@@ -297,7 +297,7 @@ export default function AdminTutorApplications() {
             <div className="mt-8 rounded-3xl oman-outline-panel p-6 text-center">
               <h3 className="text-xl font-semibold text-[var(--oman-ink)]">No active tutor applications</h3>
               <p className="mt-4 leading-7 text-[var(--oman-ink)]/75">
-                Completed tutor applications are hidden from the dashboard, but still remain available in Supabase.
+                Completed tutor applications are hidden from the dashboard, but still remain available in database.
               </p>
             </div>
           ) : filteredApplications.length === 0 ? (

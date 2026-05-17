@@ -54,7 +54,7 @@ const services = [
 ];
 
 const serviceHighlights = [
-  { number: "Live", label: "tutors, courses, and filters loaded from Supabase" },
+  { number: "Live", label: "tutors, courses, and filters loaded from database" },
   { number: "2", label: "session types for private and group support" },
   { number: "Saved", label: "tutoring requests stored in the database" },
 ];

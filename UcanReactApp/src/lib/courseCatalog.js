@@ -50,14 +50,14 @@ export const courseCatalog = [
     },
   },
   {
-    slug: "backend-api-development-with-supabase",
+    slug: "backend-api-development-with-database",
     category: "Software Engineering",
     level: "Intermediate",
     price: "35 OMR",
     duration: "7 weeks",
     language: "English",
     en: {
-      title: "Backend API Development With Supabase",
+      title: "Backend API Development With Database",
       subtitle: "Learn databases, authentication, storage, and API workflows using a practical backend stack.",
       summary:
         "A backend course focused on the skills junior developers need when working with application data, users, and secure access.",
@@ -74,7 +74,7 @@ export const courseCatalog = [
       ],
     },
     ar: {
-      title: "تطوير واجهات Backend API باستخدام Supabase",
+      title: "تطوير واجهات Backend API باستخدام database",
       subtitle: "تعلم قواعد البيانات والمصادقة والتخزين وسير عمل API من خلال تطبيق عملي.",
       summary:
         "دورة خلفية تركز على المهارات التي يحتاجها المطور المبتدئ للتعامل مع البيانات والمستخدمين والوصول الآمن.",

@@ -4,7 +4,7 @@ const TUTOR_APPLICANT_BUCKET = "tutor-applicant-attachments";
 
 function ensureSupabase() {
   if (!isSupabaseConfigured || !supabase) {
-    throw new Error("Supabase is not configured yet.");
+    throw new Error("database is not configured yet.");
   }
 }
 

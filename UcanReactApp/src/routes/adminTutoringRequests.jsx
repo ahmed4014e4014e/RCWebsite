@@ -289,7 +289,7 @@ export default function AdminTutoringRequests() {
             <div className="mt-8 rounded-3xl oman-outline-panel p-6 text-center">
               <h3 className="text-xl font-semibold text-[var(--oman-ink)]">Loading tutoring requests...</h3>
               <p className="mt-4 leading-7 text-[var(--oman-ink)]/75">
-                Fetching the latest student tutoring submissions from Supabase.
+                Fetching the latest student tutoring submissions from database.
               </p>
             </div>
           ) : error ? (
@@ -302,7 +302,7 @@ export default function AdminTutoringRequests() {
               <h3 className="text-xl font-semibold text-[var(--oman-ink)]">No active tutoring requests</h3>
               <p className="mt-4 leading-7 text-[var(--oman-ink)]/75">
                 Completed and cancelled tutoring requests are hidden from the dashboard, but still
-                kept in Supabase.
+                kept in database.
               </p>
             </div>
           ) : filteredRequests.length === 0 ? (

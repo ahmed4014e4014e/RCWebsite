@@ -27,8 +27,8 @@ export default function Courses() {
               </h1>
               <p className="mx-auto mt-5 max-w-2xl text-base leading-7 text-[#f4e8d6] sm:mt-6 sm:text-lg sm:leading-8 lg:mx-0">
                 {isArabic
-                  ? "هذه هي البنية الأولى لسوق دورات يوكان. في المراحل القادمة ستأتي هذه الدورات من Supabase مع التسجيل والدفع وتتبع التقدم."
-                  : "This is the first structure for the Ucan course marketplace. In later phases, these courses will come from Supabase with enrollment, payments, and progress tracking."}
+                  ? "هذه هي البنية الأولى لسوق دورات يوكان. في المراحل القادمة ستأتي هذه الدورات من database مع التسجيل والدفع وتتبع التقدم."
+                  : "This is the first structure for the Ucan course marketplace. In later phases, these courses will come from database with enrollment, payments, and progress tracking."}
               </p>
             </div>
 

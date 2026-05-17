@@ -455,7 +455,7 @@ export default function AuthAccessPage({
     try {
       window.localStorage.setItem("ucan_pending_oauth_role", role);
     } catch (_error) {
-      // If storage is unavailable, Supabase can still complete Google auth.
+      // If storage is unavailable, the database auth flow can still complete Google auth.
     }
 
     const { error } = await supabase.auth.signInWithOAuth({
