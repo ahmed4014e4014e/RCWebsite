@@ -51,7 +51,7 @@ export default function About() {
           <div className="oman-photo-frame aspect-square">
             <img
               src={founderPhoto}
-              alt="Ahmed Mohammed Al Ruqaishi, founder of Ucan Oman"
+              alt="Ahmed Mohammed Al Ruqaishi, founder of Ucan"
             />
           </div>
 

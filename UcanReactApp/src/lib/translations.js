@@ -13,14 +13,14 @@ export const supportedLanguages = {
 
 const shared = {
   en: {
-    footer: "Copyright {year} Ucan Oman. Free learning support for everyone.",
+    footer: "Copyright {year} Ucan. Career-focused e-learning for Oman.",
     fieldsRequired: "Fields marked with * are required.",
     acceptedFiles: "Accepted files: {types}. Maximum size: {size} MB per file.",
     close: "Close",
     notAvailable: "Not available",
   },
   ar: {
-    footer: "حقوق النشر {year} يوكان عمان. دعم تعليمي مجاني للجميع.",
+    footer: "حقوق النشر {year} يوكان. تعليم مهني رقمي مخصص لعُمان.",
     fieldsRequired: "الحقول المشار إليها بعلامة * مطلوبة.",
     acceptedFiles: "الملفات المقبولة: {types}. الحد الأقصى: {size} ميجابايت لكل ملف.",
     close: "إغلاق",
@@ -31,17 +31,17 @@ const shared = {
 export const translations = {
   en: {
     brand: {
-      kicker: "Free Learning",
-      name: "Ucan Oman",
+      kicker: "Career E-Learning",
+      name: "Ucan",
     },
     nav: {
       home: "Home",
       about: "About",
-      services: "Services",
+      services: "Courses",
       contact: "Contact",
       policies: "Policies",
-      studentAccess: "Student Access",
-      tutorAccess: "Tutor Access",
+      studentAccess: "Learner Access",
+      tutorAccess: "Instructor Access",
       adminAccess: "Admin Access",
       dashboard: "Dashboard",
       adminDashboard: "Admin Dashboard",
@@ -62,107 +62,107 @@ export const translations = {
     },
     common: shared.en,
     home: {
-      heroKicker: "Welcome to Ucan Oman",
-      heroTitle: "Rooted in Omani heritage and built for a modern student community.",
+      heroKicker: "Welcome to Ucan",
+      heroTitle: "Career-focused e-learning built for Oman’s next generation of tech talent.",
       heroText:
-        "Ucan Oman is an online platform that brings students together to support each other in college courses through free tutoring, shared resources, and course communities.",
-      exploreServices: "Explore Services",
-      cardKicker: "Omani Spirit, Modern Learning",
+        "Ucan helps fresh graduates and job seekers build practical skills for Oman’s technology sector through structured courses in software engineering, AI, cyber security, data analytics, and job readiness.",
+      exploreServices: "Explore Courses",
+      cardKicker: "Omani Market, Modern Skills",
       cardTitle:
-        "A learning platform shaped by generosity, belonging, and ambitious study culture.",
+        "A commercial learning platform shaped around employability, practical portfolios, and high-demand digital careers.",
       stats: [
-        { number: "100%", label: "free access for all students" },
-        { number: "1:1", label: "individual tutoring sessions" },
-        { number: "Group", label: "shared tutoring and course communities" },
+        { number: "Tech", label: "courses aligned with in-demand career paths" },
+        { number: "AI", label: "future recommendations shaped by market signals" },
+        { number: "Oman", label: "content tailored to local graduate employment needs" },
       ],
-      featuresKicker: "Why Choose Ucan Oman",
+      featuresKicker: "Why Choose Ucan",
       featuresTitle:
-        "A free support network that feels culturally grounded and academically useful.",
+        "A practical e-learning platform for graduates who need job-ready technology skills.",
       features: [
         {
-          title: "Free For Everyone",
+          title: "Career-Focused Courses",
           description:
-            "Ucan Oman is completely free of charge, so every college student can access help without worrying about cost.",
+            "Courses are designed around practical skills that help learners prepare for entry-level technology jobs.",
         },
         {
-          title: "Student Community",
+          title: "Built For Oman",
           description:
-            "The platform hosts an online community of college students helping each other in college courses every day.",
+            "Ucan focuses on the needs of Omani graduates, diploma holders, and job seekers entering the local tech sector.",
         },
         {
-          title: "Better Course Support",
+          title: "Data-Informed Direction",
           description:
-            "Students can find tutoring, study materials, useful videos, and course WhatsApp groups in one place.",
+            "The platform is being prepared to use AI, SEO, and open-data insights to identify high-demand learning paths.",
         },
       ],
       howKicker: "How It Works",
-      howTitle: "Three simple ways to get better support in your courses.",
+      howTitle: "Three simple steps from learning to employability.",
       steps: [
         {
-          title: "Join The Community",
+          title: "Choose A Career Path",
           description:
-            "Connect with college students who are ready to help each other understand assignments, lectures, and exams.",
+            "Explore practical paths such as frontend development, backend engineering, AI, cyber security, and data analytics.",
         },
         {
-          title: "Book Free Tutoring",
+          title: "Learn Practical Skills",
           description:
-            "Schedule individualized tutoring sessions for free or attend free group tutoring sessions for shared learning.",
+            "Study structured courses that focus on applied projects, tools, workflows, and concepts employers expect.",
         },
         {
-          title: "Study Smarter",
+          title: "Build Job Readiness",
           description:
-            "Access documents, useful videos, and course-based WhatsApp groups to improve your understanding of course material.",
+            "Use your learning to strengthen your portfolio, confidence, interview preparation, and workplace readiness.",
         },
       ],
-      toolsKicker: "Tutoring Tools",
-      toolsTitle: "Familiar platforms that make online tutoring easier to run.",
+      toolsKicker: "Learning Tools",
+      toolsTitle: "Digital tools that support online learning and professional collaboration.",
       toolsText:
-        "Ucan Oman tutoring can be supported through meeting and collaboration tools that help students connect, explain concepts, and work through course material clearly.",
+        "Ucan courses can use modern meeting, planning, and collaboration tools to help learners practice the same workflows used in real technology teams.",
       toolGroups: [
         {
-          title: "Live Session Platforms",
+          title: "Live Learning Platforms",
           description:
-            "Run tutoring sessions smoothly through trusted meeting tools for video, voice, and screen sharing.",
+            "Support live workshops, mentoring sessions, screen sharing, and instructor-led learning.",
         },
         {
           title: "Collaboration Tools",
           description:
-            "Explain ideas visually, organize tutoring workflows, and brainstorm concepts together in real time.",
+            "Organize projects, explain technical ideas visually, and collaborate around practical career tasks.",
         },
       ],
-      tutorKicker: "Join Our Tutor Team",
-      tutorTitle: "Become a Tutor and join a growing network of free academic support.",
+      tutorKicker: "Join Our Instructor Team",
+      tutorTitle: "Become an instructor and help prepare Oman’s next tech workforce.",
       tutorText:
-        "We are welcoming more tutors from different institutes to help students through private tutoring, group tutoring, and shared academic support.",
-      tutorAccess: "Tutor Access",
-      tutorCardTitle: "Log in or sign up to create your tutor account.",
+        "Ucan will welcome instructors and industry practitioners who can teach practical, employment-focused digital skills.",
+      tutorAccess: "Instructor Access",
+      tutorCardTitle: "Log in or apply to create your instructor account.",
       tutorCardText:
-        "Use the tutor page to register, enter your protected dashboard, and prepare to serve students across supported courses.",
-      tutorButton: "Tutor Login / Sign Up",
-      studentKicker: "Student Access",
-      studentTitle: "Join as a student and access tutoring support with your own account.",
+        "Use the instructor page to apply, enter your protected dashboard, and prepare courses for learners.",
+      tutorButton: "Instructor Login / Apply",
+      studentKicker: "Learner Access",
+      studentTitle: "Join as a learner and start building job-ready tech skills.",
       studentText:
-        "Students can create an account to log in, access tutoring services, and stay connected with academic support, resources, and course communities across the platform.",
-      studentCardTitle: "Log in or sign up to create your student account.",
+        "Learners can create an account to access career-focused courses, learning resources, and future personalized recommendations.",
+      studentCardTitle: "Log in or sign up to create your learner account.",
       studentCardText:
-        "Use the student account page to create your profile and get ready to use the Ucan Oman platform more easily.",
-      studentButton: "Student Login / Sign Up",
-      ctaKicker: "Start For Free",
+        "Use the learner account page to create your profile and prepare for the Ucan course marketplace.",
+      studentButton: "Learner Login / Sign Up",
+      ctaKicker: "Start Learning",
       ctaTitle:
-        "Join a learning hub where tutoring, resources, and community support cost nothing.",
+        "Build the skills needed for Oman’s growing technology sector.",
       ctaText:
-        "Ucan Oman gives students free access to individualized tutoring, group sessions, helpful documents, useful videos, and course WhatsApp groups.",
-      ctaButton: "Join Now",
+        "Ucan is transforming into a commercial e-learning platform for software engineering, AI, cyber security, data analytics, and job readiness.",
+      ctaButton: "Explore Courses",
     },
     about: {
-      heroKicker: "About Ucan Oman",
+      heroKicker: "About Ucan",
       heroTitle:
-        "A learning platform inspired by Omani generosity, heritage, and student ambition.",
+        "An e-learning platform focused on Oman’s graduate employability gap.",
       heroText:
-        "Ucan Oman hosts an online community where college students help each other understand course material, prepare for classes, and stay supported throughout the semester.",
+        "Ucan is being built to help computer science graduates, diploma holders, and job seekers move from academic knowledge into practical, market-ready technology skills.",
       ucf: "University of Central Florida",
       ucfText:
-        "We imagine academic support as something warm, dignified, and shared across a real community.",
+        "We imagine digital education as practical, dignified, locally relevant, and connected to real employment outcomes.",
       founderKicker: "Meet Our Founder",
       founderName: "Ahmed Mohammed Al Ruqaishi",
       founderTextOne:
@@ -171,51 +171,51 @@ export const translations = {
         'Ahmed is a 25 year old beginner software developer who was inspired by the movie "The Social Network" to create this platform to better enhance the college experience academically, socially, and most importantly psychologically.',
       founderLocation: "Qurum Beach, Muscat, Oman.",
       highlights: [
-        { number: "Free", label: "individual and group tutoring" },
-        { number: "Shared", label: "documents and useful videos" },
-        { number: "Connected", label: "course-based WhatsApp groups" },
+        { number: "Career", label: "learning paths for technology roles" },
+        { number: "Data", label: "future insights from labor market signals" },
+        { number: "Local", label: "skills tailored to Oman’s employment needs" },
       ],
       missionKicker: "Our Mission",
-      missionTitle: "Make course help free and community-driven for every college student.",
+      missionTitle: "Help Omani tech graduates become more employable through practical online courses.",
       missionTextOne:
-        "Ucan Oman exists to give students a free place to find support for their college courses through community help, tutoring, and better study resources.",
+        "Ucan exists to bridge the gap between academic study and entry-level technology work by focusing on practical skills, projects, tools, and career readiness.",
       missionTextTwo:
-        "The platform combines free individualized tutoring sessions, free group tutoring sessions, a library of documents and useful videos, and collections of course-based WhatsApp group chats.",
+        "The long-term vision is to use AI, SEO, and Oman open-data sources to identify what learners should study and which course topics matter most for the market.",
       valuesKicker: "Core Values",
-      valuesTitle: "The ideas shaping how Ucan Oman supports students.",
+      valuesTitle: "The ideas shaping Ucan’s e-learning marketplace.",
       values: [
         {
-          title: "Free Access",
+          title: "Employability First",
           description:
-            "Everything on Ucan Oman is designed to be free of charge so every student can reach support more easily.",
+            "Courses should help learners build real capabilities that improve their chances in Oman’s technology job market.",
         },
         {
-          title: "Students Helping Students",
+          title: "Local Market Fit",
           description:
-            "The platform is built around an online community of college students helping each other in college courses.",
+            "Learning paths should reflect the skills employers actually need from junior technology talent in Oman.",
         },
         {
-          title: "Practical Support",
+          title: "AI-Guided Growth",
           description:
-            "We focus on tutoring, study resources, useful videos, and course communities that improve understanding.",
+            "Future platform intelligence should help recommend courses, identify skill gaps, and guide new course creation.",
         },
       ],
-      communityKicker: "Our Community",
+      communityKicker: "Our Learners",
       communityTitle:
-        "Students, tutors, and course communities working together to make learning easier.",
+        "Graduates, job seekers, instructors, and employers connected by practical digital skills.",
       communityText:
-        "Ucan Oman is built for college students who want better explanations, free support, and stronger connections around the courses they are taking.",
+        "Ucan is built for learners who want more than certificates: they need confidence, project experience, and skills that make sense in Oman’s job market.",
     },
     contact: {
-      heroKicker: "Contact Ucan Oman",
+      heroKicker: "Contact Ucan",
       heroTitle:
-        "Reach a support platform that feels welcoming, local, and student-centered.",
+        "Reach a career-focused e-learning platform built for Oman.",
       heroText:
-        "Whether you want help finding tutoring, study resources, or the right course community, here are the best ways to reach Ucan Oman.",
+        "Whether you are a learner, instructor, employer, or partner, use this page to contact Ucan about courses, skills, and digital learning opportunities.",
       heroCardText:
         "We want the platform to feel as dependable and recognizable as the landmarks that shape Oman's identity.",
       formKicker: "Contact Form",
-      formTitle: "Send your message directly to Ucan Oman.",
+      formTitle: "Send your message directly to Ucan.",
       formText:
         "Fill in the form below and your message will be saved in Supabase so the team can review it properly.",
       labels: {
@@ -246,76 +246,76 @@ export const translations = {
         "Your message was submitted successfully. We will review it through Supabase.",
       error: "We could not submit your message right now.",
       methodsKicker: "Other Ways to Reach Us",
-      methodsTitle: "Clear ways to connect with the Ucan Oman team.",
+      methodsTitle: "Clear ways to connect with the Ucan team.",
       methods: [
         {
           title: "Email",
           value: "20258971@mcbs.edu.om",
           description:
-            "Reach out with questions about tutoring, study resources, or joining the Ucan Oman student community.",
+            "Reach out with questions about courses, instructor opportunities, partnerships, or the Ucan learning platform.",
         },
         {
           title: "Location",
           value: "Qurum Beach, Muscat, Oman",
           description:
-            "Ucan Oman serves students online while supporting a growing college learning community from Oman.",
+            "Ucan serves learners online while focusing on Oman’s graduate employment and digital skills needs.",
         },
       ],
       ctaKicker: "We Are Here to Help",
       ctaTitle: "Reach out whenever you need better support for your college courses.",
       ctaText:
-        "Ucan Oman is here to help students connect with free tutoring, stronger learning resources, and course communities that make studying easier.",
+        "Ucan is here to help learners build practical digital skills for stronger career opportunities.",
     },
     servicesPage: {
-      heroKicker: "Our Services",
+      heroKicker: "Courses",
       heroTitle:
-        "Free tutoring and student support presented through a full-stack learning hub.",
+        "Career-focused courses for Oman’s technology job market.",
       heroText:
-        "Ucan Oman now loads tutor offerings from the community-based platform updated regularly with our rapidly increasing fan base!",
+        "Ucan is transforming this page into a course marketplace for software engineering, AI, machine learning, cyber security, data analytics, and job readiness.",
       heroCardText:
-        "Explore private tutoring, group sessions, and live course offerings to enhance your understanding and get better grades confidently.",
+        "Explore the first course categories and learning paths that will shape the future Ucan marketplace.",
       highlights: [
-        { number: "Live", label: "tutors, courses, and filters loaded from Supabase" },
-        { number: "2", label: "session types for private and group support" },
-        { number: "Saved", label: "tutoring requests stored in the database" },
+        { number: "Skills", label: "learning paths for high-demand digital fields" },
+        { number: "AI", label: "future recommendations based on market statistics" },
+        { number: "Oman", label: "course strategy tailored to local employment needs" },
       ],
       cards: [
         {
-          kicker: "Tutor Directory",
-          title: "Browse live tutors by institute and course.",
+          kicker: "Course Marketplace",
+          title: "Browse career-focused courses by field and skill level.",
           text:
-            "Every tutor card below is regularly updated depending on the new tutors in every institute.",
+            "This section will evolve from the old tutor directory into a commercial course catalog.",
         },
         {
-          kicker: "Student Requests",
-          title: "Send a tutoring request directly to the tutor.",
+          kicker: "Learner Progress",
+          title: "Prepare for structured learning paths and course enrollment.",
           text:
-            "Logged-in students can submit their request details, and tutors can then follow up directly.",
+            "Learners will eventually enroll in courses, track progress, and build practical portfolios.",
         },
         {
-          kicker: "Dynamic Environment",
+          kicker: "Market Intelligence",
           title:
-            "Adding more tutors from different institutes covering a wide range of diversified courses collection.",
-          text: "New tutors, institutes, and courses will slot directly into this directory structure.",
+            "Use AI and open-data signals to guide which courses Ucan should create and promote.",
+          text: "Future course planning can respond to actual labor-market demand and learner preferences.",
         },
       ],
       directoryStatus: "Directory Status",
-      requestAccess: "Request Access",
+      requestAccess: "Learner Access",
       requestAccessText:
-        "You can explore the tutor directory freely, but you need to log in before sending a tutoring request.",
-      studentLogin: "Student Login",
-      tutorLogin: "Tutor Login",
+        "You can explore the future course direction freely, but learner accounts will be needed for enrollment and personalized recommendations.",
+      studentLogin: "Learner Login",
+      tutorLogin: "Instructor Login",
       private: {
-        label: "Private Tutoring",
-        title: "Find available tutors for private one-on-one support.",
+        label: "Software Engineering",
+        title: "Explore practical software engineering learning paths.",
         description:
-          "Select an institute and course to see which private tutors are currently available.",
+          "This area will become a course catalog for frontend, backend, and full-stack development.",
       },
       group: {
-        label: "Group Tutoring",
-        title: "Find available tutors for free group tutoring sessions.",
+        label: "Advanced Digital Skills",
+        title: "Explore future courses in AI, data, cyber security, and cloud skills.",
         description:
-          "Use the same filters to explore group tutoring options for supported institutes and courses.",
+          "These subjects will support learners preparing for high-demand technology roles in Oman.",
       },
       tutorSection: {
         institute: "Institute",
@@ -339,7 +339,7 @@ export const translations = {
         selectInstituteTitle: "Select a university to view courses",
         selectInstituteText:
           "Course options and tutor cards will appear only after a university is selected.",
-        profileLabel: "Free tutoring tutor profile",
+        profileLabel: "Instructor profile",
         multiInstitute: "Multi Institute",
         sessionType: "Session Type",
         privateSession: "Private one-on-one tutoring",
@@ -355,50 +355,50 @@ export const translations = {
         emptyText:
           "Once more tutors and course offerings are added in Supabase, this directory will update automatically.",
       },
-      otherKicker: "What Else We Offer",
-      otherTitle: "More free ways for students to study better and support each other.",
+      otherKicker: "Future Course Areas",
+      otherTitle: "High-demand subjects Ucan can develop for Oman’s digital workforce.",
       services: [
         {
-          title: "Free Individual Tutoring",
+          title: "Frontend Software Engineering",
           description:
-            "Students can schedule individualized tutoring sessions for free when they need focused help in a course.",
+            "Courses can cover HTML, CSS, JavaScript, React, responsive design, accessibility, and practical portfolio projects.",
         },
         {
-          title: "Free Group Tutoring",
+          title: "Backend Software Engineering",
           description:
-            "Students can attend group tutoring sessions for free and learn together around shared course topics.",
+            "Learning paths can cover APIs, databases, authentication, cloud deployment, testing, and production workflows.",
         },
         {
-          title: "Online Student Community",
+          title: "AI And Machine Learning",
           description:
-            "College students can ask questions, explain ideas, and help each other understand coursework in a supportive space.",
+            "Courses can help learners understand Python, ML foundations, applied AI tools, model workflows, and responsible use.",
         },
         {
-          title: "Document Library",
+          title: "Cyber Security",
           description:
-            "Access a free library of documents that helps students review lessons, assignments, and course concepts more clearly.",
+            "Cyber security courses can focus on fundamentals, defensive skills, governance, risk, and entry-level security practice.",
         },
         {
-          title: "Useful Videos",
+          title: "Data Analytics",
           description:
-            "Find useful videos that improve understanding of college course material and make difficult topics easier to follow.",
+            "Data courses can cover Excel, SQL, dashboards, Python analytics, visualization, and business reporting.",
         },
         {
-          title: "Course WhatsApp Groups",
+          title: "Graduate Job Readiness",
           description:
-            "Access collections of WhatsApp group chats made for specific college courses so students can get help more easily.",
+            "Career courses can support CVs, portfolios, interviews, workplace communication, and junior tech role preparation.",
         },
       ],
       whyKicker: "Why It Matters",
       whyTitle:
-        "Students need support that is free, practical, and connected to real coursework.",
+        "Many graduates need practical skills that match real entry-level technology work.",
       whyTextOne:
-        "Our tutor directory can grow from the database as new tutors, institutes, and courses are added.",
-      whyTextTwo: "Student tutoring requests are submitted, tracked, and returned.",
-      ctaKicker: "Start Your Journey",
-      ctaTitle: "Explore free tutoring, resources, and course communities today.",
+        "Ucan can use course data, learner behavior, SEO signals, and Oman open-data statistics to decide which learning paths matter most.",
+      whyTextTwo: "The current platform will be gradually transformed from service requests into courses, enrollments, and learning progress.",
+      ctaKicker: "Start Your Career Path",
+      ctaTitle: "Explore the first course categories for Oman’s digital economy.",
       ctaText:
-        "Ucan Oman is built to help students find support faster and improve their understanding across the courses they are taking.",
+        "Ucan is becoming a marketplace where learners can buy focused courses that improve employability in technology fields.",
       ctaButton: "Explore Courses",
       requestModal: {
         kicker: "Tutoring Request",
@@ -441,9 +441,9 @@ export const translations = {
     },
     terms: {
       heroKicker: "Platform Policies",
-      heroTitle: "Ucan Oman Platform Policies",
+      heroTitle: "Ucan Platform Policies",
       heroText:
-        "These policies apply to student access, tutor applications, academic support, and responsible use of the Ucan Oman platform.",
+        "These policies apply to learner access, instructor applications, course participation, and responsible use of the Ucan platform.",
       heroCardText:
         "Please review these policies carefully before creating a student account or applying to become a tutor.",
       documentKicker: "Policy Document",
@@ -452,7 +452,7 @@ export const translations = {
         {
           title: "Professional Conduct Policy",
           body:
-            "All tutors registered under Ucan Oman are expected to maintain professional behavior while interacting with students, administrators, and other tutors.",
+            "All instructors registered under Ucan are expected to maintain professional behavior while interacting with learners, administrators, and other instructors.",
           columns: [
             {
               title: "Tutors Must",
@@ -473,17 +473,17 @@ export const translations = {
                 "Share harmful, illegal, or unethical content.",
                 "Mislead students regarding qualifications or academic abilities.",
                 "Request inappropriate personal information from students.",
-                "Engage in behavior that damages the reputation of Ucan Oman.",
+                "Engage in behavior that damages the reputation of Ucan.",
               ],
             },
           ],
           closing:
-            "Violation of this policy may result in suspension or permanent removal from the Ucan Oman platform.",
+            "Violation of this policy may result in suspension or permanent removal from the Ucan platform.",
         },
         {
           title: "Anti-Harassment Policy",
           body:
-            "Ucan Oman is committed to providing a safe, respectful, and inclusive environment for all users. Harassment of any kind is strictly prohibited.",
+            "Ucan is committed to providing a safe, respectful, and inclusive environment for all users. Harassment of any kind is strictly prohibited.",
           sections: [
             {
               title: "Prohibited Behavior Includes",
@@ -499,7 +499,7 @@ export const translations = {
             {
               title: "Reporting Harassment",
               text:
-                "Users may report incidents directly to the Ucan Oman administration team. All reports will be treated seriously and investigated confidentially.",
+                "Users may report incidents directly to the Ucan administration team. All reports will be treated seriously and investigated confidentially.",
             },
             {
               title: "Consequences",
@@ -514,7 +514,7 @@ export const translations = {
         },
         {
           title: "Academic Honesty Policy",
-          body: "Ucan Oman promotes ethical learning and academic integrity.",
+          body: "Ucan promotes ethical learning and professional integrity.",
           sections: [
             {
               title: "Tutors Must",
@@ -532,7 +532,7 @@ export const translations = {
         },
         {
           title: "Privacy & Confidentiality Policy",
-          body: "Ucan Oman respects the privacy of all users and protects submitted information.",
+          body: "Ucan respects the privacy of all users and protects submitted information.",
           columns: [
             {
               title: "Collected Information May Include",
@@ -545,7 +545,7 @@ export const translations = {
               ],
             },
             {
-              title: "Ucan Oman Will",
+              title: "Ucan Will",
               items: [
                 "Use submitted documents only for tutor verification purposes.",
                 "Restrict access to sensitive information to authorized administrators only.",
@@ -575,26 +575,26 @@ export const translations = {
     },
     accessPages: {
       student: {
-        audienceLabel: "Student Access",
-        title: "Log in or sign up to access student support on Ucan Oman.",
+        audienceLabel: "Learner Access",
+        title: "Log in or sign up to access Ucan learner features.",
         description:
-          "This page is designed for students who want to create an account, log in, and access tutoring, course support, and the wider learning community.",
-        signupHeading: "Create a student account",
+          "This page is designed for learners who want to create an account, access courses, and prepare for practical technology careers.",
+        signupHeading: "Create a learner account",
         imageAlt: "Middle East College campus in Oman",
       },
       tutor: {
-        audienceLabel: "Tutor Access",
-        title: "Log in or apply to join the Ucan Oman tutor team.",
+        audienceLabel: "Instructor Access",
+        title: "Log in or apply to join the Ucan instructor team.",
         description:
-          "This page is designed for tutors who already have approved tutor access, while new applicants should complete the separate tutor application form first.",
-        signupHeading: "Tutor application",
+          "This page is designed for approved instructors, while new applicants should complete the instructor application form first.",
+        signupHeading: "Instructor application",
         imageAlt: "Sohar University campus in Oman",
       },
       admin: {
         audienceLabel: "Admin Access",
-        title: "Log in to manage Ucan Oman as an administrator.",
+        title: "Log in to manage Ucan as an administrator.",
         description:
-          "This page is for platform administrators who need access to contact submissions, account oversight, and future admin tools.",
+          "This page is for platform administrators who need access to submissions, account oversight, and future course marketplace tools.",
         imageAlt: "Admin access card for platform administrators",
       },
     },
@@ -657,7 +657,7 @@ export const translations = {
       institutePlaceholder: "Enter your institute name",
       createPasswordPlaceholder: "Create a password",
       termsAgreementPrefix: "I have read and agree to the",
-      termsAgreementLink: "Ucan Oman Platform Policies",
+      termsAgreementLink: "Ucan Platform Policies",
       openingGoogle: "Opening Google...",
       continueWithGoogle: "Continue with Google",
       or: "Or",
@@ -665,18 +665,18 @@ export const translations = {
       createAccount: "Create Account",
     },
     tutorApplicationPanel: {
-      kicker: "Tutor Application",
-      title: "Apply before creating a tutor account",
+      kicker: "Instructor Application",
+      title: "Apply before creating an instructor account",
       text:
-        "Tutor signup is now handled through a separate application review process. Submit your academic details and required documents first, then approved tutors can be onboarded into the platform.",
+        "Instructor signup is handled through a separate application review process. Submit your background, proposed teaching areas, and supporting documents first, then approved instructors can be onboarded into the platform.",
       needsTitle: "You will need",
       needs: [
-        "Full name and university details",
-        "Your desired tutoring courses",
-        "University email and WhatsApp phone number",
-        "Transcript, Omani ID, and university ID attachments",
+        "Full name and professional or academic background",
+        "Your proposed course topics",
+        "Email and WhatsApp phone number",
+        "Supporting documents or portfolio links",
       ],
-      button: "Open Tutor Application Form",
+      button: "Open Instructor Application Form",
     },
     studentDashboard: {
       fallbackName: "Student",
@@ -718,7 +718,7 @@ export const translations = {
         {
           title: "Contact Support",
           description: "Reach out if you need guidance finding the right course support.",
-          action: "Contact Ucan Oman",
+          action: "Contact Ucan",
         },
       ],
     },
@@ -838,7 +838,7 @@ export const translations = {
       shortPassword: "Your new password must be at least 6 characters.",
       success: "Your password was updated successfully. You can now log in.",
       heroKicker: "Password Reset",
-      heroTitle: "Create a new password for your Ucan Oman account.",
+      heroTitle: "Create a new password for your Ucan account.",
       heroText: "Use this page after opening the Supabase password recovery email.",
       formKicker: "New Password",
       formTitle: "Reset your password",
@@ -851,14 +851,14 @@ export const translations = {
     },
     tutorApplicationPage: {
       heroKicker: "Tutor Application",
-      heroTitle: "Apply separately before joining the Ucan Oman tutor team.",
+      heroTitle: "Apply separately before joining the Ucan instructor team.",
       heroText:
         "Complete this form with your university details, tutoring courses, and supporting documents so the platform can review your tutor application properly.",
       heroCardText:
         "Tutor applications are reviewed using your academic information and required supporting documents.",
       formKicker: "Application Form",
       formTitle: "Submit your tutor application",
-      back: "Back to Tutor Access",
+      back: "Back to Instructor Access",
       feedbackTitle: "Tutor application update",
       fullName: "Full name",
       universityName: "University Name",
@@ -872,7 +872,7 @@ export const translations = {
       requiredAttachments: "Required Attachments",
       attachFiles: "Attach files",
       termsPrefix: "I have read and agree to the",
-      termsLink: "Ucan Oman Platform Policies",
+      termsLink: "Ucan Platform Policies",
       submitting: "Submitting Application...",
       submit: "Submit Tutor Application",
       attachments: [
@@ -881,11 +881,11 @@ export const translations = {
         "Copy of your university ID card",
       ],
       messages: {
-        terms: "Please read and agree to the Ucan Oman Platform Policies before submitting your tutor application.",
+        terms: "Please read and agree to the Ucan Platform Policies before submitting your instructor application.",
         notConfigured: "Supabase is not configured yet, so the tutor application cannot submit right now.",
         files: "Please attach the required supporting documents before submitting your tutor application.",
         success:
-          "Your tutor application was submitted successfully. The Ucan Oman team can now review your form and attachments. You will receive a reply in less than 24 hours.",
+          "Your instructor application was submitted successfully. The Ucan team can now review your form and attachments. You will receive a reply in less than 24 hours.",
         error: "We could not submit your tutor application right now.",
         applicationSubmittedBy: "Tutor application submitted by {name}.",
         university: "University: {university}",
@@ -973,17 +973,17 @@ export const translations = {
   },
   ar: {
     brand: {
-      kicker: "تعلم مجاني",
-      name: "يوكان عُمان",
+      kicker: "تعليم مهني رقمي",
+      name: "يوكان",
     },
     nav: {
       home: "الرئيسية",
       about: "من نحن",
-      services: "الخدمات",
+      services: "الدورات",
       contact: "تواصل معنا",
       policies: "السياسات",
-      studentAccess: "دخول الطلاب",
-      tutorAccess: "دخول المدرسين",
+      studentAccess: "دخول المتعلمين",
+      tutorAccess: "دخول المدربين",
       adminAccess: "دخول الإدارة",
       dashboard: "لوحة التحكم",
       adminDashboard: "لوحة الإدارة",
@@ -1004,102 +1004,102 @@ export const translations = {
     },
     common: shared.ar,
     home: {
-      heroKicker: "مرحباً بك في يوكان عُمان",
-      heroTitle: "من روح التراث العُماني إلى مجتمع طلابي حديث.",
+      heroKicker: "مرحباً بك في يوكان",
+      heroTitle: "تعليم مهني رقمي مخصص لجيل عُمان القادم من المواهب التقنية.",
       heroText:
-        "يوكان عُمان منصة إلكترونية تجمع الطلاب لدعم بعضهم في المقررات الجامعية من خلال التدريس المجاني والموارد المشتركة ومجتمعات المقررات.",
-      exploreServices: "استكشف الخدمات",
-      cardKicker: "روح عُمانية، تعلم حديث",
-      cardTitle: "منصة تعليمية تقوم على الكرم والانتماء وثقافة الدراسة الطموحة.",
+        "يساعد يوكان الخريجين الجدد والباحثين عن عمل على بناء مهارات عملية لسوق التقنية في عُمان من خلال دورات في هندسة البرمجيات والذكاء الاصطناعي والأمن السيبراني وتحليل البيانات والاستعداد الوظيفي.",
+      exploreServices: "استكشف الدورات",
+      cardKicker: "السوق العُماني، مهارات حديثة",
+      cardTitle: "منصة تعليمية تجارية تركز على التوظيف والمشاريع العملية والمسارات الرقمية المطلوبة.",
       stats: [
-        { number: "100%", label: "وصول مجاني لجميع الطلاب" },
-        { number: "1:1", label: "جلسات تدريس فردية" },
-        { number: "جماعي", label: "تدريس مشترك ومجتمعات للمقررات" },
+        { number: "تقنية", label: "دورات مرتبطة بمسارات مهنية مطلوبة" },
+        { number: "AI", label: "توصيات مستقبلية مبنية على إشارات السوق" },
+        { number: "عُمان", label: "محتوى مخصص لاحتياجات توظيف الخريجين محلياً" },
       ],
-      featuresKicker: "لماذا تختار يوكان عُمان",
-      featuresTitle: "شبكة دعم مجانية مرتبطة بالثقافة ومفيدة أكاديمياً.",
+      featuresKicker: "لماذا تختار يوكان",
+      featuresTitle: "منصة تعليم عملي للخريجين الذين يحتاجون إلى مهارات تقنية جاهزة للعمل.",
       features: [
         {
-          title: "مجاني للجميع",
+          title: "دورات موجهة للمهنة",
           description:
-            "يوكان عُمان مجاني بالكامل حتى يتمكن كل طالب جامعي من الوصول إلى المساعدة دون القلق بشأن التكلفة.",
+            "تصمم الدورات حول مهارات عملية تساعد المتعلمين على الاستعداد لوظائف تقنية للمبتدئين.",
         },
         {
-          title: "مجتمع طلابي",
+          title: "مصمم لعُمان",
           description:
-            "تستضيف المنصة مجتمعاً إلكترونياً من طلاب الجامعات يساعدون بعضهم يومياً في المقررات الجامعية.",
+            "يركز يوكان على احتياجات الخريجين وحملة الدبلوم والباحثين عن عمل في قطاع التقنية العُماني.",
         },
         {
-          title: "دعم أفضل للمقررات",
+          title: "توجه مدعوم بالبيانات",
           description:
-            "يمكن للطلاب العثور على التدريس والمواد الدراسية والفيديوهات المفيدة ومجموعات واتساب للمقررات في مكان واحد.",
+            "تتهيأ المنصة لاستخدام الذكاء الاصطناعي وSEO والبيانات المفتوحة لتحديد مسارات التعلم المطلوبة.",
         },
       ],
       howKicker: "كيف تعمل المنصة",
-      howTitle: "ثلاث طرق بسيطة للحصول على دعم أفضل في مقرراتك.",
+      howTitle: "ثلاث خطوات بسيطة من التعلم إلى الجاهزية الوظيفية.",
       steps: [
         {
-          title: "انضم إلى المجتمع",
+          title: "اختر مساراً مهنياً",
           description:
-            "تواصل مع طلاب جامعيين مستعدين لمساعدة بعضهم في فهم الواجبات والمحاضرات والاختبارات.",
+            "استكشف مسارات مثل تطوير الواجهات، هندسة الخلفية، الذكاء الاصطناعي، الأمن السيبراني، وتحليل البيانات.",
         },
         {
-          title: "احجز تدريساً مجانياً",
+          title: "تعلم مهارات عملية",
           description:
-            "احجز جلسات تدريس فردية مجانية أو شارك في جلسات جماعية مجانية للتعلم المشترك.",
+            "ادرس دورات منظمة تركز على المشاريع والأدوات وسير العمل والمفاهيم التي يتوقعها أصحاب العمل.",
         },
         {
-          title: "ذاكر بذكاء",
+          title: "ابنِ جاهزيتك للعمل",
           description:
-            "استفد من المستندات والفيديوهات المفيدة ومجموعات واتساب الخاصة بالمقررات لتحسين فهمك.",
+            "استخدم تعلمك لتقوية ملفك العملي وثقتك واستعدادك للمقابلات وبيئة العمل.",
         },
       ],
-      toolsKicker: "أدوات التدريس",
-      toolsTitle: "منصات مألوفة تجعل التدريس عبر الإنترنت أسهل.",
+      toolsKicker: "أدوات التعلم",
+      toolsTitle: "أدوات رقمية تدعم التعلم عبر الإنترنت والتعاون المهني.",
       toolsText:
-        "يمكن دعم جلسات يوكان عُمان بأدوات الاجتماعات والتعاون التي تساعد الطلاب على التواصل وشرح المفاهيم والعمل على مواد المقرر بوضوح.",
+        "يمكن أن تستخدم دورات يوكان أدوات الاجتماعات والتخطيط والتعاون الحديثة لمساعدة المتعلمين على ممارسة أساليب العمل المستخدمة في فرق التقنية.",
       toolGroups: [
         {
-          title: "منصات الجلسات المباشرة",
+          title: "منصات التعلم المباشر",
           description:
-            "إدارة الجلسات بسلاسة من خلال أدوات موثوقة للفيديو والصوت ومشاركة الشاشة.",
+            "دعم الورش المباشرة وجلسات الإرشاد ومشاركة الشاشة والتعلم بقيادة المدرس.",
         },
         {
           title: "أدوات التعاون",
           description:
-            "شرح الأفكار بصرياً وتنظيم العمل ومناقشة المفاهيم معاً في الوقت الفعلي.",
+            "تنظيم المشاريع وشرح الأفكار التقنية بصرياً والتعاون حول مهام مهنية عملية.",
         },
       ],
-      tutorKicker: "انضم إلى فريق المدرسين",
-      tutorTitle: "كن مدرساً وانضم إلى شبكة متنامية من الدعم الأكاديمي المجاني.",
+      tutorKicker: "انضم إلى فريق المدربين",
+      tutorTitle: "كن مدرباً وساهم في إعداد الجيل التقني القادم في عُمان.",
       tutorText:
-        "نرحب بمدرسين من مؤسسات مختلفة لمساعدة الطلاب من خلال التدريس الفردي والجماعي والدعم الأكاديمي المشترك.",
-      tutorAccess: "دخول المدرسين",
-      tutorCardTitle: "سجل الدخول أو أنشئ حساب مدرس.",
+        "سيرحب يوكان بالمدربين والممارسين في القطاع الذين يستطيعون تعليم مهارات رقمية عملية وموجهة للتوظيف.",
+      tutorAccess: "دخول المدربين",
+      tutorCardTitle: "سجل الدخول أو تقدم لإنشاء حساب مدرب.",
       tutorCardText:
-        "استخدم صفحة المدرسين للتسجيل والدخول إلى لوحتك المحمية والاستعداد لخدمة الطلاب في المقررات المدعومة.",
-      tutorButton: "دخول / تسجيل مدرس",
-      studentKicker: "دخول الطلاب",
-      studentTitle: "انضم كطالب واحصل على دعم التدريس من خلال حسابك.",
+        "استخدم صفحة المدربين للتقديم والدخول إلى لوحتك المحمية والاستعداد لإطلاق الدورات.",
+      tutorButton: "دخول / تقديم مدرب",
+      studentKicker: "دخول المتعلمين",
+      studentTitle: "انضم كمتعلم وابدأ بناء مهارات تقنية جاهزة للعمل.",
       studentText:
-        "يمكن للطلاب إنشاء حساب للدخول إلى خدمات التدريس والبقاء على اتصال بالدعم الأكاديمي والموارد ومجتمعات المقررات.",
-      studentCardTitle: "سجل الدخول أو أنشئ حساب طالب.",
+        "يمكن للمتعلمين إنشاء حساب للوصول إلى الدورات المهنية والموارد التعليمية والتوصيات الشخصية مستقبلاً.",
+      studentCardTitle: "سجل الدخول أو أنشئ حساب متعلم.",
       studentCardText:
-        "استخدم صفحة حساب الطالب لإنشاء ملفك والاستعداد لاستخدام منصة يوكان عُمان بسهولة أكبر.",
-      studentButton: "دخول / تسجيل طالب",
-      ctaKicker: "ابدأ مجاناً",
-      ctaTitle: "انضم إلى مركز تعلم يوفر التدريس والموارد والدعم المجتمعي مجاناً.",
+        "استخدم صفحة حساب المتعلم لإنشاء ملفك والاستعداد لسوق دورات يوكان.",
+      studentButton: "دخول / تسجيل متعلم",
+      ctaKicker: "ابدأ التعلم",
+      ctaTitle: "ابنِ المهارات المطلوبة لقطاع التقنية المتنامي في عُمان.",
       ctaText:
-        "يوفر يوكان عُمان للطلاب وصولاً مجانياً إلى التدريس الفردي والجلسات الجماعية والمستندات المفيدة والفيديوهات ومجموعات واتساب للمقررات.",
-      ctaButton: "انضم الآن",
+        "يتحول يوكان إلى منصة تعليم إلكتروني تجارية لهندسة البرمجيات والذكاء الاصطناعي والأمن السيبراني وتحليل البيانات والاستعداد الوظيفي.",
+      ctaButton: "استكشف الدورات",
     },
     about: {
-      heroKicker: "عن يوكان عُمان",
-      heroTitle: "منصة تعليمية مستوحاة من الكرم العُماني والتراث وطموح الطلاب.",
+      heroKicker: "عن يوكان",
+      heroTitle: "منصة تعليم إلكتروني تركز على فجوة توظيف الخريجين في عُمان.",
       heroText:
-        "يستضيف يوكان عُمان مجتمعاً إلكترونياً يساعد فيه طلاب الجامعات بعضهم على فهم مواد المقررات والاستعداد للدراسة والبقاء مدعومين طوال الفصل.",
+        "يُبنى يوكان لمساعدة خريجي علوم الحاسب وحملة الدبلوم والباحثين عن عمل على الانتقال من المعرفة الأكاديمية إلى مهارات تقنية عملية مناسبة للسوق.",
       ucf: "جامعة سنترال فلوريدا",
-      ucfText: "نرى الدعم الأكاديمي شيئاً دافئاً وكريماً ومشتركاً داخل مجتمع حقيقي.",
+      ucfText: "نرى التعليم الرقمي عملياً وكريماً ومرتبطاً بعُمان وبنتائج توظيف حقيقية.",
       founderKicker: "تعرف على المؤسس",
       founderName: "أحمد محمد الرقيشي",
       founderTextOne:
@@ -1108,49 +1108,49 @@ export const translations = {
         'أحمد مطور برمجيات مبتدئ عمره 25 عاماً، ألهمه فيلم "The Social Network" لإنشاء هذه المنصة لتحسين التجربة الجامعية أكاديمياً واجتماعياً ونفسياً قبل كل شيء.',
       founderLocation: "شاطئ القرم، مسقط، عُمان.",
       highlights: [
-        { number: "مجاني", label: "تدريس فردي وجماعي" },
-        { number: "مشترك", label: "مستندات وفيديوهات مفيدة" },
-        { number: "متصل", label: "مجموعات واتساب حسب المقرر" },
+        { number: "مهنة", label: "مسارات تعلم لأدوار تقنية" },
+        { number: "بيانات", label: "رؤى مستقبلية من إشارات سوق العمل" },
+        { number: "محلي", label: "مهارات مخصصة لاحتياجات التوظيف في عُمان" },
       ],
       missionKicker: "رسالتنا",
-      missionTitle: "جعل المساعدة في المقررات مجانية ومجتمعية لكل طالب جامعي.",
+      missionTitle: "مساعدة خريجي التقنية في عُمان على أن يصبحوا أكثر جاهزية للتوظيف من خلال دورات عملية.",
       missionTextOne:
-        "يوجد يوكان عُمان ليمنح الطلاب مكاناً مجانياً للحصول على دعم لمقرراتهم من خلال مساعدة المجتمع والتدريس وموارد الدراسة الأفضل.",
+        "يوجد يوكان لسد الفجوة بين الدراسة الأكاديمية والعمل التقني للمبتدئين من خلال التركيز على المهارات العملية والمشاريع والأدوات والاستعداد المهني.",
       missionTextTwo:
-        "تجمع المنصة بين جلسات تدريس فردية مجانية وجلسات جماعية مجانية ومكتبة مستندات وفيديوهات مفيدة ومجموعات واتساب خاصة بالمقررات.",
+        "الرؤية طويلة المدى هي استخدام الذكاء الاصطناعي وSEO ومصادر البيانات المفتوحة في عُمان لتحديد ما يجب أن يتعلمه المستخدمون وما هي موضوعات الدورات الأكثر أهمية للسوق.",
       valuesKicker: "القيم الأساسية",
-      valuesTitle: "الأفكار التي تشكل طريقة دعم يوكان عُمان للطلاب.",
+      valuesTitle: "الأفكار التي تشكل سوق يوكان التعليمي.",
       values: [
         {
-          title: "وصول مجاني",
+          title: "التوظيف أولاً",
           description:
-            "كل شيء في يوكان عُمان مصمم ليكون مجانياً حتى يصل كل طالب إلى الدعم بسهولة أكبر.",
+            "يجب أن تساعد الدورات المتعلمين على بناء قدرات حقيقية تحسن فرصهم في سوق وظائف التقنية في عُمان.",
         },
         {
-          title: "طلاب يساعدون طلاباً",
+          title: "ملاءمة السوق المحلي",
           description:
-            "تقوم المنصة على مجتمع إلكتروني من طلاب الجامعات يساعدون بعضهم في المقررات الجامعية.",
+            "يجب أن تعكس مسارات التعلم المهارات التي يحتاجها أصحاب العمل فعلاً من المواهب التقنية المبتدئة في عُمان.",
         },
         {
-          title: "دعم عملي",
+          title: "نمو موجه بالذكاء الاصطناعي",
           description:
-            "نركز على التدريس وموارد الدراسة والفيديوهات المفيدة ومجتمعات المقررات التي تحسن الفهم.",
+            "يجب أن تساعد ذكاء المنصة مستقبلاً في اقتراح الدورات وتحديد فجوات المهارات وتوجيه إنشاء الدورات الجديدة.",
         },
       ],
-      communityKicker: "مجتمعنا",
-      communityTitle: "طلاب ومدرسون ومجتمعات مقررات يعملون معاً لتسهيل التعلم.",
+      communityKicker: "متعلمونا",
+      communityTitle: "خريجون وباحثون عن عمل ومدربون وجهات توظيف يجمعهم هدف المهارات الرقمية العملية.",
       communityText:
-        "يوكان عُمان مخصص لطلاب الجامعات الذين يريدون شرحاً أفضل ودعماً مجانياً وروابط أقوى حول المقررات التي يدرسونها.",
+        "يوكان مخصص للمتعلمين الذين يريدون أكثر من الشهادات: يحتاجون إلى ثقة ومشاريع وخبرة مهارية تناسب سوق العمل العُماني.",
     },
     contact: {
-      heroKicker: "تواصل مع يوكان عُمان",
-      heroTitle: "تواصل مع منصة دعم مرحبة ومحلية ومتمحورة حول الطالب.",
+      heroKicker: "تواصل مع يوكان",
+      heroTitle: "تواصل مع منصة تعليم مهني رقمي مبنية لعُمان.",
       heroText:
-        "سواء كنت تريد المساعدة في العثور على تدريس أو موارد دراسية أو مجتمع مقرر مناسب، فهذه أفضل طرق التواصل مع يوكان عُمان.",
+        "سواء كنت متعلماً أو مدرباً أو جهة توظيف أو شريكاً، استخدم هذه الصفحة للتواصل مع يوكان حول الدورات والمهارات وفرص التعلم الرقمي.",
       heroCardText:
         "نريد للمنصة أن تكون موثوقة وقريبة مثل المعالم التي تشكل هوية عُمان.",
       formKicker: "نموذج التواصل",
-      formTitle: "أرسل رسالتك مباشرة إلى يوكان عُمان.",
+      formTitle: "أرسل رسالتك مباشرة إلى يوكان.",
       formText:
         "املأ النموذج أدناه وسيتم حفظ رسالتك في Supabase حتى يتمكن الفريق من مراجعتها بشكل مناسب.",
       labels: {
@@ -1179,72 +1179,72 @@ export const translations = {
       success: "تم إرسال رسالتك بنجاح. سنراجعها من خلال Supabase.",
       error: "تعذر إرسال رسالتك حالياً.",
       methodsKicker: "طرق أخرى للتواصل",
-      methodsTitle: "طرق واضحة للتواصل مع فريق يوكان عُمان.",
+      methodsTitle: "طرق واضحة للتواصل مع فريق يوكان.",
       methods: [
         {
           title: "البريد الإلكتروني",
           value: "20258971@mcbs.edu.om",
           description:
-            "تواصل معنا بخصوص التدريس أو الموارد الدراسية أو الانضمام إلى مجتمع يوكان عُمان الطلابي.",
+            "تواصل معنا بخصوص الدورات أو فرص المدربين أو الشراكات أو منصة يوكان التعليمية.",
         },
         {
           title: "الموقع",
           value: "شاطئ القرم، مسقط، عُمان",
           description:
-            "يخدم يوكان عُمان الطلاب عبر الإنترنت ويدعم مجتمعاً تعليمياً جامعياً متنامياً من عُمان.",
+            "يخدم يوكان المتعلمين عبر الإنترنت مع التركيز على توظيف الخريجين والمهارات الرقمية في عُمان.",
         },
       ],
       ctaKicker: "نحن هنا للمساعدة",
       ctaTitle: "تواصل معنا كلما احتجت إلى دعم أفضل لمقرراتك الجامعية.",
       ctaText:
-        "يوكان عُمان هنا لمساعدة الطلاب على الوصول إلى التدريس المجاني وموارد تعلم أقوى ومجتمعات مقررات تجعل الدراسة أسهل.",
+        "يوكان هنا لمساعدة المتعلمين على بناء مهارات رقمية عملية لفرص مهنية أقوى.",
     },
     servicesPage: {
-      heroKicker: "خدماتنا",
-      heroTitle: "تدريس مجاني ودعم طلابي من خلال مركز تعلم متكامل.",
+      heroKicker: "الدورات",
+      heroTitle: "دورات مهنية مخصصة لسوق وظائف التقنية في عُمان.",
       heroText:
-        "يعرض يوكان عُمان الآن عروض المدرسين من منصة المجتمع التي يتم تحديثها بانتظام مع نمو قاعدة المستخدمين بسرعة!",
+        "يتحول يوكان إلى سوق دورات لهندسة البرمجيات والذكاء الاصطناعي وتعلم الآلة والأمن السيبراني وتحليل البيانات والاستعداد الوظيفي.",
       heroCardText:
-        "استكشف التدريس الفردي والجلسات الجماعية وعروض المقررات المباشرة لتعزيز فهمك وتحسين درجاتك بثقة.",
+        "استكشف أول فئات الدورات ومسارات التعلم التي ستشكل سوق يوكان القادم.",
       highlights: [
-        { number: "مباشر", label: "مدرسون ومقررات ومرشحات محملة من Supabase" },
-        { number: "2", label: "نوعان من الجلسات للدعم الفردي والجماعي" },
-        { number: "محفوظ", label: "طلبات التدريس محفوظة في قاعدة البيانات" },
+        { number: "مهارات", label: "مسارات تعلم لمجالات رقمية عالية الطلب" },
+        { number: "AI", label: "توصيات مستقبلية مبنية على إحصاءات السوق" },
+        { number: "عُمان", label: "استراتيجية دورات مخصصة لاحتياجات التوظيف المحلية" },
       ],
       cards: [
         {
-          kicker: "دليل المدرسين",
-          title: "تصفح المدرسين حسب المؤسسة والمقرر.",
-          text: "يتم تحديث كل بطاقة مدرس بانتظام حسب المدرسين الجدد في كل مؤسسة.",
+          kicker: "سوق الدورات",
+          title: "تصفح دورات مهنية حسب المجال ومستوى المهارة.",
+          text: "سيتحول هذا القسم من دليل المدرسين القديم إلى كتالوج دورات تجاري.",
         },
         {
-          kicker: "طلبات الطلاب",
-          title: "أرسل طلب تدريس مباشرة إلى المدرس.",
+          kicker: "تقدم المتعلم",
+          title: "استعد لمسارات تعلم منظمة والتسجيل في الدورات.",
           text:
-            "يمكن للطلاب المسجلين إرسال تفاصيل الطلب، ثم يتابع المدرسون معهم مباشرة.",
+            "سيتمكن المتعلمون لاحقاً من التسجيل في الدورات وتتبع التقدم وبناء ملفات عملية.",
         },
         {
-          kicker: "بيئة ديناميكية",
-          title: "إضافة مدرسين أكثر من مؤسسات مختلفة لتغطية مجموعة واسعة من المقررات.",
-          text: "سيتم إدراج المدرسين والمؤسسات والمقررات الجديدة مباشرة في هذا الدليل.",
+          kicker: "ذكاء السوق",
+          title: "استخدام الذكاء الاصطناعي والبيانات المفتوحة لتوجيه إنشاء الدورات وتسويقها.",
+          text: "يمكن لتخطيط الدورات مستقبلاً أن يستجيب لطلب سوق العمل الفعلي وتفضيلات المتعلمين.",
         },
       ],
       directoryStatus: "حالة الدليل",
-      requestAccess: "الوصول إلى الطلبات",
+      requestAccess: "دخول المتعلمين",
       requestAccessText:
-        "يمكنك استكشاف دليل المدرسين بحرية، لكن يجب تسجيل الدخول قبل إرسال طلب تدريس.",
-      studentLogin: "دخول الطالب",
-      tutorLogin: "دخول المدرس",
+        "يمكنك استكشاف توجه الدورات القادم بحرية، لكن حساب المتعلم سيكون مطلوباً للتسجيل والتوصيات الشخصية.",
+      studentLogin: "دخول المتعلم",
+      tutorLogin: "دخول المدرب",
       private: {
-        label: "تدريس فردي",
-        title: "ابحث عن مدرسين متاحين للدعم الفردي.",
-        description: "اختر المؤسسة والمقرر لرؤية المدرسين الفرديين المتاحين حالياً.",
+        label: "هندسة البرمجيات",
+        title: "استكشف مسارات تعلم عملية في هندسة البرمجيات.",
+        description: "سيتحول هذا الجزء إلى كتالوج دورات للواجهات والخلفية والتطوير الكامل.",
       },
       group: {
-        label: "تدريس جماعي",
-        title: "ابحث عن مدرسين متاحين لجلسات التدريس الجماعية المجانية.",
+        label: "مهارات رقمية متقدمة",
+        title: "استكشف دورات مستقبلية في الذكاء الاصطناعي والبيانات والأمن السيبراني والسحابة.",
         description:
-          "استخدم نفس المرشحات لاستكشاف خيارات التدريس الجماعي للمؤسسات والمقررات المدعومة.",
+          "ستدعم هذه المجالات المتعلمين الذين يستعدون لأدوار تقنية مطلوبة في عُمان.",
       },
       tutorSection: {
         institute: "المؤسسة",
@@ -1282,49 +1282,49 @@ export const translations = {
         emptyText:
           "عند إضافة المزيد من المدرسين وعروض المقررات في Supabase، سيتم تحديث هذا الدليل تلقائياً.",
       },
-      otherKicker: "ماذا نقدم أيضاً",
-      otherTitle: "طرق مجانية أكثر لمساعدة الطلاب على الدراسة بشكل أفضل ودعم بعضهم.",
+      otherKicker: "مجالات الدورات المستقبلية",
+      otherTitle: "موضوعات عالية الطلب يمكن ليوكان تطويرها للقوى الرقمية العاملة في عُمان.",
       services: [
         {
-          title: "تدريس فردي مجاني",
+          title: "هندسة الواجهات الأمامية",
           description:
-            "يمكن للطلاب حجز جلسات تدريس فردية مجاناً عندما يحتاجون إلى مساعدة مركزة في مقرر.",
+            "يمكن أن تغطي الدورات HTML وCSS وJavaScript وReact والتصميم المتجاوب وإمكانية الوصول ومشاريع عملية.",
         },
         {
-          title: "تدريس جماعي مجاني",
+          title: "هندسة الخلفية",
           description:
-            "يمكن للطلاب حضور جلسات تدريس جماعية مجاناً والتعلم معاً حول موضوعات مشتركة.",
+            "يمكن أن تغطي المسارات واجهات API وقواعد البيانات والمصادقة والنشر السحابي والاختبار وسير العمل الإنتاجي.",
         },
         {
-          title: "مجتمع طلابي إلكتروني",
+          title: "الذكاء الاصطناعي وتعلم الآلة",
           description:
-            "يمكن لطلاب الجامعات طرح الأسئلة وشرح الأفكار ومساعدة بعضهم على فهم المقررات في مساحة داعمة.",
+            "تساعد الدورات المتعلمين على فهم Python وأساسيات ML وأدوات AI العملية وسير عمل النماذج والاستخدام المسؤول.",
         },
         {
-          title: "مكتبة مستندات",
+          title: "الأمن السيبراني",
           description:
-            "الوصول إلى مكتبة مجانية من المستندات تساعد الطلاب على مراجعة الدروس والواجبات ومفاهيم المقررات بوضوح.",
+            "يمكن أن تركز دورات الأمن على الأساسيات والمهارات الدفاعية والحوكمة والمخاطر والممارسة للمبتدئين.",
         },
         {
-          title: "فيديوهات مفيدة",
+          title: "تحليل البيانات",
           description:
-            "اعثر على فيديوهات مفيدة تحسن فهم مواد المقررات الجامعية وتجعل الموضوعات الصعبة أسهل.",
+            "يمكن أن تغطي دورات البيانات Excel وSQL ولوحات المعلومات وتحليلات Python والتصور وإعداد التقارير.",
         },
         {
-          title: "مجموعات واتساب للمقررات",
+          title: "الاستعداد الوظيفي للخريجين",
           description:
-            "الوصول إلى مجموعات واتساب مخصصة لمقررات جامعية معينة حتى يحصل الطلاب على المساعدة بسهولة أكبر.",
+            "يمكن لدورات المسار المهني دعم السيرة الذاتية والملفات العملية والمقابلات والتواصل المهني والاستعداد للأدوار التقنية.",
         },
       ],
       whyKicker: "لماذا هذا مهم",
-      whyTitle: "يحتاج الطلاب إلى دعم مجاني وعملي ومرتبط بالمقررات الحقيقية.",
+      whyTitle: "يحتاج كثير من الخريجين إلى مهارات عملية تناسب العمل التقني للمبتدئين.",
       whyTextOne:
-        "يمكن أن ينمو دليل المدرسين من قاعدة البيانات كلما تمت إضافة مدرسين ومؤسسات ومقررات جديدة.",
-      whyTextTwo: "يتم إرسال طلبات التدريس الطلابية وتتبعها وإرجاعها.",
-      ctaKicker: "ابدأ رحلتك",
-      ctaTitle: "استكشف التدريس المجاني والموارد ومجتمعات المقررات اليوم.",
+        "يمكن ليوكان استخدام بيانات الدورات وسلوك المتعلمين وإشارات SEO وإحصاءات البيانات المفتوحة في عُمان لتحديد أهم مسارات التعلم.",
+      whyTextTwo: "سيتم تحويل المنصة تدريجياً من طلبات الخدمات إلى دورات وتسجيلات وتتبع تقدم.",
+      ctaKicker: "ابدأ مسارك المهني",
+      ctaTitle: "استكشف أول فئات الدورات للاقتصاد الرقمي في عُمان.",
       ctaText:
-        "بُني يوكان عُمان لمساعدة الطلاب على العثور على الدعم بسرعة وتحسين فهمهم في المقررات التي يدرسونها.",
+        "يتحول يوكان إلى سوق يمكن للمتعلمين فيه شراء دورات مركزة تحسن قابلية التوظيف في المجالات التقنية.",
       ctaButton: "استكشف المقررات",
       requestModal: {
         kicker: "طلب تدريس",
@@ -1366,9 +1366,9 @@ export const translations = {
     },
     terms: {
       heroKicker: "سياسات المنصة",
-      heroTitle: "سياسات منصة يوكان عُمان",
+      heroTitle: "سياسات منصة يوكان",
       heroText:
-        "تنطبق هذه السياسات على دخول الطلاب وطلبات المدرسين والدعم الأكاديمي والاستخدام المسؤول لمنصة يوكان عُمان.",
+        "تنطبق هذه السياسات على دخول المتعلمين وطلبات المدربين والمشاركة في الدورات والاستخدام المسؤول لمنصة يوكان.",
       heroCardText: "يرجى مراجعة هذه السياسات بعناية قبل إنشاء حساب طالب أو التقديم كمدرس.",
       documentKicker: "وثيقة السياسات",
       documentTitle: "اقرأ قواعد المنصة والمسؤوليات",
@@ -1376,7 +1376,7 @@ export const translations = {
         {
           title: "سياسة السلوك المهني",
           body:
-            "يتوقع من جميع المدرسين المسجلين في يوكان عُمان الحفاظ على سلوك مهني عند التعامل مع الطلاب والإدارة والمدرسين الآخرين.",
+            "يتوقع من جميع المدربين المسجلين في يوكان الحفاظ على سلوك مهني عند التعامل مع المتعلمين والإدارة والمدربين الآخرين.",
           columns: [
             {
               title: "يجب على المدرسين",
@@ -1397,17 +1397,17 @@ export const translations = {
                 "مشاركة محتوى ضار أو غير قانوني أو غير أخلاقي.",
                 "تضليل الطلاب بشأن المؤهلات أو القدرات الأكاديمية.",
                 "طلب معلومات شخصية غير مناسبة من الطلاب.",
-                "القيام بسلوك يضر بسمعة يوكان عُمان.",
+                "القيام بسلوك يضر بسمعة يوكان.",
               ],
             },
           ],
           closing:
-            "قد يؤدي انتهاك هذه السياسة إلى الإيقاف أو الإزالة الدائمة من منصة يوكان عُمان.",
+            "قد يؤدي انتهاك هذه السياسة إلى الإيقاف أو الإزالة الدائمة من منصة يوكان.",
         },
         {
           title: "سياسة مكافحة التحرش",
           body:
-            "يلتزم يوكان عُمان بتوفير بيئة آمنة ومحترمة وشاملة لجميع المستخدمين. ويُمنع التحرش بجميع أشكاله منعاً باتاً.",
+            "يلتزم يوكان بتوفير بيئة آمنة ومحترمة وشاملة لجميع المستخدمين. ويُمنع التحرش بجميع أشكاله منعاً باتاً.",
           sections: [
             {
               title: "تشمل السلوكيات المحظورة",
@@ -1423,7 +1423,7 @@ export const translations = {
             {
               title: "الإبلاغ عن التحرش",
               text:
-                "يمكن للمستخدمين الإبلاغ عن الحوادث مباشرة إلى فريق إدارة يوكان عُمان. سيتم التعامل مع جميع البلاغات بجدية والتحقيق فيها بسرية.",
+                "يمكن للمستخدمين الإبلاغ عن الحوادث مباشرة إلى فريق إدارة يوكان. سيتم التعامل مع جميع البلاغات بجدية والتحقيق فيها بسرية.",
             },
             {
               title: "العواقب",
@@ -1438,7 +1438,7 @@ export const translations = {
         },
         {
           title: "سياسة الأمانة الأكاديمية",
-          body: "يشجع يوكان عُمان التعلم الأخلاقي والنزاهة الأكاديمية.",
+          body: "يشجع يوكان التعلم الأخلاقي والنزاهة المهنية.",
           sections: [
             {
               title: "يجب على المدرسين",
@@ -1456,7 +1456,7 @@ export const translations = {
         },
         {
           title: "سياسة الخصوصية والسرية",
-          body: "يحترم يوكان عُمان خصوصية جميع المستخدمين ويحمي المعلومات المقدمة.",
+          body: "يحترم يوكان خصوصية جميع المستخدمين ويحمي المعلومات المقدمة.",
           columns: [
             {
               title: "قد تشمل المعلومات التي يتم جمعها",
@@ -1469,7 +1469,7 @@ export const translations = {
               ],
             },
             {
-              title: "يلتزم يوكان عُمان بـ",
+              title: "يلتزم يوكان بـ",
               items: [
                 "استخدام المستندات المقدمة فقط لأغراض التحقق من المدرسين.",
                 "حصر الوصول إلى المعلومات الحساسة على الإداريين المصرح لهم فقط.",
@@ -1499,26 +1499,26 @@ export const translations = {
     },
     accessPages: {
       student: {
-        audienceLabel: "دخول الطلاب",
-        title: "سجل الدخول أو أنشئ حساباً للوصول إلى دعم الطلاب في يوكان عُمان.",
+        audienceLabel: "دخول المتعلمين",
+        title: "سجل الدخول أو أنشئ حساباً للوصول إلى مزايا المتعلم في يوكان.",
         description:
-          "هذه الصفحة مخصصة للطلاب الذين يريدون إنشاء حساب أو تسجيل الدخول والوصول إلى التدريس ودعم المقررات ومجتمع التعلم.",
-        signupHeading: "إنشاء حساب طالب",
+          "هذه الصفحة مخصصة للمتعلمين الذين يريدون إنشاء حساب والوصول إلى الدورات والاستعداد لمسارات تقنية عملية.",
+        signupHeading: "إنشاء حساب متعلم",
         imageAlt: "حرم كلية الشرق الأوسط في عُمان",
       },
       tutor: {
-        audienceLabel: "دخول المدرسين",
-        title: "سجل الدخول أو تقدم للانضمام إلى فريق مدرسي يوكان عُمان.",
+        audienceLabel: "دخول المدربين",
+        title: "سجل الدخول أو تقدم للانضمام إلى فريق مدربي يوكان.",
         description:
-          "هذه الصفحة مخصصة للمدرسين الذين لديهم وصول معتمد، أما المتقدمون الجدد فعليهم إكمال نموذج طلب المدرس أولاً.",
-        signupHeading: "طلب المدرس",
+          "هذه الصفحة مخصصة للمدربين المعتمدين، أما المتقدمون الجدد فعليهم إكمال نموذج طلب المدرب أولاً.",
+        signupHeading: "طلب المدرب",
         imageAlt: "حرم جامعة صحار في عُمان",
       },
       admin: {
         audienceLabel: "دخول الإدارة",
-        title: "سجل الدخول لإدارة يوكان عُمان كمسؤول.",
+        title: "سجل الدخول لإدارة يوكان كمسؤول.",
         description:
-          "هذه الصفحة لمسؤولي المنصة الذين يحتاجون إلى الوصول إلى رسائل التواصل ومتابعة الحسابات وأدوات الإدارة القادمة.",
+          "هذه الصفحة لمسؤولي المنصة الذين يحتاجون إلى الوصول إلى الطلبات ومتابعة الحسابات وأدوات سوق الدورات القادمة.",
         imageAlt: "بطاقة دخول الإدارة لمسؤولي المنصة",
       },
     },
@@ -1580,7 +1580,7 @@ export const translations = {
       institutePlaceholder: "أدخل اسم مؤسستك التعليمية",
       createPasswordPlaceholder: "أنشئ كلمة مرور",
       termsAgreementPrefix: "لقد قرأت وأوافق على",
-      termsAgreementLink: "سياسات منصة يوكان عُمان",
+      termsAgreementLink: "سياسات منصة يوكان",
       openingGoogle: "جارٍ فتح Google...",
       continueWithGoogle: "المتابعة باستخدام Google",
       or: "أو",
@@ -1588,18 +1588,18 @@ export const translations = {
       createAccount: "إنشاء الحساب",
     },
     tutorApplicationPanel: {
-      kicker: "طلب المدرس",
-      title: "تقدم أولاً قبل إنشاء حساب مدرس",
+      kicker: "طلب المدرب",
+      title: "تقدم أولاً قبل إنشاء حساب مدرب",
       text:
-        "يتم الآن تسجيل المدرسين من خلال عملية مراجعة طلب منفصلة. أرسل بياناتك الأكاديمية والمستندات المطلوبة أولاً، ثم يمكن إضافة المدرسين المعتمدين إلى المنصة.",
+        "يتم تسجيل المدربين من خلال عملية مراجعة طلب منفصلة. أرسل خلفيتك ومجالات التدريس المقترحة والمستندات الداعمة أولاً، ثم يمكن إضافة المدربين المعتمدين إلى المنصة.",
       needsTitle: "ستحتاج إلى",
       needs: [
-        "الاسم الكامل وبيانات الجامعة",
-        "المقررات التي ترغب في تدريسها",
-        "البريد الجامعي ورقم واتساب",
-        "كشف الدرجات والبطاقة الشخصية العُمانية والبطاقة الجامعية",
+        "الاسم الكامل والخلفية المهنية أو الأكاديمية",
+        "موضوعات الدورات التي تقترحها",
+        "البريد الإلكتروني ورقم واتساب",
+        "مستندات داعمة أو روابط أعمال",
       ],
-      button: "فتح نموذج طلب المدرس",
+      button: "فتح نموذج طلب المدرب",
     },
     studentDashboard: {
       fallbackName: "طالب",
@@ -1641,7 +1641,7 @@ export const translations = {
         {
           title: "تواصل مع الدعم",
           description: "تواصل معنا إذا احتجت إلى إرشاد لاختيار الدعم المناسب للمقرر.",
-          action: "تواصل مع يوكان عُمان",
+          action: "تواصل مع يوكان",
         },
       ],
     },
@@ -1761,7 +1761,7 @@ export const translations = {
       shortPassword: "يجب أن تتكون كلمة المرور الجديدة من 6 أحرف على الأقل.",
       success: "تم تحديث كلمة المرور بنجاح. يمكنك الآن تسجيل الدخول.",
       heroKicker: "إعادة تعيين كلمة المرور",
-      heroTitle: "أنشئ كلمة مرور جديدة لحسابك في يوكان عُمان.",
+      heroTitle: "أنشئ كلمة مرور جديدة لحسابك في يوكان.",
       heroText: "استخدم هذه الصفحة بعد فتح بريد استعادة كلمة المرور من Supabase.",
       formKicker: "كلمة مرور جديدة",
       formTitle: "إعادة تعيين كلمة المرور",
@@ -1774,14 +1774,14 @@ export const translations = {
     },
     tutorApplicationPage: {
       heroKicker: "طلب المدرس",
-      heroTitle: "تقدم بشكل منفصل قبل الانضمام إلى فريق مدرسي يوكان عُمان.",
+      heroTitle: "تقدم بشكل منفصل قبل الانضمام إلى فريق مدربي يوكان.",
       heroText:
         "أكمل هذا النموذج ببيانات جامعتك والمقررات التي ترغب في تدريسها والمستندات الداعمة حتى تتم مراجعة طلبك بشكل مناسب.",
       heroCardText:
         "تتم مراجعة طلبات المدرسين باستخدام معلوماتك الأكاديمية والمستندات الداعمة المطلوبة.",
       formKicker: "نموذج الطلب",
       formTitle: "إرسال طلب المدرس",
-      back: "العودة إلى دخول المدرسين",
+      back: "العودة إلى دخول المدربين",
       feedbackTitle: "تحديث طلب المدرس",
       fullName: "الاسم الكامل",
       universityName: "اسم الجامعة",
@@ -1795,7 +1795,7 @@ export const translations = {
       requiredAttachments: "المرفقات المطلوبة",
       attachFiles: "إرفاق الملفات",
       termsPrefix: "لقد قرأت وأوافق على",
-      termsLink: "سياسات منصة يوكان عُمان",
+      termsLink: "سياسات منصة يوكان",
       submitting: "جارٍ إرسال الطلب...",
       submit: "إرسال طلب المدرس",
       attachments: [
@@ -1804,11 +1804,11 @@ export const translations = {
         "نسخة من البطاقة الجامعية",
       ],
       messages: {
-        terms: "يرجى قراءة سياسات منصة يوكان عُمان والموافقة عليها قبل إرسال طلب المدرس.",
+        terms: "يرجى قراءة سياسات منصة يوكان والموافقة عليها قبل إرسال طلب المدرب.",
         notConfigured: "لم يتم إعداد Supabase بعد، لذلك لا يمكن إرسال طلب المدرس حالياً.",
         files: "يرجى إرفاق المستندات الداعمة المطلوبة قبل إرسال طلب المدرس.",
         success:
-          "تم إرسال طلب المدرس بنجاح. يمكن لفريق يوكان عُمان الآن مراجعة النموذج والمرفقات. ستتلقى رداً خلال أقل من 24 ساعة.",
+          "تم إرسال طلب المدرب بنجاح. يمكن لفريق يوكان الآن مراجعة النموذج والمرفقات. ستتلقى رداً خلال أقل من 24 ساعة.",
         error: "تعذر إرسال طلب المدرس حالياً.",
         applicationSubmittedBy: "تم إرسال طلب المدرس بواسطة {name}.",
         university: "الجامعة: {university}",
